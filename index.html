@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/zero-full-flow/new-zero-logos/zero-monogram-greenish-256x256.ico" />
+
+  <!--
+    MUST MIRROR index.html:8-10. Two of the app's type families come from the
+    Google Fonts CDN, not from public/fonts. Drop this and text metrics shift
+    subtly everywhere — precisely the kind of near-miss this lab exists to
+    eliminate.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&family=Google+Sans+Flex:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <title>ZERO · Full Flow</title>
+  <script type="module" crossorigin src="/zero-full-flow/assets/index-CgPHZokg.js"></script>
+  <link rel="stylesheet" crossorigin href="/zero-full-flow/assets/index-DqMnQKtH.css">
+  <link rel="preload" as="image" href="/zero-full-flow/zero-city-v4.webp" fetchpriority="high">
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <!--
+    index.html's boot-watchdog script is deliberately NOT copied here. It exists
+    to recover an Electron renderer from ERR_NETWORK_CHANGED on a local server;
+    on a static host it would fight normal loading.
+  -->
+<script id="zff-stitch">
+/* zero-full-flow stitch: the scenario card's Continue launches the real
+   stage workspace (approved presentation flow + coach layer) instead of
+   the lab's embedded skin. Capture phase so it wins over the React handler. */
+document.addEventListener('click', function (e) {
+  var b = e.target && e.target.closest && e.target.closest('button');
+  if (!b) return;
+  if (b.textContent.trim() === 'Continue') {
+    e.preventDefault(); e.stopPropagation();
+    window.location.href = 'workspace.html';
+  }
+}, true);
+</script>
+</body>
+
+</html>
