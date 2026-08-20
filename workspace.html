@@ -14469,8 +14469,11 @@ function nextScenarioIntro(){
 <script id="zc-script">
 (function(){
 "use strict";
-/* keep the first-run tour from ever mounting */
-try{localStorage.setItem("zeroTourDone","1");}catch(e){}
+/* zero-full-flow: ?zcdemo=1 = the scripted 11-scene review tool; default = LIVE —
+   the base presentation flow runs untouched and the coach rides along */
+const ZC_DEMO=new URLSearchParams(location.search).get("zcdemo")==="1";
+/* keep the first-run tour from ever mounting (demo scenes only — live keeps the base's tour) */
+if(ZC_DEMO)try{localStorage.setItem("zeroTourDone","1");}catch(e){}
 /* ═══ base hooks ═══ */
 const topbar=document.querySelector(".topbar"),
       rightEl=document.getElementById("right"),
@@ -15639,6 +15642,7 @@ demo.innerHTML=
   '<span class="zc-dd"></span>'+
   '<button id="zcDReplay">Replay</button>';
 document.body.appendChild(demo);
+if(!ZC_DEMO)demo.style.display="none";
 document.getElementById("zcDPrev").addEventListener("click",()=>setScene(sceneIx-1));
 document.getElementById("zcDNext").addEventListener("click",()=>setScene(sceneIx+1));
 document.getElementById("zcDReplay").addEventListener("click",playScene);
@@ -15651,8 +15655,36 @@ function killTour(){
   const t=document.getElementById("tourSkip");if(t)try{t.click();}catch(e){}
   const tour=document.getElementById("tour");if(tour)tour.hidden=true;
 }
+if(ZC_DEMO){
 setTimeout(killTour,1700);setTimeout(killTour,3000);
 setTimeout(()=>{killTour();playScene();},1400);
+}else{(function(){
+/* ═══ LIVE MODE (zero-full-flow) ═══
+   The base flow is the main event; the coach never stages anything.
+   · intro modal once at the very start (?zcintro=1 replays it), then she docks top-right
+   · her chip opens the honest check-in — no scripted history, no fake clock
+   · stage-end wraps ride the base's REAL celebrateStage: verdict and XP land first,
+     she speaks ~3.6s later, in the arc order the scenes tell; after the fifth she
+     goes quiet (final submission and the presentation are DOING mode)
+   · the scenario-end session already hooks the base's own #rptDone — untouched */
+const CHECKIN=SCENES.findIndex(x=>x.id==="checkin");
+sceneIx=CHECKIN;paintScene();
+const _osm=openSessionModal;
+openSessionModal=function(){sceneIx=SCENES.findIndex(x=>x.id==="session");paintScene();_osm();};
+const _csw=closeStageWrap;
+closeStageWrap=function(){_csw();sceneIx=CHECKIN;paintScene();};
+const ARC=["clean","dropped","trade","keep","aipattern"];let zcDone=0;
+const _cel=window.celebrateStage;
+if(typeof _cel==="function")window.celebrateStage=function(){
+  _cel.apply(this,arguments);
+  const id=ARC[zcDone++];if(!id)return;
+  setTimeout(()=>{sceneIx=SCENES.findIndex(x=>x.id===id);paintScene();openStageWrap();},3600);
+};
+let zcSeen=false;try{zcSeen=localStorage.getItem("zcIntroSeen")==="1";}catch(e){}
+const zcForce=new URLSearchParams(location.search).get("zcintro")==="1";
+if(!zcSeen||zcForce){try{localStorage.setItem("zcIntroSeen","1");}catch(e){}setTimeout(openIntro,1800);}
+else{introDone=true;setTimeout(()=>revealAva(false),900);}
+})();}
 
 /* ═══ headless-capture hooks: ?zcscene=N&zcopen=1&zcunfold=1&zcchat=1&zcaudit=1 ═══ */
 const ZP=new URLSearchParams(location.search);
