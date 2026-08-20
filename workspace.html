@@ -13925,7 +13925,7 @@ function nextScenarioIntro(){
 /* ── the base stays LIVE (Atul: the background must react and be interactive
    — the scenes move it through the real journey). Only the base's own debug
    chrome is hidden; our scene bar is the debug panel. ────────────────────── */
-#dbgFab,.dbg-fab,#dbg,.stage-nav,#stageNav,#fbHandle,.fb-handle{display:none!important}
+body.zc-demo-on #dbgFab,body.zc-demo-on .dbg-fab,body.zc-demo-on #dbg,body.zc-demo-on .stage-nav,body.zc-demo-on #stageNav,body.zc-demo-on #fbHandle,body.zc-demo-on .fb-handle{display:none!important}
 /* no aggregate verdict exists anywhere (locked rule) */
 #perfChip{display:none!important}
 .topbar{position:relative;z-index:150}
@@ -15656,6 +15656,7 @@ function killTour(){
   const tour=document.getElementById("tour");if(tour)tour.hidden=true;
 }
 if(ZC_DEMO){
+document.body.classList.add("zc-demo-on");
 setTimeout(killTour,1700);setTimeout(killTour,3000);
 setTimeout(()=>{killTour();playScene();},1400);
 }else{(function(){
@@ -15798,6 +15799,127 @@ window.ZC_COACH2={setScene,openPanel,closePanel:closePanel_,SCENES};
 })();
 </script>
 <!-- ZERO_COACH_V2_END -->
+<style id="zff-xp-css">
+/* ── XP hover panel (zero-full-flow) — the nav-lab home's Level card, on the workspace chip ── */
+#zffXp{position:fixed;z-index:1250;top:56px;right:0;width:400px;background:rgba(24,22,20,.92);
+  -webkit-backdrop-filter:blur(28px) saturate(1.2);backdrop-filter:blur(28px) saturate(1.2);
+  border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:22px 24px 20px;
+  box-shadow:0 24px 60px rgba(0,0,0,.5);opacity:0;transform:translateY(-6px) scale(.98);
+  pointer-events:none;transition:opacity .22s cubic-bezier(.22,1,.36,1),transform .22s cubic-bezier(.22,1,.36,1)}
+#zffXp.on{opacity:1;transform:none;pointer-events:auto}
+#zffXp .zx-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+#zffXp .zx-lvl{font-size:24px;font-weight:600;color:#fff;letter-spacing:-.01em}
+#zffXp .zx-total{font-family:var(--mono,ui-monospace,monospace);font-size:17px;color:#fff;letter-spacing:.04em}
+#zffXp .zx-total small{font-size:11px;color:rgba(255,255,255,.45);margin-left:4px;letter-spacing:.12em}
+#zffXp .zx-bar{height:6px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden;margin-bottom:16px}
+#zffXp .zx-fill{height:100%;border-radius:3px;background:#EFC368;transition:width .5s cubic-bezier(.22,1,.36,1)}
+#zffXp .zx-sub{display:flex;align-items:center;justify-content:space-between}
+#zffXp .zx-next{font-family:var(--mono,ui-monospace,monospace);font-size:12.5px;letter-spacing:.1em;
+  color:rgba(255,255,255,.55);text-transform:uppercase;display:flex;align-items:center;gap:7px;cursor:pointer;
+  background:none;border:0;padding:0}
+#zffXp .zx-next b{color:#fff;font-weight:600}
+#zffXp .zx-chev{width:14px;height:14px;color:rgba(255,255,255,.6);transition:transform .2s ease}
+#zffXp.open .zx-chev{transform:rotate(180deg)}
+#zffXp .zx-plus{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.05);color:rgba(255,255,255,.8);display:grid;place-items:center;cursor:default}
+#zffXp .zx-ladder{display:none;margin-top:18px}
+#zffXp.open .zx-ladder{display:block}
+#zffXp .zx-row{display:flex;align-items:center;gap:14px;padding:7px 0}
+#zffXp .zx-dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:0 0 26px}
+#zffXp .zx-dot.done{border:1.5px solid #48CA7A;color:#48CA7A}
+#zffXp .zx-dot.here{border:1.5px solid #EFC368}
+#zffXp .zx-dot.here i{width:9px;height:9px;border-radius:50%;background:#EFC368}
+#zffXp .zx-dot.todo{position:relative}
+#zffXp .zx-dot.todo i{width:8px;height:8px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4)}
+#zffXp .zx-dot.mile{color:#fff}
+#zffXp .zx-rl{flex:1;min-width:0}
+#zffXp .zx-rname{font-size:15.5px;font-weight:500;color:rgba(255,255,255,.85)}
+#zffXp .zx-row.dim .zx-rname{color:rgba(255,255,255,.45)}
+#zffXp .zx-rtag{font-family:var(--mono,ui-monospace,monospace);font-size:10.5px;letter-spacing:.14em;
+  color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:2px}
+#zffXp .zx-row.here .zx-rtag{color:#EFC368}
+#zffXp .zx-rxp{font-family:var(--mono,ui-monospace,monospace);font-size:12.5px;letter-spacing:.06em;color:rgba(255,255,255,.45)}
+#zffXp .zx-link{display:flex;justify-content:flex-start;padding:0 0 0 12px;height:14px}
+#zffXp .zx-link i{width:2px;height:100%;background:rgba(255,255,255,.18);border-radius:1px}
+#zffXp .zx-link.dots i{background:none;display:flex;flex-direction:column;justify-content:space-between}
+#zffXp .zx-link.dots i b{width:2.5px;height:2.5px;border-radius:50%;background:rgba(255,255,255,.25);display:block}
+</style>
+<script id="zff-xp">
+/* ── XP hover panel (zero-full-flow) ──
+   The nav-lab home's XP card, living on the workspace's own XP chip. Numbers
+   follow the lab's prototype curve 250·L·(L+1); the home fixture's 14,250 XP
+   is the base and everything earned in this scenario counts on top, live. */
+(function(){
+  var BASE_XP=14250;
+  var minXp=function(L){return 250*L*(L+1);};
+  var MILES=[{level:10,label:'Portfolio',code:'portfolio',accent:'#a78bff',
+              icon:'<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2c-4 0-7 2-7 4.5V20h14v-1.5c0-2.5-3-4.5-7-4.5z"/></svg>'},
+             {level:15,label:'Job Portal',code:'job_portal',accent:'#48CA7A',
+              icon:'<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2"/></svg>'}];
+  var chip=document.getElementById('xpChip');
+  if(!chip)return;
+  var el=document.createElement('div');
+  el.id='zffXp';el.setAttribute('role','dialog');el.setAttribute('aria-label','XP and level');
+  document.body.appendChild(el);
+  var fmt=function(n){return n.toLocaleString('en-US');};
+  function state(){
+    var scen=(typeof totalXP==='number')?totalXP:0;
+    var xp=BASE_XP+scen;
+    var L=0;while(minXp(L+1)<=xp)L++;
+    return {xp:xp,L:L,lo:minXp(L),hi:minXp(L+1)};
+  }
+  function ladder(st){
+    var rows='',prevRung=null;
+    var rungs=[st.L-1,st.L,st.L+1];
+    function link(dotted){return '<div class="zx-link'+(dotted?' dots':'')+'">'+(dotted?'<i><b></b><b></b><b></b></i>':'<i></i>')+'</div>';}
+    rungs.forEach(function(l,i){
+      if(l<0)return;
+      if(rows)rows+=link(false);
+      var cls=l<st.L?'':(l===st.L?' here':' dim');
+      var dot=l<st.L
+        ?'<span class="zx-dot done"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>'
+        :(l===st.L?'<span class="zx-dot here"><i></i></span>':'<span class="zx-dot todo"><i></i></span>');
+      rows+='<div class="zx-row'+cls+'">'+dot+'<div class="zx-rl"><div class="zx-rname">Level '+l+'</div>'
+        +(l===st.L?'<div class="zx-rtag">You are here</div>':'')+'</div>'
+        +(l===st.L?'':'<span class="zx-rxp">'+fmt(minXp(l))+' XP</span>')+'</div>';
+    });
+    MILES.forEach(function(m){
+      if(m.level<=st.L)return;
+      rows+=link(true);
+      rows+='<div class="zx-row dim"><span class="zx-dot mile" style="background:'+m.accent+'22;border:1.5px solid '+m.accent+';color:'+m.accent+'">'+m.icon+'</span>'
+        +'<div class="zx-rl"><div class="zx-rname">'+m.label+'</div><div class="zx-rtag">Level '+m.level+'</div></div>'
+        +'<span class="zx-rxp">'+fmt(minXp(m.level))+' XP</span></div>';
+    });
+    return rows;
+  }
+  function render(){
+    var st=state();
+    var pct=Math.max(2,Math.min(100,(st.xp-st.lo)/(st.hi-st.lo)*100));
+    el.innerHTML=
+      '<div class="zx-head"><span class="zx-lvl">Level '+st.L+'</span>'
+      +'<span class="zx-total">'+fmt(st.xp)+'<small>XP</small></span></div>'
+      +'<div class="zx-bar"><span class="zx-fill" style="width:'+pct+'%"></span></div>'
+      +'<div class="zx-sub"><button class="zx-next" id="zffXpTog">'+fmt(st.hi-st.xp)+' XP to <b>Level '+(st.L+1)+'</b>'
+      +'<svg class="zx-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>'
+      +'<span class="zx-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></div>'
+      +'<div class="zx-ladder">'+ladder(st)+'</div>';
+    document.getElementById('zffXpTog').addEventListener('click',function(){el.classList.toggle('open');});
+  }
+  function place(){
+    var r=chip.getBoundingClientRect();
+    var left=Math.min(Math.max(12,r.left+r.width/2-200),innerWidth-412);
+    el.style.left=left+'px';el.style.top=(r.bottom+10)+'px';el.style.right='auto';
+  }
+  var hideT=null;
+  function show(){clearTimeout(hideT);render();place();el.classList.add('on');}
+  function hide(){hideT=setTimeout(function(){el.classList.remove('on','open');},180);}
+  chip.style.cursor='pointer';
+  chip.addEventListener('mouseenter',show);
+  chip.addEventListener('mouseleave',hide);
+  el.addEventListener('mouseenter',function(){clearTimeout(hideT);});
+  el.addEventListener('mouseleave',hide);
+})();
+</script>
 <script id="zff-back">
 /* zero-full-flow stitch: the topbar back arrow returns to the world-map home */
 (function(){ var b=document.getElementById('iBack'); if(b) b.addEventListener('click', function(){ window.location.href='./'; }); })();
