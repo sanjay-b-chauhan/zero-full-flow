@@ -148,7 +148,7 @@ svg{display:block}
 /* the composer nests concentrically inside the 15px window — a 24px pill reads wrong at this size */
 .app.pip .pill{border-radius:13px}
 .app.pip .subm .att .m .t,.app.pip .att-big .atb-n{font-size:11px}
-.app.pip .subm .sth{height:132px}
+.app.pip .subm .sth{height:108px}
 .app.pip .att-big{width:118px}.app.pip .att-big .atb-th{height:74px}
 .app.pip .synth .sy-t,.app.pip .synth .sy-lbl{font-size:11.5px}
 .app.pip .synth .sy-ic,.app.pip .synth .sy-chip{width:19px;height:19px}
@@ -611,7 +611,7 @@ svg{display:block}
 /* user submission (file) */
 .subm{align-self:flex-end;max-width:min(300px,72%)}
 .subm .att{display:block;padding:0;gap:0;border:var(--bw) solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow-sm);overflow:hidden}   /* the sent doc shows its THUMBNAIL stacked on top — beats the generic .att chip rule */
-.subm .sth{display:block;height:196px;overflow:hidden}
+.subm .sth{display:block;height:148px;overflow:hidden}
 .subm .sth svg{width:100%;height:100%;display:block}
 /* ── THE PREVIEW IS THE DOCUMENT, CROPPED ─────────────────────────────────
    First attempt scaled the whole page down to fit the card, which produced a
@@ -644,9 +644,10 @@ svg{display:block}
   padding-bottom:8px;border-bottom:1px solid #e6e4df}
 .dmini-pg .brandname{font-weight:800;font-size:11.5px;color:#E50914;letter-spacing:-.01em}
 .dmini-pg .eyebrow{font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#93949a}
+.dmini-code{font-family:var(--mono);font-size:9.5px;line-height:1.55;white-space:pre;overflow:hidden;background:#171614;color:#c9c6bd;border-radius:8px;padding:9px 11px;margin:6px 0 8px}
 /* the page continues past the card: a soft fade says so, rather than a hard cut
    that reads like the document simply ended there */
-.dmini::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;
+.dmini::after{content:"";position:absolute;left:0;right:0;bottom:0;height:26px;
   background:linear-gradient(to bottom,rgba(255,255,255,0),#fff);pointer-events:none}
 .subm .att .m{padding:9px 13px 11px;min-width:0}
 .subm .att .m .t{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -843,7 +844,7 @@ svg{display:block}
 .c-video .vcap:last-child{padding-bottom:12px}
 .c-video .vdesc{padding:0 14px 13px;font-size:12.5px;line-height:1.55;color:var(--tx-3)}
 .c-file{max-width:250px;display:block;padding:0;overflow:hidden;border:var(--bw) solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow-sm);cursor:zoom-in}
-.c-file .cf-th{display:block;height:200px;overflow:hidden}
+.c-file .cf-th{display:block;height:156px;overflow:hidden}
 .c-file .cf-th svg{width:100%;height:100%;display:block}
 /* resource card sent inline in chat: click opens it on the right, same as a stage resource */
 .c-resfile{max-width:340px;display:flex;align-items:center;gap:11px;padding:11px 13px;border:var(--bw) solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow-sm);cursor:pointer;transition:transform var(--t-q) var(--ease),background var(--t-q) var(--ease)}
@@ -7019,6 +7020,33 @@ const SUBMISSION_DOCS={
       test_rank_within_latency_budget ............... PASS<br>
       <b>7 passed in 3.42s</b></p>
       <p>Ranking measured at 88ms p95 on the partner unit, inside the 90ms step budget.</p>`},
+  'passenger_session_schema':{title:'Session Schema',eyebrow:'SUPABASE · SCHEMA + SEED',
+    html:`<div class="pg-head"><span class="brandname">Netflix</span><span class="eyebrow">passenger_session_schema.sql</span></div>
+      <h1>A session with no user</h1>
+      <div class="dmini-code">-- a session is a seat on a route, not a person
+create table flight_session (
+  route        text not null references route,
+  seat         text not null,
+  departed_at  timestamptz not null,
+  catalogue_version text not null
+    references catalogue_snapshot,
+  primary key (route, seat, departed_at)
+);
+-- no user table: there is no login on the aircraft</div>
+      <p>Seeded with <b>620 flights</b> across <b>48 routes</b> against a <b>1,840-title</b> snapshot. Every seeded session is a cold start — that is not a gap in the data, it is the product.</p>`},
+  'cold_start_endpoint':{title:'Ranking Endpoint',eyebrow:'ROUTE + SEAT + CACHE ONLY',
+    html:`<div class="pg-head"><span class="brandname">Netflix</span><span class="eyebrow">cold_start_endpoint.py</span></div>
+      <h1>Ranking with what the plane has</h1>
+      <div class="dmini-code">def rank(route, seat, snapshot, limit=20):
+    # no history: every session is a cold start
+    scored = (
+        (title, w_route * route_affinity(route, title)
+              + w_len   * duration_fit(route, title)
+              + w_pop   * title.popularity)
+        for title in snapshot.titles
+    )
+    return top_k(scored, limit)   # 88ms p95 on the ARM unit</div>
+      <p>Suite green — seven cases — and the ranking step holds <b>88ms against its 90ms budget</b>, measured on partner hardware.</p>`},
   'partner_handoff':{title:'Partner Handoff',eyebrow:'WHAT YOUR TEAM OWNS NEXT',
     html:`<div class="pg-head"><span class="brandname">Netflix</span><span class="eyebrow">HANDOFF</span></div>
       <h1>A path to production</h1>
@@ -7034,6 +7062,11 @@ const SUBMISSION_DOCS={
    stem rather than the whole filename */
 function submissionDoc(n){
   const stem=String(n||'').toLowerCase().replace(/\.\w+$/,'').replace(/[_-]v?\d+$/,'');
+  /* short names a stage or a demo path might still produce */
+  const ALIAS={map:'integration_map',contract:'endpoint_contract',schema:'passenger_session_schema',
+    tests:'offline_regression_suite',suite:'offline_regression_suite',endpoint:'cold_start_endpoint',
+    deploy:'deployment_record',final:'partner_handoff',proposal:'partner_handoff',work:'integration_map'};
+  if(ALIAS[stem]&&SUBMISSION_DOCS[ALIAS[stem]])return SUBMISSION_DOCS[ALIAS[stem]];
   if(SUBMISSION_DOCS[stem])return SUBMISSION_DOCS[stem];
   /* a version suffix we did not predict must never cost us the preview: fall
      back to the longest key the name starts with */
@@ -12797,7 +12830,13 @@ function stepFlow(){
      && composerEl && !composerEl.classList.contains('hidden')){
     _stepSubmitted[stageIdx]=true;
     try{
-      const nm=(STAGES[stageIdx].id==='final'?'partner_handoff_v1.pdf':(STAGES[stageIdx].id||'work')+'_v1.pdf');
+      /* the file carries the artefact's real name — map_v1.pdf was the tell
+         that a machine had named it, and it also missed the preview matcher */
+      const SUBMIT_NAME={map:'integration_map_v1.pdf',contract:'endpoint_contract_v1.md',
+        schema:'passenger_session_schema.sql',tests:'offline_regression_suite.py',
+        endpoint:'cold_start_endpoint.py',deploy:'deployment_record_v1.md',
+        final:'partner_handoff_v1.pdf',present:'final_walkthrough_notes.md'};
+      const nm=SUBMIT_NAME[STAGES[stageIdx].id]||'submission_v1.pdf';
       addAttachment('file',nm); send(); return;
     }catch(e){}
   }
