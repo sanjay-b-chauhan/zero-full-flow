@@ -3468,8 +3468,8 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
    deck is up (flex:1 on .mp-me), but every face inside kept its pop-up size —
    a 32-46px circle in a ~380px tile is why the seats read as empty rooms with
    a name tag. When the panel is the meeting, the faces are the tile. */
-.paneled .meet-pip.dock .mp-tile.self .zav{--zs:110px}
-.paneled .meet-pip.dock .mp-init{width:110px;height:110px;font-size:0}
+.paneled .meet-pip.dock .mp-tile.self .zav{--zs:84px}
+.paneled .meet-pip.dock .mp-init{width:84px;height:84px;font-size:0}
 /* everyone has a photo, so the fallback initials must never poke out beside it */
 .paneled .meet-pip.dock .zface b{color:transparent}
 .paneled .meet-pip.dock .zav b{font-size:0}
@@ -5156,7 +5156,7 @@ body:has(.rpt4) .stage-nav{left:auto;right:16px}
   display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
   gap:6px;padding:0!important;border-radius:13px!important;background:var(--card)!important;overflow:hidden!important;
   position:relative;transition:box-shadow var(--t-q) var(--ease),background var(--t-q) var(--ease)}
-.meet-pip.dock .mp-tile .mp-init{position:relative!important;inset:auto!important;width:110px!important;height:110px!important;
+.meet-pip.dock .mp-tile .mp-init{position:relative!important;inset:auto!important;width:84px!important;height:84px!important;
   flex:0 0 auto!important;transform:none!important;border-radius:99px!important;overflow:hidden!important;font-size:0}
 .meet-pip.dock .mp-tile .mp-init img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:99px}
 .meet-pip.dock .mp-tile .mp-tag{position:absolute!important;left:10px;bottom:8px;margin:0!important;transform:none!important;z-index:3;
@@ -5193,7 +5193,7 @@ body:has(.rpt4) .stage-nav{left:auto;right:16px}
    margin-top:auto is the whole alignment story: they hold the top, you and the controls hold
    the bottom, and the space between is allowed to breathe. */
 .meet-pip.dock .mp-tile.self{margin:0!important;padding:0!important;aspect-ratio:16/9!important;height:auto!important;
-  flex:0 0 auto!important;position:relative;overflow:hidden!important;justify-content:flex-end!important}
+  flex:0 0 auto!important;position:relative;overflow:hidden!important;justify-content:center!important}
 .meet-pip.dock .mp-tile.self video{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover;border-radius:0!important}
 .meet-pip.dock .mp-tile.self .mp-tag{position:absolute!important;left:10px;bottom:8px;z-index:3;background:color-mix(in srgb,var(--bg) 78%,transparent)!important;padding:3px 8px!important;border-radius:99px!important}
 .meet-pip.dock .mp-tile.self.rec{box-shadow:inset 0 0 0 1.5px rgba(255,106,77,.65)}
@@ -5630,7 +5630,7 @@ body:has(.rpt4) .topbar .perf{display:none!important}
 .room.practice-room .rm.practice{padding:4px!important}
 .room.practice-room .rm.practice .rm-stage{padding:34px 40px 48px!important;place-items:center!important}
 .room.practice-room .rm.practice .deskshare{position:relative!important;
-  width:min(94%, calc((100dvh - 140px)*1920/1079))!important;aspect-ratio:1920/1079!important}
+  width:min(94%, calc((100dvh - 232px)*1920/1079))!important;aspect-ratio:1920/1079!important}
 /* the right column stops being a panel: transparent, hands-off except its own controls */
 .room.practice-room .meet-pip.dock{background:transparent!important;pointer-events:none;justify-content:flex-end!important}
 .room.practice-room .meet-pip.dock .mp-hd,.room.practice-room .meet-pip.dock .mp-me{pointer-events:auto}
@@ -6197,6 +6197,13 @@ body:has(.rpt4) .topbar .perf{display:none!important}
    call, so (exactly like Meet presenting solo) the deck owns the full width and your own camera
    is a compact corner PiP rather than a full filmstrip column */
 .room.practice-room .rm.practice .rm-stage{padding:96px 40px 128px!important}
+/* ── Aug 22: THE SHARE CLEARS THE MEET BAR ── the floating top bar runs 16..80px; the stage's
+   30px top pad let the centered deck slide under it, and the height budget (100dvh-170) was
+   taller than the caption band left, so max-height squashed the 16:9. Top pad now clears the
+   bar; the budget equals the paddings exactly (4+96+236+4), so the ratio is always true. */
+.room.paneled .rm.presenting .rm-stage{padding-top:96px!important}
+.room.paneled .rm.presenting .deskshare{width:min(100%,calc((100dvh - 340px)*1920/1079))!important}
+
 .room.practice-room .meet-pip.dock{position:absolute!important;right:16px!important;bottom:104px!important;
   left:auto!important;top:auto!important;width:280px!important;height:auto!important;flex:0 0 auto!important;
   display:block!important;padding:0!important;border:0!important;box-shadow:none!important}
