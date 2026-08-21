@@ -20,6 +20,9 @@
   /* ---------- fixed 1920x1080 canvas, scaled to fit ---------- */
   #fit{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center;transform:translate(-50%,-50%) scale(var(--fs,1))}
   #bg{position:absolute;inset:0;background:#00FF00}
+  /* B toggles the real wallpaper in and out (green stays underneath for keying) */
+  #bg::after{content:"";position:absolute;inset:0;background:url('mvp-assets/bg-noline.webp') center/cover no-repeat;opacity:0;transition:opacity .45s var(--ease)}
+  body.wall #bg::after{opacity:1}
 
   /* ---------- windows ---------- */
   /* no soft shadow on green screen — a blurred shadow bakes into the key and leaves halos */
@@ -514,6 +517,7 @@
   addEventListener('keydown',function(e){
     if(e.key==='ArrowRight') show((cur+1)%4);
     if(e.key==='ArrowLeft') show((cur+3)%4);
+    if(e.key==='b'||e.key==='B') document.body.classList.toggle('wall');
   });
 
   show(cur);
