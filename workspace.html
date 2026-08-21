@@ -15894,31 +15894,31 @@ window.ZC_COACH2={setScene,openPanel,closePanel:closePanel_,SCENES};
 <!-- ZERO_COACH_V2_END -->
 <style id="zff-xp-css">
 /* ── XP hover panel (zero-full-flow) — the nav-lab home's Level card, on the workspace chip ── */
-#zffXp{position:fixed;z-index:1250;top:56px;right:0;width:400px;background:rgba(24,22,20,.92);
+#zffXp{position:fixed;z-index:1250;top:56px;right:0;width:340px;background:rgba(24,22,20,.92);
   -webkit-backdrop-filter:blur(28px) saturate(1.2);backdrop-filter:blur(28px) saturate(1.2);
-  border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:22px 24px 20px;
+  border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px 20px 17px;
   box-shadow:0 24px 60px rgba(0,0,0,.5);opacity:0;transform:translateY(-6px) scale(.98);
   pointer-events:none;transition:opacity .22s cubic-bezier(.22,1,.36,1),transform .22s cubic-bezier(.22,1,.36,1)}
 #zffXp.on{opacity:1;transform:none;pointer-events:auto}
 #zffXp .zx-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
-#zffXp .zx-lvl{font-size:24px;font-weight:600;color:#fff;letter-spacing:-.01em}
-#zffXp .zx-total{font-family:var(--mono,ui-monospace,monospace);font-size:17px;color:#fff;letter-spacing:.04em}
+#zffXp .zx-lvl{font-size:20px;font-weight:600;color:#fff;letter-spacing:-.01em}
+#zffXp .zx-total{font-family:var(--mono,ui-monospace,monospace);font-size:14.5px;color:#fff;letter-spacing:.04em}
 #zffXp .zx-total small{font-size:11px;color:rgba(255,255,255,.45);margin-left:4px;letter-spacing:.12em}
-#zffXp .zx-bar{height:6px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden;margin-bottom:16px}
+#zffXp .zx-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden;margin-bottom:13px}
 #zffXp .zx-fill{height:100%;border-radius:3px;background:#EFC368;transition:width .5s cubic-bezier(.22,1,.36,1)}
 #zffXp .zx-sub{display:flex;align-items:center;justify-content:space-between}
-#zffXp .zx-next{font-family:var(--mono,ui-monospace,monospace);font-size:12.5px;letter-spacing:.1em;
+#zffXp .zx-next{font-family:var(--mono,ui-monospace,monospace);font-size:10.8px;letter-spacing:.1em;
   color:rgba(255,255,255,.55);text-transform:uppercase;display:flex;align-items:center;gap:7px;cursor:pointer;
   background:none;border:0;padding:0}
 #zffXp .zx-next b{color:#fff;font-weight:600}
 #zffXp .zx-chev{width:14px;height:14px;color:rgba(255,255,255,.6);transition:transform .2s ease}
 #zffXp.open .zx-chev{transform:rotate(180deg)}
-#zffXp .zx-plus{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.16);
+#zffXp .zx-plus{width:29px;height:29px;border-radius:50%;border:1px solid rgba(255,255,255,.16);
   background:rgba(255,255,255,.05);color:rgba(255,255,255,.8);display:grid;place-items:center;cursor:default}
-#zffXp .zx-ladder{display:none;margin-top:18px}
+#zffXp .zx-ladder{display:none;margin-top:15px}
 #zffXp.open .zx-ladder{display:block}
-#zffXp .zx-row{display:flex;align-items:center;gap:14px;padding:7px 0}
-#zffXp .zx-dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:0 0 26px}
+#zffXp .zx-row{display:flex;align-items:center;gap:12px;padding:5.5px 0}
+#zffXp .zx-dot{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:0 0 22px}
 #zffXp .zx-dot.done{border:1.5px solid #48CA7A;color:#48CA7A}
 #zffXp .zx-dot.here{border:1.5px solid #EFC368}
 #zffXp .zx-dot.here i{width:9px;height:9px;border-radius:50%;background:#EFC368}
@@ -15926,12 +15926,12 @@ window.ZC_COACH2={setScene,openPanel,closePanel:closePanel_,SCENES};
 #zffXp .zx-dot.todo i{width:8px;height:8px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4)}
 #zffXp .zx-dot.mile{color:#fff}
 #zffXp .zx-rl{flex:1;min-width:0}
-#zffXp .zx-rname{font-size:15.5px;font-weight:500;color:rgba(255,255,255,.85)}
+#zffXp .zx-rname{font-size:13.5px;font-weight:500;color:rgba(255,255,255,.85)}
 #zffXp .zx-row.dim .zx-rname{color:rgba(255,255,255,.45)}
-#zffXp .zx-rtag{font-family:var(--mono,ui-monospace,monospace);font-size:10.5px;letter-spacing:.14em;
+#zffXp .zx-rtag{font-family:var(--mono,ui-monospace,monospace);font-size:9.2px;letter-spacing:.14em;
   color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:2px}
 #zffXp .zx-row.here .zx-rtag{color:#EFC368}
-#zffXp .zx-rxp{font-family:var(--mono,ui-monospace,monospace);font-size:12.5px;letter-spacing:.06em;color:rgba(255,255,255,.45)}
+#zffXp .zx-rxp{font-family:var(--mono,ui-monospace,monospace);font-size:10.8px;letter-spacing:.06em;color:rgba(255,255,255,.45)}
 #zffXp .zx-link{display:flex;justify-content:flex-start;padding:0 0 0 12px;height:14px}
 #zffXp .zx-link i{width:2px;height:100%;background:rgba(255,255,255,.18);border-radius:1px}
 #zffXp .zx-link.dots i{background:none;display:flex;flex-direction:column;justify-content:space-between}
@@ -16000,7 +16000,7 @@ window.ZC_COACH2={setScene,openPanel,closePanel:closePanel_,SCENES};
   }
   function place(){
     var r=chip.getBoundingClientRect();
-    var left=Math.min(Math.max(12,r.left+r.width/2-200),innerWidth-412);
+    var left=Math.min(Math.max(12,r.left+r.width/2-170),innerWidth-352);
     el.style.left=left+'px';el.style.top=(r.bottom+10)+'px';el.style.right='auto';
   }
   var hideT=null;

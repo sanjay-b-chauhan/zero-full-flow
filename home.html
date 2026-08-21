@@ -46,6 +46,17 @@ document.addEventListener('click', function (e) {
 }, true);
 </script>
 <script src="flow-debug.js" defer></script>
+<style id="zff-hud-scale">
+/* The XP card (and the performance card beside it, same popover family) read
+   oversized against the small HUD chips they hang from. Scale the whole card,
+   type and all, rather than restyling type inside a bundle we do not own — the
+   two are siblings, never nested, so one transform each and nothing compounds.
+   Anchored top-right so it stays pinned under its chip as it shrinks. */
+[class*="rounded-[32px]"][class*="backdrop-blur-xl"][class*="flex-col"]{
+  transform:scale(.85);
+  transform-origin:top right;
+}
+</style>
 </body>
 
 </html>
