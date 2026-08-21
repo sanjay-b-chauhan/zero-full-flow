@@ -2705,7 +2705,7 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .rc2-devs{margin-top:2px}
 
 /* ===== macOS desktop share ===== */
-.deskshare{width:96vw;max-width:1600px;aspect-ratio:16/9;border-radius:14px;overflow:hidden;position:relative;display:flex;flex-direction:column;background:#1a1a2e;box-shadow:0 40px 100px rgba(0,0,0,.6);animation:deckIn .45s var(--ease)}
+.deskshare{width:96vw;max-width:1600px;aspect-ratio:1920/1079;border-radius:14px;overflow:hidden;position:relative;display:flex;flex-direction:column;background:#1a1a2e;box-shadow:0 40px 100px rgba(0,0,0,.6);animation:deckIn .45s var(--ease)}
 .mac-bar{display:flex;align-items:center;gap:16px;height:28px;padding:0 14px;background:rgba(18,18,26,.55);backdrop-filter:blur(20px);color:#fff;font-size:12px;flex:0 0 auto;z-index:5}
 .mb-apple{display:grid;place-items:center}.mb-apple svg{width:14px;height:14px}
 .mb-app{font-weight:600;font-size:12.5px}.mb-m{font-size:12px;color:rgba(255,255,255,.82)}
@@ -2788,7 +2788,7 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 
 
 /* ===== v35 screen-share Meet PiP ===== */
-.rm.presenting .deskshare{max-width:none!important;width:100%!important;max-height:80vh!important}
+.rm.presenting .deskshare{height:100%!important;width:auto!important;max-width:100%!important;aspect-ratio:1920/1079;max-height:80vh!important}
 .rm.presenting .chrome-win{height:80%!important;width:auto!important}
 .meet-pip{position:absolute;right:24px;bottom:24px;width:236px;background:#0f0f12;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:12px;box-shadow:0 24px 60px rgba(0,0,0,.6);z-index:20;opacity:0;transition:opacity .4s var(--ease)}
 .meet-pip.show{opacity:1;animation:pipFloat 6s ease-in-out infinite .5s}
@@ -2814,7 +2814,7 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .rm.presenting{padding:6px 8px 8px}
 .rm.presenting .rm-back{display:none}
 .rm.presenting .rm-stage{padding:0}
-.rm.presenting .deskshare{width:100%!important;height:100%!important;max-width:none!important;max-height:none!important}
+.rm.presenting .deskshare{height:100%!important;width:auto!important;max-width:100%!important;max-height:none!important;aspect-ratio:1920/1079}
 .rm.presenting .chrome-win{height:82%!important;width:auto!important}
 
 
@@ -5007,8 +5007,8 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .room.paneled .rm.presenting .rm-stage{min-height:0;container-type:size}
 /* true 16:9 whichever way the cavity is constrained: width caps at the cavity, or at the height×16/9 */
 .room.paneled .rm.presenting .deskshare{position:relative!important;inset:auto!important;
-  width:min(100%,calc(100cqh * 16 / 9))!important;height:auto!important;
-  max-height:none!important;aspect-ratio:16/9!important;border-radius:12px!important;overflow:hidden}
+  width:min(100%,calc(100cqh * 1920 / 1079))!important;height:auto!important;
+  max-height:none!important;aspect-ratio:1920/1079!important;border-radius:12px!important;overflow:hidden}
 .meet-pip.dock{left:auto!important;top:0!important;right:0!important;bottom:0!important;
   width:300px!important;height:100%!important;max-height:none!important;min-height:0!important;
   border-radius:0!important;transform:none!important;margin:0!important;
@@ -5579,8 +5579,8 @@ body:has(.rpt4) .topbar .perf{display:none!important}
    flush edges were hard-cropping its shadow (Atul, Aug 4): air on every side. */
 .room.paneled .rm.presenting .rm-stage{display:grid!important;place-items:center!important;padding:30px 34px 40px!important}
 .room.paneled .rm.presenting .deskshare{position:static!important;inset:auto!important;
-  width:min(100%, calc((100dvh - 170px)*16/9))!important;height:auto!important;
-  aspect-ratio:16/9!important;max-width:100%!important;max-height:100%!important;
+  width:min(100%, calc((100dvh - 170px)*1920/1079))!important;height:auto!important;
+  aspect-ratio:1920/1079!important;max-width:100%!important;max-height:100%!important;
   border-radius:14px!important;box-shadow:0 30px 80px rgba(0,0,0,.55)!important}
 
 /* ── Aug 4 (Atul): Q&A answer as a sync illusion — icon-only unmute pill, "Mute once done"
@@ -5630,7 +5630,7 @@ body:has(.rpt4) .topbar .perf{display:none!important}
 .room.practice-room .rm.practice{padding:4px!important}
 .room.practice-room .rm.practice .rm-stage{padding:34px 40px 48px!important;place-items:center!important}
 .room.practice-room .rm.practice .deskshare{position:relative!important;
-  width:min(94%, calc((100dvh - 140px)*16/9))!important}
+  width:min(94%, calc((100dvh - 140px)*1920/1079))!important;aspect-ratio:1920/1079!important}
 /* the right column stops being a panel: transparent, hands-off except its own controls */
 .room.practice-room .meet-pip.dock{background:transparent!important;pointer-events:none;justify-content:flex-end!important}
 .room.practice-room .meet-pip.dock .mp-hd,.room.practice-room .meet-pip.dock .mp-me{pointer-events:auto}
