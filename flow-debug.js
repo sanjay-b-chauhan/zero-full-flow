@@ -2,6 +2,7 @@
    Four stops, on every page of the flow:
 
      Onboarding       index.html        the voice onboarding, from the top
+     Login            home.html#login   the sign-in over the city
      Post-onboarding  home.html#welcome the welcome page, after the onboarding
      World            home.html#world   the world map and the scenario card
      Stage            workspace.html    the scenario workspace
@@ -30,11 +31,15 @@
   var onWorkspace = here.indexOf('workspace') === 0;
   var STOPS = [
     { id: 'onboarding', label: 'Onboarding', href: 'index.html' },
+    { id: 'login', label: 'Login', href: 'home.html#login' },
     { id: 'welcome', label: 'Post-onboarding', href: 'home.html#welcome' },
     { id: 'world', label: 'World', href: 'home.html#world' },
     { id: 'stage', label: 'Stage', href: 'workspace.html' }
   ];
-  var at = onWorkspace ? 'stage' : onHome ? (hash === 'welcome' ? 'welcome' : 'world') : 'onboarding';
+  var HOME_BEATS = { login: 1, welcome: 1, world: 1 };
+  var at = onWorkspace ? 'stage'
+         : onHome ? (HOME_BEATS[hash] ? hash : 'login')
+         : 'onboarding';
 
   /* every debug affordance on this page, so one shortcut can take them all */
   var CHROME = '#zffFlow,#zffGear,#dbg,#dbgFab,.dbg-fab,#stageNav,.stage-nav,#fbHandle,.fb-handle';
@@ -81,7 +86,7 @@
       var a = e.target.closest && e.target.closest('a[data-id]');
       if (!a || !onHome) return;
       var id = a.dataset.id;
-      if (id !== 'welcome' && id !== 'world') return;
+      if (!HOME_BEATS[id]) return;
       /* already on the home: the first run only plays forward, so switching
          beats has to be a reload rather than a rewind */
       e.preventDefault();
@@ -151,7 +156,7 @@
       setTimeout(step, 200);
     })();
   }
-  if (onHome && (hash === 'welcome' || hash === 'world')) {
+  if (onHome && (hash === 'welcome' || hash === 'world')) {   /* login is the first beat already */
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { driveHome(hash); });
     else driveHome(hash);
   }
