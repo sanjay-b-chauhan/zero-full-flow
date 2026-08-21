@@ -815,6 +815,7 @@ const TrailerStage=({project})=>(
 const TRAILER_STAGES={1:TrailerStage,2:TrailerStage,3:TrailerStage,4:TrailerStage,5:TrailerStage};
 const SUB_FILES={1:"deployment-record.md",2:"cutover-runbook.md",3:"config-schema.sql",4:"trace-findings.md",5:"service-contract.md"};
 const PRES_DUR={1:"6:24",2:"5:47",3:"4:58",4:"5:12",5:"6:03"};
+const PROJ_SKILLS={1:["Systems mapping","Contract design","Latency budgets"],2:["Zero-downtime migration","Runbooks"],3:["Multi-tenant architecture","Systems mapping"],4:["Field debugging","Flagged rollouts"],5:["Contract design","Ambiguous briefs"]};
 const CardVisual=({project})=>{
   const Stage=TRAILER_STAGES[project.id];
   const [hov,setHov]=useState(false);
@@ -848,18 +849,26 @@ const ProjectCardL=({project,onOpen,student,size="l"})=>{
             <div style={{fontSize:13,color:c("--ink-2"),lineHeight:1.55,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden"}}>{project.performanceReview.whatLanded[0].point}</div>
           </div>
         )}
-        <div style={{marginTop:"auto",display:"flex",alignItems:"center",gap:7,paddingTop:xl?16:md?10:14,flexWrap:"wrap"}}>
-          <span style={mono} {...pillHover} onClick={e=>{e.stopPropagation();onOpen(project,"Presentation");}}>
-            <IcPlay s={10} col={c("--ink-3")} f={c("--ink-3")}/>
-            Presentation · {PRES_DUR[project.id]||"4:12"}
-          </span>
-          <span style={mono} {...pillHover} onClick={e=>{e.stopPropagation();onOpen(project,"Submission");}}>
-            <IcDoc s={12} col={c("--ink-3")}/>{SUB_FILES[project.id]||"submission.pdf"}
-          </span>
-          {(project.performanceReview?.toolsUsed||[]).map((t,ti)=>(
-            <span key={"tl"+ti} style={{display:"inline-flex",alignItems:"center",gap:5,padding:"5px 10px",
-              border:`1px solid ${c("--line-soft")}`,borderRadius:999,fontSize:11.5,color:c("--ink-2")}}>
-              <Logo src={tlogo(t)} size={12} rad={3}/>{t.name}</span>))}
+        <div style={{marginTop:"auto",paddingTop:xl?14:md?8:12}}>
+          <div style={{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap"}}>
+            {(PROJ_SKILLS[project.id]||[]).map((sk,si)=>(
+              <span key={"sk"+si} style={{padding:"4px 10px",background:c("--paper"),borderRadius:999,fontSize:11,fontWeight:500,color:c("--ink-2")}}>{sk}</span>))}
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginTop:8}}>
+            <span style={mono} {...pillHover} onClick={e=>{e.stopPropagation();onOpen(project,"Presentation");}}>
+              <IcPlay s={10} col={c("--ink-3")} f={c("--ink-3")}/>
+              Presentation · {PRES_DUR[project.id]||"4:12"}
+            </span>
+            <span style={mono} {...pillHover} onClick={e=>{e.stopPropagation();onOpen(project,"Submission");}}>
+              <IcDoc s={12} col={c("--ink-3")}/>{SUB_FILES[project.id]||"submission.pdf"}
+            </span>
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginTop:8}}>
+            {(project.performanceReview?.toolsUsed||[]).map((t,ti)=>(
+              <span key={"tl"+ti} style={{display:"inline-flex",alignItems:"center",gap:5,padding:"5px 10px",
+                border:`1px solid ${c("--line-soft")}`,borderRadius:999,fontSize:11.5,color:c("--ink-2")}}>
+                <Logo src={tlogo(t)} size={12} rad={3}/>{t.name}</span>))}
+          </div>
         </div>
       </div>
     </div>
@@ -1486,7 +1495,7 @@ const AddProjectRow=({onClick})=>(
 /* ═══ HIGHLIGHTS — the snapshot strip under About ═══ */
 const HL_DEFAULT=[
   {kind:"project",pid:2},
-  {kind:"skills",names:["Data Analysis","Financial Modeling"]},
+  {kind:"skills",names:["Systems Mapping","Contract Design"]},
   {kind:"school"},
 ];
 const HL_ADDABLE=[
