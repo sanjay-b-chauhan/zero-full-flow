@@ -22,8 +22,8 @@
 *{box-sizing:border-box;margin:0}
 html,body{height:100%}
 body{background:#000;font-family:var(--sans);color:var(--tx);overflow:hidden}
-#stage{position:fixed;inset:0;display:grid;place-items:center}
-.slide{width:1280px;height:720px;background:var(--ink);border-radius:18px;position:relative;
+#stage{position:fixed;inset:0}
+.slide{width:1280px;height:720px;background:var(--ink);border-radius:18px;position:absolute;left:50%;top:50%;
   overflow:hidden;display:none;padding:64px 72px;border:1px solid #191919}
 .slide.on{display:block}
 /* chrome shared by every slide */
@@ -448,7 +448,7 @@ test_rank_within_latency_budget ........ <span class="pass">PASS</span>
   });
   var at=0;
   function fit(){ var k=Math.min(innerWidth/1320, innerHeight/790);
-    slides.forEach(function(s){ s.style.transform='scale('+k+')'; }); }
+    slides.forEach(function(s){ s.style.transform='translate(-50%,-50%) scale('+k+')'; }); }
   function show(i){ at=Math.max(0,Math.min(slides.length-1,i));
     slides.forEach(function(s,k){ s.classList.toggle('on',k===at); });
     document.getElementById('ctr').textContent=String(at+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
