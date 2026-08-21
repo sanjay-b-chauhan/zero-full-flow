@@ -6376,6 +6376,7 @@ body:has(.rpt4) .topbar .perf{display:none!important}
       <button data-dbg="finalsub" class="wide">1 &middot; Final submission</button>
       <button data-dbg="presstage" class="wide">2 &middot; Presentation stage (plan &amp; practice)</button>
       <button data-dbg="presenting" class="wide">3 &middot; The presentation</button>
+      <button data-dbg="deck" class="wide">3b &middot; Presentation &middot; deck up (direct)</button>
       <button data-dbg="qa" class="wide">4 &middot; Q&amp;A session</button>
       <button data-dbg="rvw" class="wide">5 &middot; Report loader</button>
       <button data-dbg="report" class="wide">6 &middot; Feedback page</button>
@@ -13009,6 +13010,19 @@ function dbgJump(what){
   else if(what==='stagefb'){ softReset(); loadStage(0); tmplReviewed=false; planPhase='full'; ACTIVE.reqStatus=null; renderRail(); setMode('build'); composerEl.classList.remove('hidden','notepad'); timerRunning=false;
     setTimeout(()=>{ addAttachment('file','integration_map_v1.pdf'); send(); }, 400); }   // straight to the reviewed-submission → stage feedback state
   else if(what==='presenting'||what==='qa'||what==='rvw'||what==='report'){ softReset(); dbgRoom(what); }
+  else if(what==='deck'){ softReset(); dbgRoom('presenting');
+    /* DIRECT: skip the join and the talk-in — the deck is up and presenting from the first frame */
+    const _up=function(){ if(!R||!R.ov)return;
+      try{ (R.jt||[]).forEach(clearTimeout); R.jt=[]; }catch(e){}
+      R.shareKind='screen';
+      R.ov.innerHTML=roomShell();
+      const st=R.ov.querySelector('#rmStage'); if(st)st.innerHTML=roomGrid();
+      const bk=R.ov.querySelector('#rmBack'); if(bk)bk.onclick=function(){ roomConfirmExit(); };
+      roomPresent(); };
+    setTimeout(_up,80);
+    /* the join sequence arms its timers a beat later — sweep them once more so no stray
+       beat rebuilds the pre-share room on top of the running deck */
+    setTimeout(function(){ try{ (R&&R.jt||[]).forEach(clearTimeout); if(R)R.jt=[]; }catch(e){} },900); }
   else if(what==='finalsub'){ softReset();
     /* the journey opens on the REAL stage flow (Atul): the portfolio-promise modal, then the
        kickoff messages and voice note, then YOU plan and submit — no shortcuts */
