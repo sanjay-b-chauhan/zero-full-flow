@@ -2706,32 +2706,42 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 
 /* ===== macOS desktop share ===== */
 .deskshare{width:96vw;max-width:1600px;aspect-ratio:1920/1079;border-radius:14px;overflow:hidden;position:relative;display:flex;flex-direction:column;background:#1a1a2e;box-shadow:0 40px 100px rgba(0,0,0,.6);animation:deckIn .45s var(--ease)}
-.mac-bar{display:flex;align-items:center;gap:16px;height:28px;padding:0 14px;background:rgba(18,18,26,.55);backdrop-filter:blur(20px);color:#fff;font-size:12px;flex:0 0 auto;z-index:5}
-.mb-apple{display:grid;place-items:center}.mb-apple svg{width:14px;height:14px}
-.mb-app{font-weight:600;font-size:12.5px}.mb-m{font-size:12px;color:rgba(255,255,255,.82)}
-.mb-right{margin-left:auto;font-size:12px;color:rgba(255,255,255,.9)}
+.mac-bar{display:flex;align-items:center;gap:14px;height:23px;padding:0 12px;background:rgba(18,18,26,.55);backdrop-filter:blur(20px);color:#fff;font-size:10.5px;flex:0 0 auto;z-index:5}
+.mb-apple{display:grid;place-items:center}.mb-apple svg{width:12px;height:12px}
+.mb-app{font-weight:600;font-size:11px}.mb-m{font-size:10.5px;color:rgba(255,255,255,.82)}
+.mb-right{margin-left:auto;font-size:10.5px;color:rgba(255,255,255,.9)}
 .mac-wall{flex:1;position:relative;overflow:hidden;background:linear-gradient(150deg,#5b7cfa 0%,#8b5cf6 45%,#c084fc 78%,#f0abfc 100%);background-image:url('mvp-assets/mac-desktop.jpg');background-size:cover;background-position:center bottom;display:grid;place-items:center}
 .chrome-win{height:86%;aspect-ratio:1.72;max-width:94%;margin-bottom:3%;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 30px 70px rgba(0,0,0,.42);display:flex;flex-direction:column}
-.chrome-bar{display:flex;align-items:flex-end;gap:8px;height:38px;padding:0 0 0 14px;background:#dee1e6;flex:0 0 auto}
+.chrome-bar{display:flex;align-items:flex-end;gap:6px;height:30px;padding:0 0 0 10px;background:#dee1e6;flex:0 0 auto}
 .chrome-bar .tl{align-self:center}
-.ctab-fav{width:14px;height:14px;border-radius:3px;flex:0 0 auto}
+.ctab-fav{width:11px;height:11px;border-radius:2.5px;flex:0 0 auto}
 .ctab-t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
-.ctab-x{width:16px;height:16px;color:#5f6368;flex:0 0 auto;display:grid;place-items:center}.ctab-x svg{width:11px;height:11px}
-.ctab-new{align-self:center;width:26px;height:26px;display:grid;place-items:center;color:#5f6368;font-size:17px;margin-left:2px}
+.ctab-x{width:13px;height:13px;color:#5f6368;flex:0 0 auto;display:grid;place-items:center}.ctab-x svg{width:9px;height:9px}
+.ctab-new{align-self:center;width:20px;height:20px;display:grid;place-items:center;color:#5f6368;font-size:13px;margin-left:2px}
 .cbar-sp{flex:1}
-.tl{width:12px;height:12px;border-radius:99px;flex:0 0 auto}.tl.r{background:#ff5f57}.tl.y{background:#febc2e}.tl.g{background:#28c840}
-.chrome-tab{display:flex;align-items:center;gap:8px;margin-left:10px;background:#fff;border-radius:10px 10px 0 0;padding:7px 12px;font-size:12px;font-weight:500;color:#3c4043;align-self:flex-end;width:320px;max-width:46%}
-.chrome-tool{display:flex;align-items:center;gap:10px;height:42px;padding:0 12px;background:#fff;flex:0 0 auto;border-bottom:1px solid #e8eaed}
-.ct-nav{width:24px;height:24px;color:#5f6368;display:grid;place-items:center;flex:0 0 auto;border-radius:99px}.ct-nav svg{width:16px;height:16px}
+.tl{width:10px;height:10px;border-radius:99px;flex:0 0 auto}.tl.r{background:#ff5f57}.tl.y{background:#febc2e}.tl.g{background:#28c840}
+.chrome-tab{display:flex;align-items:center;gap:6px;margin-left:8px;background:#fff;border-radius:8px 8px 0 0;padding:5px 10px;font-size:10px;font-weight:500;color:#3c4043;align-self:flex-end;width:250px;max-width:42%}
+.chrome-tool{display:flex;align-items:center;gap:8px;height:32px;padding:0 10px;background:#fff;flex:0 0 auto;border-bottom:1px solid #e8eaed}
+.ct-nav{width:19px;height:19px;color:#5f6368;display:grid;place-items:center;flex:0 0 auto;border-radius:99px}.ct-nav svg{width:13px;height:13px}
 .ct-nav.dim{opacity:.38}
-.ct-lock{width:12px;height:12px;flex:0 0 auto;color:#5f6368}
-.ct-av{width:24px;height:24px;border-radius:99px;overflow:hidden;flex:0 0 auto}.ct-av img{width:100%;height:100%;object-fit:cover;display:block}
-.ct-addr{flex:1;display:flex;align-items:center;gap:7px;background:#f1f3f4;border-radius:99px;padding:7px 14px;font-size:12px;color:#3c4043;font-family:var(--mono);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chrome-body{flex:1;position:relative;overflow:hidden;background:#0e0e0f;display:grid;place-items:center}
+.ct-lock{width:10px;height:10px;flex:0 0 auto;color:#5f6368}
+.ct-av{width:19px;height:19px;border-radius:99px;overflow:hidden;flex:0 0 auto}.ct-av img{width:100%;height:100%;object-fit:cover;display:block}
+.ct-addr{flex:1;display:flex;align-items:center;gap:6px;background:#f1f3f4;border-radius:99px;padding:4px 11px;font-size:10px;color:#3c4043;font-family:var(--mono);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chrome-body{flex:1;position:relative;overflow:hidden;background:#fff;display:flex;align-items:stretch}
 /* the slide is the point of the window: the fitting frame takes the whole
    body and the paper letterboxes only as far as the 16:9 maths demands */
 .chrome-body .deck{max-width:none;width:100%;height:100%;aspect-ratio:auto}
-.chrome-body .deck{position:absolute!important;inset:0;width:100%!important;max-width:none!important;height:100%;aspect-ratio:auto!important;border-radius:0!important;box-shadow:none!important;padding:5.5% 7%!important;background:#f5f3ee!important}
+.chrome-body .deck{position:absolute!important;inset:0;width:100%!important;max-width:none!important;height:100%;aspect-ratio:auto!important;border-radius:0!important;box-shadow:none!important;padding:2% 2.4%!important;background:#f5f3ee!important}
+/* ── Aug 22: THE DECK READS AS SLIDES ── a filmstrip of every page down the left, the way
+   PowerPoint frames a deck; the live page owns the rest of the window, a step larger. */
+.dk-rail{flex:0 0 15%;min-width:0;background:#fff;border-right:1px solid #e8eaed;overflow-y:auto;overflow-x:hidden;padding:8px 7px 8px 4px;display:flex;flex-direction:column;gap:7px;scrollbar-width:none}
+.dk-rail::-webkit-scrollbar{display:none}
+.dk-main{flex:1;position:relative;min-width:0}
+.dkthumb{display:flex;align-items:flex-start;gap:4px;flex:0 0 auto}
+.dkt-n{flex:0 0 12px;text-align:right;font-family:var(--sans);font-size:8.5px;font-weight:500;color:#80868b;padding-top:1px;line-height:1}
+.dkt-vp{flex:1;min-width:0;aspect-ratio:900/506;position:relative;overflow:hidden;border-radius:3px;background:#f5f3ee;box-shadow:0 0 0 1px #e0e2e6}
+.dkt-vp .dks{pointer-events:none;box-shadow:none}
+.dkthumb.on .dkt-vp{box-shadow:0 0 0 1.6px #e50914}
 .mac-dock{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);display:flex;gap:8px;padding:6px 8px;background:rgba(255,255,255,.2);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.25);border-radius:16px;z-index:5}
 .dk-i{width:34px;height:34px;border-radius:9px;box-shadow:0 3px 8px rgba(0,0,0,.25)}
 .pstrip.mini{position:absolute;top:14px;right:14px;display:flex;flex-direction:column;gap:9px;width:150px;z-index:6}
@@ -2815,7 +2825,7 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .rm.presenting .rm-back{display:none}
 .rm.presenting .rm-stage{padding:0}
 .rm.presenting .deskshare{height:100%!important;width:auto!important;max-width:100%!important;max-height:none!important;aspect-ratio:1920/1079}
-.rm.presenting .chrome-win{height:82%!important;width:auto!important}
+.rm.presenting .chrome-win{height:94%!important;width:auto!important;margin-bottom:0!important}
 
 
 /* ===== v38: PiP rebuild + Chrome-true share picker ===== */
@@ -5658,7 +5668,7 @@ body:has(.rpt4) .topbar .perf{display:none!important}
    card went position:static. The card anchors its own absolutes again, and the wallpaper
    keeps a dock zone at its base so window, film nav and app dock stack without touching. */
 .room.paneled .rm.presenting .deskshare{position:relative!important}
-.room.paneled .rm.presenting .mac-wall{padding-bottom:64px}
+.room.paneled .rm.presenting .mac-wall{padding-bottom:40px}
 .room.paneled .rm.presenting .deskshare .deck-nav{bottom:72px}
 
 /* ── Aug 4 (Atul, report panel round 2): hierarchy + premium dots ──
@@ -9445,8 +9455,12 @@ function dkFit(d){
   const r=d.getBoundingClientRect(); if(!r.width||!r.height)return;
   const k=Math.min(r.width/900,r.height/506)*0.97;
   const pg=d.querySelector('.dks'); if(pg)pg.style.setProperty('--dkfit',k.toFixed(4));
+  document.querySelectorAll('.dkt-vp').forEach(function(v){ const w=v.getBoundingClientRect().width; if(w) v.style.setProperty('--dkfit',(w/900).toFixed(4)); });
 }
-function roomSlide(i){ i=Math.max(0,Math.min(DECK.length-1,i)); R.slide=i; const d=R.ov.querySelector('#deck'); if(d){ d.innerHTML=deckSlide(i); dkFit(d); d.classList.remove('in'); void d.offsetWidth; d.classList.add('in'); } R.ov.querySelectorAll('.film-dot').forEach((b,j)=>b.classList.toggle('on',j===i)); }
+function roomSlide(i){ i=Math.max(0,Math.min(DECK.length-1,i)); R.slide=i; const d=R.ov.querySelector('#deck'); if(d){ d.innerHTML=deckSlide(i); dkFit(d); d.classList.remove('in'); void d.offsetWidth; d.classList.add('in'); } R.ov.querySelectorAll('.film-dot').forEach((b,j)=>b.classList.toggle('on',j===i));
+  R.ov.querySelectorAll('.dkthumb').forEach((t,j)=>t.classList.toggle('on',j===i));
+  const _rail=R.ov.querySelector('#dkRail'), _on=R.ov.querySelector('.dkthumb.on');
+  if(_rail&&_on){ const y=Math.max(0,_on.offsetTop-_rail.clientHeight/2+_on.offsetHeight/2); try{ _rail.scrollTo({top:y,behavior:'smooth'}); }catch(e){ _rail.scrollTop=y; } } }
 
 /* ===== fluid morph: the meeting and the shared screen trade places ===== */
 const MORPH_MS=580, MORPH_EASE='cubic-bezier(.62,.02,.1,1)';
@@ -9511,7 +9525,10 @@ function deskShareHTML(){
    +'<span class="ct-av"><img src="mvp-assets/headshot.jpg" alt=""></span>'
    +'<span class="ct-nav ct-dots"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></span>'
    +'</div>'
-   +'      <div class="chrome-body"><div class="deck in" id="deck">'+deckSlide(0)+'</div></div>'
+   +'      <div class="chrome-body">'
+   +'        <div class="dk-rail" id="dkRail">'+DECK.map(function(_,i){ return '<div class="dkthumb'+(i===0?' on':'')+'" data-i="'+i+'"><span class="dkt-n">'+(i+1)+'</span><div class="dkt-vp">'+deckSlide(i)+'</div></div>'; }).join('')+'</div>'
+   +'        <div class="dk-main"><div class="deck in" id="deck">'+deckSlide(0)+'</div></div>'
+   +'      </div>'
    +'    </div>'
    /* no arrows, no film strip: the deck presents itself, so the control the
       presenter would never show their audience is simply not in the frame */
