@@ -2382,6 +2382,7 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .dk-ownrow{display:flex;align-items:center;gap:14px;padding:9px 0;border-bottom:1px solid #e8e4da}
 .dk-ownrow>span:last-child{font-size:14px}
 .dk-codebox{max-height:100%;overflow:hidden;padding:12px 14px}
+#dkCur{position:absolute;left:0;top:0;z-index:9;pointer-events:none;filter:drop-shadow(0 2px 5px rgba(0,0,0,.4))}
 .dk-codebox i{font-size:10px;line-height:1.42}
 /* captions + prompt + dock */
 .rm-cap{position:absolute;left:50%;bottom:104px;transform:translateX(-50%) translateY(10px);max-width:660px;text-align:center;opacity:0;transition:opacity .4s var(--ease),transform .4s var(--ease);pointer-events:none;z-index:4}
@@ -9431,7 +9432,11 @@ function deskShareHTML(){
    +'      <div class="chrome-tool"><span class="ct-nav">'+PIC.back+'</span><span class="ct-addr">netflix.zero.co / final-presentation</span></div>'
    +'      <div class="chrome-body"><div class="deck in" id="deck">'+deckSlide(0)+'</div></div>'
    +'    </div>'
-   +'    <div class="deck-nav" id="deckNav"><button class="dn-btn" id="dnPrev" aria-label="Back">'+PIC.back+'</button><div class="film" id="film">'+DECK.map(function(sl,i){return '<button class="film-dot'+(i===0?' on':'')+'" data-i="'+i+'"></button>';}).join('')+'</div><button class="dn-btn" id="dnNext" aria-label="Next">'+PIC.arrow+'</button></div>'
+   /* no arrows, no film strip on screen: the deck presents ITSELF. A presenter
+      sharing their screen does not click chevrons under their slides — the deck
+      advances on its own clock and a cursor walks the important parts. The
+      strip stays in the DOM, hidden, so the old wiring keeps its targets. */
+   +'    <div class="deck-nav" id="deckNav" hidden><button class="dn-btn" id="dnPrev" aria-label="Back">'+PIC.back+'</button><div class="film" id="film">'+DECK.map(function(sl,i){return '<button class="film-dot'+(i===0?' on':'')+'" data-i="'+i+'"></button>';}).join('')+'</div><button class="dn-btn" id="dnNext" aria-label="Next">'+PIC.arrow+'</button></div>'
    +'  </div>'
    +'  <div class="mac-dock">'+MAC_DOCK.map(function(c){return '<span class="dk-i" style="background:radial-gradient(120% 120% at 30% 20%,rgba(255,255,255,.35),transparent 45%),'+c+'"></span>';}).join('')+'</div>'
    +'</div>';
@@ -9496,6 +9501,77 @@ function roomClockPaint(left){
     el.classList.toggle('warn',left<=90&&left>30);
     el.classList.toggle('crit',left<=30); });
 }
+/* ── the deck presents itself ─────────────────────────────────────────────
+   A real screen share has no chevrons: the presenter talks, the slides move,
+   and their cursor rests on whatever they are explaining. So while the room is
+   presenting, the deck advances on its own clock — ~12s a slide, 13 slides
+   inside the five-minute run — and a mac cursor glides to each slide's
+   important parts in turn: the hot bar on the budget slide, the cold_start
+   flag in the contract, the rollback line in the record.
+
+   Wiring notes, because they are the part that bites:
+   · the interval lives in R.slideIv, which every existing teardown path
+     already clears — exit, review, jump — so nothing new can leak.
+   · the cursor's little moves are gsap.delayedCalls stored on R.curT and
+     killed on every step, so stepping fast can never stack gestures — the
+     exact bug the stage wraps had.
+   · targets are looked up per slide, per kind, at move time: if a slide has
+     no target the cursor just drifts to rest, which is also what a person
+     does. */
+const DK_TOUR={
+  cover:['.dkc-t'], exec:['.dk-cell:nth-child(1) b','.dk-cell:nth-child(3) b','.dk-cell:nth-child(4) b'],
+  problem:['.dk-fact:nth-child(3) i','.dk-note'],
+  inputs:['.dk-have:nth-of-type(1) b','.dk-gone .dk-goner:first-of-type','.dk-note'],
+  arch:['.dk-airline','.dk-sys.dead','.dk-zone:last-child .dk-sys:nth-child(3)'],
+  code:['.c-req','.c-j:nth-of-type(6)','.dk-tab tr:nth-child(2) td'],
+  latency:['.dk-bar:nth-child(2) .bf','.dk-bar:nth-child(2) .bv','.dk-total .bv'],
+  tests:['.dk-term i:nth-child(3)','.c-ok'],
+  deploy:['.dk-dep tr:nth-child(2) td','.dk-roll'],
+  impact:['.dk-fact:nth-child(3) i','.dk-cost tr:first-child td:nth-child(2)'],
+  deliver:['.dk-file:nth-child(5) code','.dk-file:nth-child(6) code'],
+  handoff:['.dk-ownrow:first-child','.dk-ownrow:nth-child(3)','.dk-note'],
+  end:['.dkc-url']};
+const DK_SLIDE_MS=12000;
+function dkCursorEl(){
+  let c=R.ov&&R.ov.querySelector('#dkCur');
+  if(c||!R.ov)return c;
+  const wall=R.ov.querySelector('.mac-wall'); if(!wall)return null;
+  c=document.createElement('div'); c.id='dkCur';
+  c.innerHTML='<svg width="20" height="24" viewBox="0 0 20 24" fill="none"><path d="M2 1l14 12.5-6.6.6 3.8 7-3 1.4-3.7-7L2 20V1z" fill="#fff" stroke="#111" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+  wall.appendChild(c);
+  return c;
+}
+function dkPoint(sel,d){
+  const cur=dkCursorEl(); if(!cur)return;
+  const deck=R.ov.querySelector('#deck'); if(!deck)return;
+  const t=sel?deck.querySelector(sel):null;
+  const wr=cur.parentElement.getBoundingClientRect();
+  let x,y;
+  if(t){ const r=t.getBoundingClientRect();
+    x=r.left-wr.left+r.width*0.72; y=r.top-wr.top+r.height*0.78; }
+  else { const dr=deck.getBoundingClientRect();
+    x=dr.right-wr.left-60; y=dr.bottom-wr.top-40; }
+  try{ gsap.to(cur,{x:x,y:y,duration:d||1.15,ease:'power2.inOut'}); }catch(e){ cur.style.transform='translate('+x+'px,'+y+'px)'; }
+  if(t){ try{ gsap.fromTo(t,{},{keyframes:[{filter:'brightness(1.18)',duration:.25,delay:(d||1.15)},{filter:'brightness(1)',duration:.5}]}); }catch(e){} }
+}
+function dkWalkSlide(i){
+  (R.curT||[]).forEach(t=>{ try{t.kill();}catch(e){} }); R.curT=[];
+  const stops=DK_TOUR[DECK[i].kind]||[];
+  stops.forEach((sel,k)=>{
+    try{ R.curT.push(gsap.delayedCall(1.1+k*(DK_SLIDE_MS/1000-2.2)/Math.max(1,stops.length), ()=>dkPoint(sel,1.15))); }catch(e){}
+  });
+}
+function deckAutoplay(){
+  if(!R)return;
+  clearInterval(R.slideIv);
+  R.slide=0; dkWalkSlide(0); dkPoint(null,.01);
+  R.slideIv=setInterval(()=>{
+    if(!R||!R.ov){ return; }
+    if(R.slide>=DECK.length-1){ clearInterval(R.slideIv); return; }   /* rest on the last slide until I'm done */
+    roomSlide(R.slide+1);
+    dkWalkSlide(R.slide);
+  }, DK_SLIDE_MS);
+}
 function roomPresent(){
   if(R.recording)return; R.recording=true; R.slide=0;
   const _mgEl=R.ov.querySelector('.mgrid');
@@ -9505,8 +9581,9 @@ function roomPresent(){
   if(R.shareKind==='window' && R.shareWin && R.shareWin!=='deck' && !R.wrongShown){ R.wrongShown=true; setTimeout(function(){ R.noQA=true; roomStop(); R.noQA=false; try{ roomWrongShare(); }catch(e){} },2600); }
   R.ov.querySelector('#rmStage').innerHTML=deskShareHTML();
   R.ov.querySelectorAll('#film .film-dot').forEach(b=>b.onclick=()=>roomSlide(+b.dataset.i));
-  R.ov.querySelector('#dnPrev').onclick=()=>roomSlide(R.slide-1);
-  R.ov.querySelector('#dnNext').onclick=()=>roomSlide(R.slide+1);
+  { const _p=R.ov.querySelector('#dnPrev'); if(_p)_p.onclick=()=>roomSlide(R.slide-1); }
+  { const _n=R.ov.querySelector('#dnNext'); if(_n)_n.onclick=()=>roomSlide(R.slide+1); }
+  deckAutoplay();
   const _sp=R.ov.querySelector('#rmSelf'); if(_sp)_sp.style.display='none';
   const _dk=R.ov.querySelector('#rmDock'); if(_dk)_dk.innerHTML='';
   let _pip=R.ov.querySelector('.meet-pip'); if(_pip)_pip.remove();
@@ -10770,8 +10847,9 @@ function presRecordRun(from){
   ov.querySelector('#rmStage').innerHTML=deskShareHTML();
   const st=ov.querySelector('.deskshare'); if(from) try{ morphIn(st,from,540); }catch(e){}
   ov.querySelectorAll('#film .film-dot').forEach(function(b){ b.onclick=function(){ roomSlide(+b.dataset.i); }; });
-  ov.querySelector('#dnPrev').onclick=function(){ roomSlide(R.slide-1); };
-  ov.querySelector('#dnNext').onclick=function(){ roomSlide(R.slide+1); };
+  { const _p=ov.querySelector('#dnPrev'); if(_p)_p.onclick=function(){ roomSlide(R.slide-1); }; }
+  { const _n=ov.querySelector('#dnNext'); if(_n)_n.onclick=function(){ roomSlide(R.slide+1); }; }
+  deckAutoplay();
   ov.querySelector('#rmBack').onclick=function(){ roomConfirmExit(); };
   /* the docked panel, same furniture as the live room: clock on top, your seat, the done CTA —
      the peer tiles simply are not there, because nobody else is in a practice run */
