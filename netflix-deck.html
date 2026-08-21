@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FLIGHT MODE — Final Presentation · Netflix Partner Engineering</title>
+<link rel="icon" href="assets/netflix-chip.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══ FLIGHT MODE · the final stakeholder deck ══════════════════════════════
+   One 16:9 slide on screen at a time, scaled to the viewport. Netflix's own
+   identity carries the design: near-black ground, the red reserved for what
+   matters, everything else in greys. The split-flap board from the key art is
+   the deck's signature and appears exactly twice: the title and the close. */
+:root{
+  --ink:#0b0b0b; --panel:#151515; --panel2:#1c1c1c; --line:#2a2a2a;
+  --tx:#f5f5f4; --tx2:#b9b9b6; --tx3:#7d7d7a;
+  --red:#E50914; --green:#46d369; --amber:#e8b339;
+  --mono:'JetBrains Mono',ui-monospace,monospace; --sans:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:#000;font-family:var(--sans);color:var(--tx);overflow:hidden}
+#stage{position:fixed;inset:0;display:grid;place-items:center}
+.slide{width:1280px;height:720px;background:var(--ink);border-radius:18px;position:relative;
+  overflow:hidden;display:none;padding:64px 72px;border:1px solid #191919}
+.slide.on{display:block}
+/* chrome shared by every slide */
+.brand{position:absolute;top:34px;left:40px;display:flex;align-items:center;gap:10px}
+.brand img{width:26px;height:26px;border-radius:6px}
+.brand b{font-size:12px;font-weight:800;letter-spacing:.22em;color:var(--red)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--tx3);
+  text-transform:uppercase;margin-bottom:16px}
+.pageno{position:absolute;top:38px;right:40px;font-family:var(--mono);font-size:11px;color:var(--tx3)}
+.conf{position:absolute;bottom:26px;left:40px;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.14em;color:#4a4a48;text-transform:uppercase}
+.conf i{color:var(--red);font-style:normal}
+h1{font-size:52px;font-weight:900;letter-spacing:-.03em;line-height:1.04}
+h2{font-size:34px;font-weight:800;letter-spacing:-.025em;line-height:1.1;margin-bottom:8px}
+.sub{font-size:16.5px;color:var(--tx2);line-height:1.55;max-width:760px}
+.red{color:var(--red)} .grn{color:var(--green)} .amb{color:var(--amber)}
+/* ── the split-flap board (signature) ── */
+.flap{display:flex;gap:7px;flex-wrap:wrap}
+.flap span{display:grid;place-items:center;width:64px;height:88px;border-radius:9px;
+  background:linear-gradient(180deg,#232323 0 49.6%, #1a1a1a 50.4% 100%);
+  border:1px solid #303030;box-shadow:0 6px 18px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06);
+  font-family:var(--mono);font-weight:700;font-size:52px;color:#efe9da;position:relative}
+.flap span::after{content:"";position:absolute;left:0;right:0;top:calc(50% - .5px);height:1px;background:#000}
+.flap span.sp{background:none;border:none;box-shadow:none;width:26px}
+.flap span.rd{color:#fff;background:linear-gradient(180deg,#c40812 0 49.6%,#9c060e 50.4% 100%);border-color:#e5303a}
+@keyframes flip{from{transform:rotateX(80deg);opacity:0}to{transform:rotateX(0);opacity:1}}
+.flap span{animation:flip .5s cubic-bezier(.2,.9,.3,1.2) both;animation-delay:calc(var(--i)*55ms)}
+@media (prefers-reduced-motion:reduce){.flap span{animation:none}}
+/* departures strip: the little board rows on the title */
+.strip{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--tx3);
+  display:flex;gap:34px;text-transform:uppercase}
+.strip b{color:var(--tx2);font-weight:600}
+/* ── layout helpers ── */
+.cols{display:grid;gap:26px} .c2{grid-template-columns:1fr 1fr} .c3{grid-template-columns:1fr 1fr 1fr}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+.card h3{font-size:15.5px;font-weight:800;margin-bottom:8px;letter-spacing:-.01em}
+.card p{font-size:13.5px;line-height:1.55;color:var(--tx2)}
+.kpi{font-size:44px;font-weight:900;letter-spacing:-.03em;line-height:1}
+.kpi small{font-size:15px;font-weight:600;color:var(--tx3);letter-spacing:0}
+.kcap{font-size:12.5px;color:var(--tx3);margin-top:6px;line-height:1.45}
+table{width:100%;border-collapse:collapse}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--tx3);text-align:left;padding:0 14px 9px 0;border-bottom:1px solid var(--line);font-weight:600}
+td{font-size:14px;padding:10px 14px 10px 0;border-bottom:1px solid #1f1f1f;color:var(--tx2)}
+td b{color:var(--tx);font-weight:600} tr:last-child td{border-bottom:none}
+td.mono,.mono{font-family:var(--mono);font-size:12.5px}
+/* code + terminal */
+.code{background:#101010;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.code .bar{display:flex;align-items:center;gap:7px;height:34px;padding:0 14px;
+  border-bottom:1px solid var(--line);background:#161616}
+.code .bar i{width:9px;height:9px;border-radius:50%;background:#333;font-style:normal}
+.code .bar i:first-child{background:#3d3d3d}
+.code .bar em{font-family:var(--mono);font-style:normal;font-size:11px;color:var(--tx3);margin-left:5px}
+.code pre{padding:16px 18px;font-family:var(--mono);font-size:12.5px;line-height:1.72;color:#cfcfcb;overflow:hidden}
+.tok-k{color:#ff7a85}.tok-f{color:#8ab8ff}.tok-s{color:#a8d08a}.tok-c{color:#6e6e6a}.tok-n{color:#e8b339}
+.pass{color:var(--green)} 
+/* latency waterfall */
+.wf{display:flex;flex-direction:column;gap:11px;margin-top:8px}
+.wf .row{display:grid;grid-template-columns:150px 1fr 84px;align-items:center;gap:14px}
+.wf .lab{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--tx2)}
+.wf .track{height:22px;border-radius:6px;background:#161616;position:relative;border:1px solid #202020}
+.wf .bar{position:absolute;top:3px;bottom:3px;border-radius:4px;background:#3a3a3a}
+.wf .bar.hot{background:var(--red)}
+.wf .val{font-family:var(--mono);font-size:12px;color:var(--tx2);text-align:right}
+.budget{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--green);border-radius:2px}
+/* pipeline */
+.pipe{display:flex;align-items:stretch;gap:0;margin-top:10px}
+.pipe .st{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:15px 14px;position:relative}
+.pipe .st+.st{margin-left:26px}
+.pipe .st+.st::before{content:"→";position:absolute;left:-22px;top:50%;transform:translateY(-50%);
+  color:var(--tx3);font-size:15px}
+.pipe .st b{display:block;font-size:13px;font-weight:800;margin-bottom:4px}
+.pipe .st span{font-size:11px;line-height:1.45;color:var(--tx3);display:block}
+.pipe .st em{font-family:var(--mono);font-style:normal;font-size:9.5px;color:var(--red);
+  letter-spacing:.12em;text-transform:uppercase}
+/* browser chrome mock (deploy slide) */
+.brow{background:#101010;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.brow .bar{display:flex;align-items:center;gap:8px;height:36px;padding:0 14px;background:#161616;border-bottom:1px solid var(--line)}
+.brow .url{flex:1;height:22px;border-radius:99px;background:#0c0c0c;border:1px solid #232323;
+  display:flex;align-items:center;padding:0 12px;font-family:var(--mono);font-size:11px;color:var(--tx2)}
+.brow .url b{color:var(--green);margin-right:7px}
+/* footer nav */
+#hud{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;
+  gap:14px;font-family:var(--mono);font-size:11px;color:var(--tx3);z-index:50;
+  background:rgba(12,12,12,.8);border:1px solid #222;border-radius:99px;padding:8px 16px;backdrop-filter:blur(10px)}
+#hud button{all:unset;cursor:pointer;color:var(--tx2);padding:2px 8px;border-radius:8px}
+#hud button:hover{color:#fff;background:#222}
+#hud button:focus-visible{outline:2px solid var(--red)}
+#prog{position:fixed;left:0;top:0;height:3px;background:var(--red);z-index:60;transition:width .3s ease}
+.risk{display:grid;grid-template-columns:1fr 150px 1fr;gap:0;align-items:center;
+  padding:13px 0;border-bottom:1px solid #1f1f1f}
+.risk:last-child{border-bottom:none}
+.risk .r{font-size:14px;color:var(--tx)} 
+.risk .o{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase}
+.risk .a{font-size:12.5px;color:var(--tx3);line-height:1.4}
+.tick{color:var(--green);font-weight:700}
+ul.clean{list-style:none} ul.clean li{padding-left:20px;position:relative;margin-bottom:9px;
+  font-size:14.5px;color:var(--tx2);line-height:1.5}
+ul.clean li::before{content:"—";position:absolute;left:0;color:var(--red)}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<div id="stage"></div>
+<div id="hud">
+  <button id="pv" aria-label="Previous slide">‹</button>
+  <span id="ctr">01 / 14</span>
+  <button id="nx" aria-label="Next slide">›</button>
+</div>
+
+<template id="slides">
+
+<!-- 01 · TITLE -->
+<section class="slide" data-eyebrow="">
+  <div class="brand"><img src="assets/netflix-chip.png" alt=""><b>NETFLIX</b></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 72px">
+    <div class="eyebrow">Partner Engineering · Final Presentation</div>
+    <div class="flap" aria-label="Flight Mode">
+      <span style="--i:0">F</span><span style="--i:1">L</span><span style="--i:2">I</span><span style="--i:3">G</span><span style="--i:4">H</span><span style="--i:5">T</span>
+      <span class="sp"></span>
+      <span style="--i:6">M</span><span style="--i:7" class="rd">O</span><span style="--i:8">D</span><span style="--i:9">E</span>
+    </div>
+    <p class="sub" style="margin-top:26px;font-size:19px;max-width:820px">
+      Deploying an offline recommendation prototype for airline seatback screens —
+      what we built, what it costs, and what your team owns next.</p>
+    <div class="strip" style="margin-top:44px">
+      <span>Presenter <b>Sanjay Chauhan</b></span>
+      <span>Reviewers <b>Marcus Feld · Dana Okafor</b></span>
+      <span>Build <b>2 weeks · embedded</b></span>
+      <span>Status <b class="grn">DEPLOYED</b></span>
+    </div>
+  </div>
+  <div class="conf">Netflix <i>·</i> Confidential — partner briefing</div>
+</section>
+
+<!-- 02 · EXEC SUMMARY -->
+<section class="slide" data-eyebrow="Executive summary">
+  <h2>It works, it's live, and it fits the hardware.</h2>
+  <p class="sub">Four claims, each one verifiable in the appendix or from your own laptop.</p>
+  <div class="cols c2" style="margin-top:30px">
+    <div class="card"><div class="kpi">180<small> ms p95</small></div>
+      <div class="kcap">End-to-end response ceiling <b style="color:var(--tx)">held</b> on the partner ARM unit — measured, not simulated.</div></div>
+    <div class="card"><div class="kpi">0<small> network calls</small></div>
+      <div class="kcap">Every recommendation is computed on the aircraft from route, seat, and the catalogue cached at the gate.</div></div>
+    <div class="card"><div class="kpi">7<small> / 7 tests green</small></div>
+      <div class="kcap">The offline regression suite covers every failure case named in the contract, asserting on behaviour — not status codes.</div></div>
+    <div class="card"><div class="kpi grn" style="font-size:30px;padding-top:8px">Live today</div>
+      <div class="kcap">Deployed on Vercel with a reproducible record: full commit, every environment variable named, rollback in one step.</div></div>
+  </div>
+</section>
+
+<!-- 03 · PROBLEM -->
+<section class="slide" data-eyebrow="Problem statement">
+  <h2>The plane has no internet.<br>The passenger has no login.</h2>
+  <p class="sub">Recommendations, as we ship them everywhere else, assume both. On this aircraft the
+    entire personalization stack is unreachable for the length of the flight.</p>
+  <div class="cols c3" style="margin-top:30px">
+    <div class="card"><h3>What the aircraft knows</h3>
+      <table><tr><td class="mono">route</td><td><b>SFO → NRT</b></td></tr>
+      <tr><td class="mono">seat</td><td><b>34K</b></td></tr>
+      <tr><td class="mono">catalogue</td><td><b>1,840 titles</b>, cached at gate</td></tr></table></div>
+    <div class="card"><h3>What it cannot reach</h3>
+      <table><tr><td>Identity service</td><td class="mono" style="color:var(--red)">offline</td></tr>
+      <tr><td>Viewing history</td><td class="mono" style="color:var(--red)">offline</td></tr>
+      <tr><td>Telemetry</td><td class="mono amb">queued to landing</td></tr></table></div>
+    <div class="card"><h3>The hardware</h3>
+      <table><tr><td>Seatback unit</td><td><b>Quad-core ARM</b></td></tr>
+      <tr><td>Memory</td><td><b>2 GB</b></td></tr>
+      <tr><td>Snapshot staleness</td><td><b>up to 18 h</b> on turnaround</td></tr></table></div>
+  </div>
+  <p class="sub" style="margin-top:26px"><b style="color:var(--tx)">Consequence:</b> every session is a
+    cold start. Not an edge case to handle — <span class="red">the normal case to design for.</span></p>
+</section>
+
+<!-- 04 · APPROACH -->
+<section class="slide" data-eyebrow="Approach">
+  <h2>Contract first. Their engineers build against a document, not a call.</h2>
+  <p class="sub">Two weeks embedded with the partner's team, in seven steps. The contract came before
+    the schema and the code, because nothing downstream survives a loose contract.</p>
+  <div class="pipe" style="margin-top:34px">
+    <div class="st"><em>Miro</em><b>Map</b><span>Both stacks, owners named, the offline boundary drawn</span></div>
+    <div class="st"><em>Doc</em><b>Contract</b><span>Shape, budget, cold start, every failure case</span></div>
+    <div class="st"><em>Supabase</em><b>Schema</b><span>A session keyed on seat + route. No user table</span></div>
+    <div class="st"><em>Cursor</em><b>Tests</b><span>The suite, red on purpose, from the contract's failure table</span></div>
+    <div class="st"><em>Python</em><b>Endpoint</b><span>Rank the cached catalogue. Suite goes green</span></div>
+    <div class="st"><em>Vercel</em><b>Deploy</b><span>Preview their team can click, record their on-call can run</span></div>
+    <div class="st"><em>Gamma</em><b>Handoff</b><span>Risks with owners. What's yours on Monday</span></div>
+  </div>
+</section>
+
+<!-- 05 · CONTRACT -->
+<section class="slide" data-eyebrow="Deliverable 1 · Endpoint contract">
+  <h2><span class="mono" style="font-size:26px;color:var(--tx2)">GET</span> /flight/recommendations</h2>
+  <div class="cols c2" style="margin-top:22px;grid-template-columns:1.1fr .9fr">
+    <div class="card"><h3>Request · everything the seatback sends</h3>
+      <table><thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+      <tr><td class="mono">route</td><td class="mono">string</td><td>IATA pair, from the manifest</td></tr>
+      <tr><td class="mono">seat</td><td class="mono">string</td><td>Unit identity</td></tr>
+      <tr><td class="mono">catalogue_version</td><td class="mono">string</td><td>Snapshot cached at gate</td></tr>
+      <tr><td class="mono">limit</td><td class="mono">int</td><td>Default 20 · max 50</td></tr></table></div>
+    <div class="card"><h3>Every failure case has an answer</h3>
+      <table><thead><tr><th>Case</th><th>Status</th><th>Client shows</th></tr></thead>
+      <tr><td>Cold start</td><td class="mono grn">200</td><td>route ranking</td></tr>
+      <tr><td>Empty catalogue</td><td class="mono" style="color:var(--red)">503</td><td>cached rail</td></tr>
+      <tr><td>Stale snapshot</td><td class="mono grn">200</td><td>+ stale flag</td></tr>
+      <tr><td>Unknown route</td><td class="mono amb">422</td><td>popularity</td></tr></table></div>
+  </div>
+  <p class="sub" style="margin-top:22px">Written for <b style="color:var(--tx)">their</b> engineers: no Netflix-internal
+    service names, every acronym spelled out on first use. Zero clarifying calls during the build.</p>
+</section>
+
+<!-- 06 · SCHEMA -->
+<section class="slide" data-eyebrow="Deliverable 2 · Data model">
+  <h2>A session is a seat on a route. There is no user.</h2>
+  <div class="cols c2" style="margin-top:24px;grid-template-columns:1.15fr .85fr">
+    <div class="code"><div class="bar"><i></i><i></i><i></i><em>passenger_session_schema.sql</em></div>
+<pre><span class="tok-c">-- no user table, because there is no login</span>
+<span class="tok-k">create table</span> <span class="tok-f">flight_session</span> (
+  route        <span class="tok-k">text</span> <span class="tok-k">not null</span>,   <span class="tok-c">-- 'SFO-NRT'</span>
+  seat         <span class="tok-k">text</span> <span class="tok-k">not null</span>,   <span class="tok-c">-- '34K'</span>
+  departed_at  <span class="tok-k">timestamptz</span> <span class="tok-k">not null</span>,
+  catalogue_version <span class="tok-k">text</span> <span class="tok-k">references</span> <span class="tok-f">catalogue_snapshot</span>,
+  <span class="tok-k">primary key</span> (route, seat, departed_at)
+);
+<span class="tok-k">create table</span> <span class="tok-f">rank_event</span> (   <span class="tok-c">-- queued, uploads at landing</span>
+  session_id <span class="tok-k">text</span>, title_id <span class="tok-k">text</span>, rank <span class="tok-k">int</span>, shown_at <span class="tok-k">timestamptz</span>
+);</pre></div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card"><h3>Seeded, not empty</h3><p>620 sessions across 48 routes and the full
+        1,840-title snapshot — enough to rank against and to break.</p></div>
+      <div class="card"><h3>Every seed is a cold start</h3><p>Zero rank events on every seeded session.
+        That's not a gap in the data. On this aircraft, it <b style="color:var(--tx)">is</b> the product.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 · RANKING -->
+<section class="slide" data-eyebrow="Deliverable 3 · The ranking">
+  <h2>Ranked from what the plane has. Nothing else.</h2>
+  <div class="cols c2" style="margin-top:24px;grid-template-columns:1.15fr .85fr">
+    <div class="code"><div class="bar"><i></i><i></i><i></i><em>rank.py · runs on the seatback unit</em></div>
+<pre><span class="tok-k">def</span> <span class="tok-f">rank</span>(route, seat, snapshot, limit=<span class="tok-n">20</span>):
+    <span class="tok-c"># cold start is the normal case: no history, ever</span>
+    scores = []
+    <span class="tok-k">for</span> title <span class="tok-k">in</span> snapshot.titles:
+        s  = <span class="tok-n">0.62</span> * route_affinity(title, route)   <span class="tok-c"># long-haul → long-form</span>
+        s += <span class="tok-n">0.23</span> * duration_fit(title, route.block_time)
+        s += <span class="tok-n">0.15</span> * title.popularity_prior
+        scores.append((s, title.id))
+    top = nlargest(limit, scores)
+    <span class="tok-k">return</span> Response(items=top, cold_start=<span class="tok-k">True</span>,
+                    catalogue_version=snapshot.version)</pre></div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card"><h3>Why these three signals</h3><p>Route encodes trip length, region and
+        time-of-day; seat class separates cabins; the popularity prior breaks ties. All three exist
+        offline — nothing here can page a server.</p></div>
+      <div class="card"><h3>Explainable to the panel</h3><p>Every item carries its
+        <span class="mono">rank_reason</span>, so the partner can audit why a title surfaced.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 · LATENCY -->
+<section class="slide" data-eyebrow="Performance">
+  <h2>166 ms where 180 is the ceiling.</h2>
+  <p class="sub">Measured at p95 on the partner's own ARM unit — not on a laptop, not on a good run.</p>
+  <div class="wf" style="margin-top:26px;position:relative">
+    <div class="row"><span class="lab">Read snapshot</span><span class="track"><span class="bar" style="left:0;width:20%"></span></span><span class="val">36 ms</span></div>
+    <div class="row"><span class="lab">Score + rank</span><span class="track"><span class="bar hot" style="left:20%;width:48.9%"></span></span><span class="val">88 ms</span></div>
+    <div class="row"><span class="lab">Serialize</span><span class="track"><span class="bar" style="left:68.9%;width:13.3%"></span></span><span class="val">24 ms</span></div>
+    <div class="row"><span class="lab">Client render</span><span class="track"><span class="bar" style="left:82.2%;width:10%"></span><span class="budget" style="left:calc(100% - 1px)"></span></span><span class="val">18 ms</span></div>
+  </div>
+  <div class="cols c2" style="margin-top:28px">
+    <div class="card"><h3>The step that was over</h3><p>Ranking measured <b class="amb">102 ms</b> against its
+      90 ms step budget. Caching the catalogue read — not negotiating the ceiling — brought it to
+      <b class="grn">88 ms</b>. Flagged before review found it.</p></div>
+    <div class="card"><h3>Miss behaviour is defined</h3><p>Past 180 ms the client renders the cached
+      popularity rail and queues a soft timeout to telemetry. A slow response is never a blank screen.</p></div>
+  </div>
+</section>
+
+<!-- 09 · PROOF -->
+<section class="slide" data-eyebrow="Proof">
+  <h2>The suite tests the aircraft, not the happy path.</h2>
+  <div class="cols c2" style="margin-top:24px;grid-template-columns:1.2fr .8fr">
+    <div class="code"><div class="bar"><i></i><i></i><i></i><em>pytest · run 41 · partner ARM unit</em></div>
+<pre>test_cold_start_ranks_on_route_and_seat <span class="pass">PASS</span>
+test_cold_start_flags_cold_start_true .. <span class="pass">PASS</span>
+test_empty_catalogue_returns_503 ....... <span class="pass">PASS</span>
+test_empty_catalogue_shows_cached_rail . <span class="pass">PASS</span>
+test_stale_catalogue_serves_with_flag .. <span class="pass">PASS</span>
+test_unknown_route_falls_back .......... <span class="pass">PASS</span>
+test_rank_within_latency_budget ........ <span class="pass">PASS</span>
+<b style="color:#fff">7 passed</b> in 3.42s</pre></div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card"><h3>Written red, on purpose</h3><p>The suite was authored from the contract's
+        failure table before the endpoint existed. Red was the correct state — it proves the tests
+        test something.</p></div>
+      <div class="card"><h3>Behaviour, not status codes</h3><p>A red test names the behaviour that broke
+        — "cold start didn't flag" — so their on-call reads failures without opening the code.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · LIVE -->
+<section class="slide" data-eyebrow="Deployment">
+  <h2>Click it from your own laptop.</h2>
+  <div class="brow" style="margin-top:24px">
+    <div class="bar"><i style="width:9px;height:9px;border-radius:50%;background:#333"></i>
+      <i style="width:9px;height:9px;border-radius:50%;background:#333"></i>
+      <div class="url"><b>●</b> inflight-recs-git-main.vercel.app/flight/recommendations?route=SFO-NRT&seat=34K</div></div>
+    <pre style="padding:16px 18px;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#cfcfcb">{
+  <span class="tok-s">"items"</span>: [ {<span class="tok-s">"title_id"</span>: <span class="tok-s">"tt-8841"</span>, <span class="tok-s">"rank_reason"</span>: <span class="tok-s">"route_affinity"</span>}, … ],
+  <span class="tok-s">"cold_start"</span>: <span class="tok-k">true</span>,
+  <span class="tok-s">"catalogue_version"</span>: <span class="tok-s">"cs-2026-08-19T06"</span>
+}</pre>
+  </div>
+  <div class="cols c3" style="margin-top:22px">
+    <div class="card"><h3>Pinned</h3><p class="mono" style="font-size:11px;word-break:break-all">a3f9c21e8b4d7f60c2e1a5b8d9f3c7e04b62a1d8</p></div>
+    <div class="card"><h3>Reproducible</h3><p>Every environment variable named in the record, values
+      withheld, partner-supplied ones marked.</p></div>
+    <div class="card"><h3>Reversible</h3><p>Rollback is one step: redeploy the previous commit.
+      Written for on-call at 3 a.m.</p></div>
+  </div>
+</section>
+
+<!-- 11 · IMPACT -->
+<section class="slide" data-eyebrow="Impact">
+  <h2>What this is worth.</h2>
+  <div class="cols c3" style="margin-top:28px">
+    <div class="card"><div class="kpi">100<small>%</small></div>
+      <div class="kcap">of seatback sessions get ranked recommendations — up from zero. Today the rail
+      is an unranked alphabetical catalogue.</div></div>
+    <div class="card"><div class="kpi">$0<small> / request</small></div>
+      <div class="kcap">No cloud inference and no bandwidth cost in flight. The only recurring cost is
+      the catalogue push at the gate, which the partner already pays for.</div></div>
+    <div class="card"><div class="kpi">1<small> pattern</small></div>
+      <div class="kcap">Cold-start-by-design generalizes to every no-login surface: hotel TVs, retail
+      kiosks, any partner screen without an account.</div></div>
+  </div>
+  <p class="sub" style="margin-top:26px">The prototype is deliberately boring to run: static hardware,
+    a snapshot that updates at the gate, and a service with <b style="color:var(--tx)">no external
+    dependencies to fail mid-flight.</b></p>
+</section>
+
+<!-- 12 · COST DRIVERS -->
+<section class="slide" data-eyebrow="Cost drivers">
+  <h2>What it costs, and where cost can grow.</h2>
+  <div style="margin-top:24px">
+    <table><thead><tr><th style="width:30%">Driver</th><th style="width:22%">Today</th><th>What moves it</th></tr></thead>
+    <tr><td><b>Catalogue push</b> (gate bandwidth)</td><td class="mono">~1.2 GB / aircraft / day</td>
+      <td>Snapshot size. Grows with titles — delta pushes cut it ~80% and are speced in the handoff.</td></tr>
+    <tr><td><b>Compute</b> (onboard)</td><td class="mono">$0 marginal</td>
+      <td>Runs on the partner's existing ARM units. Ranking headroom is 2 ms — profile before the catalogue doubles.</td></tr>
+    <tr><td><b>Cloud</b> (preview + CI)</td><td class="mono">&lt; $40 / month</td>
+      <td>Vercel preview and the CI suite. Flat until the fleet pilot adds per-aircraft build channels.</td></tr>
+    <tr><td><b>People</b> (steady state)</td><td class="mono">0.2 FTE</td>
+      <td>The partner's platform team owns ops; the record and runbook are written so no Netflix engineer is on the call path.</td></tr></table>
+  </div>
+  <p class="sub" style="margin-top:22px"><b style="color:var(--tx)">Net:</b> the run-rate is the gate push
+    the partner already makes. The real cost line to watch is <span class="amb">ranking headroom</span> as the catalogue grows.</p>
+</section>
+
+<!-- 13 · RISKS -->
+<section class="slide" data-eyebrow="Open risks · each with an owner">
+  <h2>Three risks, named before you ask.</h2>
+  <div style="margin-top:24px">
+    <div class="risk"><span class="r">Stale snapshot on turnaround — up to 18 h old</span>
+      <span class="o" style="color:var(--amber)">Partner platform</span>
+      <span class="a">We serve it with a stale flag rather than failing. Downstream must honour the flag; that behaviour is speced but unowned.</span></div>
+    <div class="risk"><span class="r">Ranking headroom is 2 ms</span>
+      <span class="o" style="color:var(--red)">Netflix</span>
+      <span class="a">88 against a 90 ms step budget. Fine today; profile before the catalogue grows past ~2,500 titles.</span></div>
+    <div class="risk"><span class="r">Telemetry drains only on landing</span>
+      <span class="o" style="color:var(--amber)">Partner platform</span>
+      <span class="a">Rank events queue in flight. Confirm the ground-side drain before the pilot, or we fly blind on engagement.</span></div>
+  </div>
+  <p class="sub" style="margin-top:24px">Nothing here blocks the pilot. Everything here is on the
+    Monday list with a name next to it.</p>
+</section>
+
+<!-- 14 · ASK -->
+<section class="slide" data-eyebrow="The ask">
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 72px">
+    <div class="eyebrow">Decision requested</div>
+    <h1 style="font-size:44px;max-width:900px">Approve a two-aircraft pilot.<br>
+      <span style="color:var(--tx3)">Your team owns three things Monday:</span></h1>
+    <div class="cols c3" style="margin-top:30px">
+      <div class="card"><h3><span class="tick">1</span> · Environment variables</h3><p>Named in the record, values yours to set.</p></div>
+      <div class="card"><h3><span class="tick">2</span> · The catalogue push</h3><p>Gate-side, on your existing pipeline.</p></div>
+      <div class="card"><h3><span class="tick">3</span> · The rollback</h3><p>One step, rehearsed, in the runbook.</p></div>
+    </div>
+    <div class="strip" style="margin-top:40px">
+      <span>Preview <b class="grn">LIVE</b></span><span>Suite <b class="grn">7/7</b></span>
+      <span>Budget <b class="grn">166 / 180 ms</b></span><span>Rollback <b class="grn">ONE STEP</b></span>
+    </div>
+  </div>
+  <div class="conf">Netflix <i>·</i> Confidential — partner briefing</div>
+</section>
+
+</template>
+
+<script>
+/* one slide on screen, scaled to fit; arrows, keys and clicks all drive it */
+(function(){
+  var stage=document.getElementById('stage');
+  var tpl=document.getElementById('slides');
+  var slides=[].slice.call(tpl.content.querySelectorAll('.slide')).map(function(s){
+    var el=s.cloneNode(true); stage.appendChild(el); return el; });
+  slides.forEach(function(s,i){
+    if(i>0){ /* shared chrome on every content slide */
+      var b=document.createElement('div'); b.className='brand';
+      b.innerHTML='<img src="assets/netflix-chip.png" alt=""><b>NETFLIX</b>'; s.appendChild(b);
+      var pn=document.createElement('div'); pn.className='pageno';
+      pn.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+      s.appendChild(pn);
+      var ey=s.getAttribute('data-eyebrow');
+      if(ey){ var e=document.createElement('div'); e.className='eyebrow'; e.textContent=ey;
+        s.insertBefore(e, s.firstChild); s.style.paddingTop='96px'; }
+    }
+  });
+  var at=0;
+  function fit(){ var k=Math.min(innerWidth/1320, innerHeight/790);
+    slides.forEach(function(s){ s.style.transform='scale('+k+')'; }); }
+  function show(i){ at=Math.max(0,Math.min(slides.length-1,i));
+    slides.forEach(function(s,k){ s.classList.toggle('on',k===at); });
+    document.getElementById('ctr').textContent=String(at+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+    document.getElementById('prog').style.width=((at+1)/slides.length*100)+'%';
+    location.hash='s'+(at+1);
+  }
+  addEventListener('resize',fit); fit();
+  document.getElementById('pv').onclick=function(){show(at-1)};
+  document.getElementById('nx').onclick=function(){show(at+1)};
+  addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ') show(at+1);
+    else if(e.key==='ArrowLeft'||e.key==='PageUp') show(at-1);
+    else if(e.key==='Home') show(0); else if(e.key==='End') show(slides.length-1);
+  });
+  stage.addEventListener('click',function(e){
+    if(e.target.closest('#hud')) return;
+    show(e.clientX>innerWidth/2 ? at+1 : at-1);
+  });
+  var m=(location.hash||'').match(/s(\d+)/); show(m?+m[1]-1:0);
+})();
+</script>
+</body>
+</html>

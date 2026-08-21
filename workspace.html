@@ -2262,6 +2262,9 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .mtile.self{background:var(--card)}
 .mt-body{display:grid;place-items:center;width:100%;height:100%}
 .mt-face{width:64px;height:64px;color:#6f6a74}.mt-face svg{width:64px;height:64px}
+/* the learner's own grid tile: the headshot at a real size, centred */
+.mt-face.mt-me{width:104px;height:104px;border-radius:99px;overflow:hidden;box-shadow:0 0 0 3px rgba(255,255,255,.14)}
+.mt-face.mt-me img{width:100%;height:100%;object-fit:cover;display:block}
 .mtile.self.camoff .mt-face{opacity:.4}
 .mt-av{width:84px;height:84px;border-radius:99px;display:grid;place-items:center;color:#fff;font-weight:600;font-size:32px}
 .mt-name{position:absolute;left:16px;bottom:14px;display:flex;flex-direction:column;align-items:flex-start;font-size:14px;font-weight:600;background:none;border-radius:0;padding:0;
@@ -2706,7 +2709,7 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .mb-apple{display:grid;place-items:center}.mb-apple svg{width:14px;height:14px}
 .mb-app{font-weight:600;font-size:12.5px}.mb-m{font-size:12px;color:rgba(255,255,255,.82)}
 .mb-right{margin-left:auto;font-size:12px;color:rgba(255,255,255,.9)}
-.mac-wall{flex:1;position:relative;overflow:hidden;background:linear-gradient(150deg,#5b7cfa 0%,#8b5cf6 45%,#c084fc 78%,#f0abfc 100%);display:grid;place-items:center}
+.mac-wall{flex:1;position:relative;overflow:hidden;background:linear-gradient(150deg,#5b7cfa 0%,#8b5cf6 45%,#c084fc 78%,#f0abfc 100%);background-image:url('mvp-assets/mac-desktop.jpg');background-size:cover;background-position:center;display:grid;place-items:center}
 .chrome-win{width:80%;height:82%;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 30px 70px rgba(0,0,0,.42);display:flex;flex-direction:column}
 .chrome-bar{display:flex;align-items:center;gap:8px;height:36px;padding:0 14px;background:#dee1e6;flex:0 0 auto}
 .tl{width:12px;height:12px;border-radius:99px;flex:0 0 auto}.tl.r{background:#ff5f57}.tl.y{background:#febc2e}.tl.g{background:#28c840}
@@ -3448,6 +3451,12 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .rm-selfpip.camoff .zav,.rm-selfpip:not(.hasvid) .zav{display:grid}
 .rm-selfpip:not(.camoff).hasvid .zav{display:none}
 .mp-tile.self .zav{--zs:46px}
+/* THE DOCKED MEETING PANEL: its tiles stretch to fill the column while the
+   deck is up (flex:1 on .mp-me), but every face inside kept its pop-up size —
+   a 32-46px circle in a ~380px tile is why the seats read as empty rooms with
+   a name tag. When the panel is the meeting, the faces are the tile. */
+.paneled .meet-pip.dock .mp-tile.self .zav{--zs:118px}
+.paneled .meet-pip.dock .mp-init{width:118px;height:118px;font-size:38px}
 .mp-tile.self.live .zav{display:none}
 
 /* ===== v80: the report card, built to the product team's spec =====
@@ -9089,7 +9098,7 @@ function roomShell(){
    +'</div>';
 }
 function roomTile(who){
-  if(who==='you') return '<div class="mtile self'+(R.cam?'':' camoff')+'" id="mt-you"><div class="mt-body"><span class="mt-face">'+PIC.you+'</span></div><span class="mt-name">You'+(R.mic?'':' '+PIC.micOff)+'</span></div>';
+  if(who==='you') return '<div class="mtile self'+(R.cam?'':' camoff')+'" id="mt-you"><div class="mt-body"><span class="mt-face mt-me"><img src="mvp-assets/headshot.jpg" alt=""></span></div><span class="mt-name">Sanjay'+(R.mic?'':' '+PIC.micOff)+'</span></div>';
   return '<div class="mtile" id="mt-'+who.k+'">'
     +'<span class="mt-face-wrap"><span class="mt-pulse"></span>'
     +faceHTML(who,'mt-init')+'</span>'
