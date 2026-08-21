@@ -6000,6 +6000,34 @@ body:has(.rpt4) .topbar .perf{display:none!important}
   background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.28)}
 .rpt4 .pvroom .pv-dock i{width:1.75cqw;height:1.75cqw;border-radius:.48cqw;display:block;
   box-shadow:0 .25cqw .5cqw rgba(0,0,0,.26)}
+/* ── Aug 22: the replay wears the CURRENT share ── real wallpaper, the Chrome window with its
+   filmstrip and the deck's actual slides; the mock dock is gone (the wallpaper carries the real
+   one) and the self seat is the same circular face as everyone else's. */
+.rpt4 .pvroom .pv-wall{background-image:url('mvp-assets/mac-desktop.jpg');background-size:cover;background-position:center bottom}
+.rpt4 .pvroom .pv-dock{display:none}
+.rpt4 .pvroom .pv-win{display:flex;flex-direction:column;overflow:hidden;top:4.5%;height:84%}
+.rpt4 .pvroom .pvc-bar{flex:0 0 auto;display:flex;align-items:flex-end;gap:.4cqw;height:1.7cqw;padding-left:.65cqw;background:#dee1e6}
+.rpt4 .pvroom .pvc-bar i{width:.55cqw;height:.55cqw;border-radius:50%;align-self:center;flex:0 0 auto}
+.rpt4 .pvroom .pvc-bar i.r{background:#ff5f57}.rpt4 .pvroom .pvc-bar i.y{background:#febc2e}.rpt4 .pvroom .pvc-bar i.g{background:#28c840}
+.rpt4 .pvroom .pvc-tab{display:flex;align-items:center;gap:.35cqw;background:#fff;border-radius:.45cqw .45cqw 0 0;padding:.3cqw .65cqw;margin-left:.5cqw;font-family:var(--sans);font-size:.62cqw;font-weight:500;color:#3c4043;max-width:52%;overflow:hidden;white-space:nowrap;align-self:flex-end}
+.rpt4 .pvroom .pvc-tab img{width:.62cqw;height:.62cqw;border-radius:.14cqw;flex:0 0 auto}
+.rpt4 .pvroom .pvc-tool{flex:0 0 auto;display:flex;align-items:center;gap:.5cqw;height:1.8cqw;padding:0 .65cqw;background:#fff;border-bottom:1px solid #e8eaed}
+.rpt4 .pvroom .pvc-addr{flex:1;min-width:0;background:#f1f3f4;border-radius:99px;padding:.22cqw .75cqw;font-family:var(--mono);font-size:.58cqw;color:#3c4043;white-space:nowrap;overflow:hidden}
+.rpt4 .pvroom .pvc-av{width:1cqw;height:1cqw;border-radius:50%;overflow:hidden;flex:0 0 auto}
+.rpt4 .pvroom .pvc-av img{width:100%;height:100%;object-fit:cover;display:block}
+.rpt4 .pvroom .pvc-body{flex:1;min-height:0;display:flex;align-items:stretch}
+.rpt4 .pvroom .pvc-rail{flex:0 0 15%;min-width:0;background:#fff;border-right:1px solid #e8eaed;padding:.45cqw .38cqw;overflow:hidden}
+.rpt4 .pvroom .pvc-railin{position:relative;display:flex;flex-direction:column;gap:.4cqw;transition:transform .42s cubic-bezier(.32,.72,0,1)}
+.rpt4 .pvroom .pvc-th{display:flex;align-items:flex-start;gap:.26cqw;flex:0 0 auto}
+.rpt4 .pvroom .pvc-th b{flex:0 0 .75cqw;text-align:right;font-family:var(--sans);font-size:.5cqw;font-weight:500;color:#80868b;line-height:1;padding-top:.12cqw}
+.rpt4 .pvroom .pvc-th .dkt-vp{flex:1;min-width:0;aspect-ratio:900/506;position:relative;overflow:hidden;border-radius:.22cqw;background:#f5f3ee;box-shadow:0 0 0 1px #e0e2e6}
+.rpt4 .pvroom .pvc-th .dks{pointer-events:none;box-shadow:none}
+.rpt4 .pvroom .pvc-th.on .dkt-vp{box-shadow:0 0 0 1.4px #e50914}
+.rpt4 .pvroom .pvc-main{flex:1;position:relative;min-width:0;background:#f5f3ee;overflow:hidden}
+.rpt4 .pvroom .pv-track{inset:0}
+.rpt4 .pvroom .pv-slide{padding:0}
+.rpt4 .pvroom .pv-slide .dks{pointer-events:none}
+.rpt4 .pvroom .pvs-unit.self .pvs-tile{aspect-ratio:16/9}
 
 /* the two CTAs are ONE height, whatever they carry (Atul, Aug 5): the solid one wears a
    Recommended tag and an icon, the ghost a longer label — none of that may move the baseline */
@@ -10278,7 +10306,7 @@ function roomReviewing(){
   const _boot=function(){
   ov.innerHTML='<div class="rvw2">'
    +'  <div class="rvw2-eyebrow">Reviewing</div>'
-   +'  <h2 class="rvw2-h">Avery and Jordan are talking it over.</h2>'
+   +'  <h2 class="rvw2-h">Marcus and Dana are talking it over.</h2>'
    +'  <div class="rvw2-faces">'
    +      PANEL.map(function(p,i3){ return '<span class="rvv-f zface'+(i3===0?' on':'')+'" data-k="'+p.k+'" style="background:'+p.c+'">'
             +'<img src="'+p.img+'" alt="" onerror="this.remove()"><b>'+p.i+'</b></span>'; }).join('')
@@ -10674,7 +10702,7 @@ function roomReport(secs){
    +'  </div>'
    +'</div>'
    +'<div class="r4-right r3-a">'
-   +'  <div class="r4-rhd"><span class="t">Feedback from Avery &amp; Jordan</span><span class="spacer"></span>'
+   +'  <div class="r4-rhd"><span class="t">Feedback from Marcus &amp; Dana</span><span class="spacer"></span>'
    +'    <span class="rhd-avs" aria-hidden="true"><img src="'+MARCUS_IMG+'" alt=""><img src="'+JORDAN_IMG+'" alt=""></span></div>'   /* the feedback NAMES its authors (founder): label + their overlapping faces */
    +'  <div class="r3-list">'
    +    (function(){ const good=M.filter(function(m){return m.good;}), work=M.filter(function(m){return !m.good;});
@@ -10705,6 +10733,16 @@ function roomReport(secs){
   if(_g) _g.onclick=function(){ const d=document.getElementById('dbg'); if(d)d.classList.toggle('open'); try{ ZSND.play('tap'); }catch(e){} };
 
   /* scrubbing moves the deck — the playhead drives a recording, not a still */
+  /* the mini share fits its real slides the way the live one does: measured, never guessed */
+  const _pvFit=function(){
+    const mn=ov.querySelector('.pvc-main');
+    if(mn){ const r=mn.getBoundingClientRect();
+      if(r.width&&r.height){ const k=Math.min(r.width/900,r.height/506)*0.9;
+        mn.querySelectorAll('.pv-slide .dks').forEach(function(pg){ pg.style.setProperty('--dkfit',k.toFixed(4)); }); } }
+    ov.querySelectorAll('.pvc-th .dkt-vp').forEach(function(v){ const w=v.getBoundingClientRect().width; if(w) v.style.setProperty('--dkfit',(w/900).toFixed(4)); });
+  };
+  _pvFit();
+  try{ const _mn=ov.querySelector('.pvc-main'); if(_mn) new ResizeObserver(_pvFit).observe(_mn); }catch(e){}
   const _fillP=ov.querySelector('#rp2Fill'), _fillQ=ov.querySelector('#rp2FillQ'),
         _track=ov.querySelector('.pv-track'), _slides=_track?+_track.dataset.n:1;
   const P3=100/3;
@@ -10716,6 +10754,12 @@ function roomReport(secs){
       const presPct=Math.min(1, pct/P3);
       const i4=Math.min(_slides-1, Math.floor(presPct*_slides));
       _track.style.transform='translateY('+(-i4*100)+'%)';
+      const di=(typeof PV_STOPS!=='undefined'&&PV_STOPS[i4]!=null)?PV_STOPS[i4]:i4;
+      ov.querySelectorAll('.pvc-th').forEach(function(t,j){ t.classList.toggle('on', j===di); });
+      const rin=ov.querySelector('.pvc-railin'), on2=ov.querySelector('.pvc-th.on');
+      if(rin&&on2){ const rl=rin.parentElement;
+        const y=Math.max(0, Math.min(rin.scrollHeight-rl.clientHeight, on2.offsetTop-rl.clientHeight/2+on2.offsetHeight/2));
+        rin.style.transform='translateY('+(-y)+'px)'; }
     }
   };
   seek(22);
@@ -11378,7 +11422,7 @@ function planTime(val, srcEl){
     addReaction(u,'👍',250);                           // quick ack reaction
     const _sid=(STAGES[stageIdx]||{}).id;
     addMsg({type:'mgr',text: _sid==='present'
-      ? `${mins} minutes it is. Let me get Avery and Jordan in, and we'll start.`
+      ? `${mins} minutes it is. Let me get Dana in, and we'll start.`
       : (_sid==='final'
       ? `${mins} minutes it is, clock's running. When your deliverable is ready, attach it below and I'll review it against the whole scenario.`
       : `${mins} minutes it is, clock's running. Build it, and upload it here when you're ready.`)},false);
@@ -12226,39 +12270,25 @@ const rightInner=right.querySelector('.right-inner');
 /* what you handed in, as the document it is */
 /* THE RUN ITSELF: your deck on the screen, you in the corner. One definition — the loader shows
    this and so does the report's player, so the thing that flies between them is the same object. */
+const PV_STOPS=[0,2,6,8,11];   /* cover, constraint, latency, deploy, handoff */
 function presFrameHTML(){
-  /* the deck you actually presented, five slides on one track. Scrubbing slides the track. */
-  const S=[
-    {k:'title', e:'OFFLINE RECOMMENDATION PROTOTYPE', h:'A cold start with no internet', sub:'Sanjay Chauhan &middot; Partner Engineering'},
-    {k:'text',  e:'THE CONSTRAINT', h:'The plane has no internet and no login',
-     b:['Seatback screens run offline for the whole flight','All we know at takeoff is the route and the seat']},
-    {k:'chart', e:'WHERE THE 180ms GOES', h:'Latency by step',
-     c:[36,102,24,18,30], hi:1, lab:['Read','Rank','Ser.','Rndr','Hdrm']},
-    {k:'text',  e:'WHAT WE BUILT', h:'A cold-start endpoint on their hardware',
-     b:['Ranks the cached catalogue from route and seat alone','Deployed on Vercel, live for their team today']},
-    {k:'stat',  e:'AGAINST THE BUDGET', h:'88ms', sub:'ranking, against a 90ms step budget'}
-  ];
-  const slide=function(d){
-    let body='';
-    if(d.k==='chart'){
-      body='<span class="sl-cols">'+d.c.map(function(v,i){
-        return '<i style="height:'+v+'%"'+(i===d.hi?' class="hi"':'')+'><em>'+d.lab[i]+'</em></i>'; }).join('')+'</span>';
-    } else if(d.b){
-      body='<ul class="sl-b">'+d.b.map(function(t){ return '<li>'+t+'</li>'; }).join('')+'</ul>';
-    } else if(d.sub){ body='<span class="sl-sub">'+d.sub+'</span>'; }
-    return '<div class="pv-slide sl-'+d.k+'">'
-      +'<span class="sl-e">'+d.e+'</span><span class="sl-h">'+d.h+'</span>'+body+'</div>';
-  };
-  /* the replay IS the room (Atul's call): the same composition you presented in, in miniature.
-     Updated Aug 5 to the Meet shell the room now wears — a shared macOS desktop (menu bar,
-     wallpaper, dock) with the deck in a Chrome window, and the peer column beside it. */
-  const DOCK=['#4285f4,#ea4335','#34a853,#1a7f37','#f5a623,#f76b1c','#ec4899,#be185d','#5b7cfa,#6d28d9','#94a3b8,#64748b'];
+  /* the replay IS the room — and the room is the CURRENT share (Aug 22): real wallpaper, the
+     Chrome window with its filmstrip, and the deck's ACTUAL slides. Five beats on one track;
+     scrubbing slides the track and the filmstrip highlight follows, like the live run. */
+  const thumbs=DECK.map(function(_,i){
+    return '<span class="pvc-th'+(i===PV_STOPS[0]?' on':'')+'" data-i="'+i+'"><b>'+(i+1)+'</b><span class="dkt-vp">'+deckSlide(i)+'</span></span>'; }).join('');
   return '<div class="pv pvroom">'
     +'<div class="pv-mac">'
     +'  <div class="pv-mbar"><i></i><b>Chrome</b><span>File</span><span>Edit</span><span>View</span><span>Window</span><em>Mon 9:41 AM</em></div>'
     +'  <div class="pv-wall">'
-    +'    <div class="pv-win"><div class="pv-track" data-n="'+S.length+'">'+S.map(slide).join('')+'</div></div>'
-    +'    <div class="pv-dock">'+DOCK.map(function(c){ return '<i style="background:linear-gradient(160deg,'+c+')"></i>'; }).join('')+'</div>'
+    +'    <div class="pv-win">'
+    +'      <div class="pvc-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="pvc-tab"><img src="assets/netflix-chip.png" alt="">Deploying an Offline Recommendation Prototype \u00b7 Netflix</span></div>'
+    +'      <div class="pvc-tool"><span class="pvc-addr">netflix.zero.co/final-presentation</span><span class="pvc-av"><img src="'+(ME.img||'mvp-assets/headshot.jpg')+'" alt=""></span></div>'
+    +'      <div class="pvc-body">'
+    +'        <div class="pvc-rail"><div class="pvc-railin">'+thumbs+'</div></div>'
+    +'        <div class="pvc-main"><div class="pv-track" data-n="'+PV_STOPS.length+'">'+PV_STOPS.map(function(di){ return '<div class="pv-slide">'+deckSlide(di)+'</div>'; }).join('')+'</div></div>'
+    +'      </div>'
+    +'    </div>'
     +'  </div>'
     +'</div>'
     +'<div class="pv-side">'
@@ -12267,7 +12297,8 @@ function presFrameHTML(){
          +(p.img?'<img src="'+p.img+'" alt="" onerror="this.remove()">':'')+'<b>'+p.i+'</b></span>'
          +'<em class="pvs-tag">'+escHtml(p.name.split(' ')[0])+'</em></span></span>'; }).join('')
     +'  <span class="pvs-unit self"><span class="pvs-tile">'
-    +    (ME.img?'<img class="pvs-cam" src="'+ME.img+'" alt="" onerror="this.remove()">':'')
+    +'    <span class="pvs-av" style="background:#4a4640">'
+    +    (ME.img?'<img src="'+ME.img+'" alt="" onerror="this.remove()">':'')+'<b>'+escHtml((ME.name||'You').charAt(0))+'</b></span>'
     +'    <em class="pvs-tag">'+escHtml((ME.name||'You').split(' ')[0])+'</em></span></span>'
     +'</div></div>';
 }
