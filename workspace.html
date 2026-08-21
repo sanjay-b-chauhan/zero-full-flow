@@ -2290,7 +2290,7 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .pstrip .mtile{width:210px;max-width:none;aspect-ratio:4/3}
 .pstrip .mt-name{font-size:12px;padding:5px 10px}.pstrip .mt-name em{display:none}
 .pstrip .mt-av{width:54px;height:54px;font-size:21px}.pstrip .mt-face{width:42px;height:42px}
-.deck{width:100%;max-width:900px;aspect-ratio:16/9;color:#1a1a1a;position:relative;container-type:size}
+.deck{width:100%;max-width:900px;aspect-ratio:16/9;color:#1a1a1a;position:relative}
 .deck.in{animation:deckIn .45s var(--ease)}
 @keyframes deckIn{from{opacity:0;transform:scale(.985) translateY(6px)}to{opacity:1;transform:none}}
 .dk-kicker{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:#8d8a83}
@@ -2307,7 +2307,7 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
    shared screen — with the Netflix mark carrying the brand instead of tinting
    everything red. Type discipline: serif for the one statement each slide
    makes, mono for anything that is data, sans for everything that explains. */
-.dks{position:absolute;left:50%;top:50%;width:900px;height:506px;padding:44px 50px;box-sizing:border-box;transform:translate(-50%,-50%) scale(min(calc(100cqw / 900px),calc(100cqh / 506px)));display:flex;flex-direction:column;min-height:0;background:linear-gradient(150deg,#faf9f6,#efece5);border-radius:20px;box-shadow:0 40px 100px rgba(0,0,0,.5)}
+.dks{position:absolute;left:50%;top:50%;width:900px;height:506px;padding:44px 50px;box-sizing:border-box;transform:translate(-50%,-50%) scale(var(--dkfit,1));display:flex;flex-direction:column;min-height:0;background:linear-gradient(150deg,#faf9f6,#efece5);border-radius:20px;box-shadow:0 24px 70px rgba(0,0,0,.45)}
 .dk-kickrow{display:flex;align-items:center;gap:12px;margin-bottom:2px}
 .dk-nf{font-family:var(--mono);font-weight:800;font-size:12.5px;letter-spacing:2.5px;color:#E50914}
 .dk-body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:0;overflow:hidden}
@@ -2711,7 +2711,7 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .mb-app{font-weight:600;font-size:12.5px}.mb-m{font-size:12px;color:rgba(255,255,255,.82)}
 .mb-right{margin-left:auto;font-size:12px;color:rgba(255,255,255,.9)}
 .mac-wall{flex:1;position:relative;overflow:hidden;background:linear-gradient(150deg,#5b7cfa 0%,#8b5cf6 45%,#c084fc 78%,#f0abfc 100%);background-image:url('mvp-assets/mac-desktop.jpg');background-size:cover;background-position:center bottom;display:grid;place-items:center}
-.chrome-win{height:80%;aspect-ratio:1.66;max-width:92%;margin-bottom:4%;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 30px 70px rgba(0,0,0,.42);display:flex;flex-direction:column}
+.chrome-win{height:86%;aspect-ratio:1.72;max-width:94%;margin-bottom:3%;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 30px 70px rgba(0,0,0,.42);display:flex;flex-direction:column}
 .chrome-bar{display:flex;align-items:flex-end;gap:8px;height:38px;padding:0 0 0 14px;background:#dee1e6;flex:0 0 auto}
 .chrome-bar .tl{align-self:center}
 .ctab-fav{width:14px;height:14px;border-radius:3px;flex:0 0 auto}
@@ -2720,14 +2720,14 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .ctab-new{align-self:center;width:26px;height:26px;display:grid;place-items:center;color:#5f6368;font-size:17px;margin-left:2px}
 .cbar-sp{flex:1}
 .tl{width:12px;height:12px;border-radius:99px;flex:0 0 auto}.tl.r{background:#ff5f57}.tl.y{background:#febc2e}.tl.g{background:#28c840}
-.chrome-tab{display:flex;align-items:center;gap:8px;margin-left:10px;background:#fff;border-radius:10px 10px 0 0;padding:7px 12px;font-size:11.5px;font-weight:500;color:#3c4043;align-self:flex-end;width:320px;max-width:46%}
+.chrome-tab{display:flex;align-items:center;gap:8px;margin-left:10px;background:#fff;border-radius:10px 10px 0 0;padding:7px 12px;font-size:12px;font-weight:500;color:#3c4043;align-self:flex-end;width:320px;max-width:46%}
 .chrome-tool{display:flex;align-items:center;gap:10px;height:42px;padding:0 12px;background:#fff;flex:0 0 auto;border-bottom:1px solid #e8eaed}
 .ct-nav{width:24px;height:24px;color:#5f6368;display:grid;place-items:center;flex:0 0 auto;border-radius:99px}.ct-nav svg{width:16px;height:16px}
 .ct-nav.dim{opacity:.38}
 .ct-lock{width:12px;height:12px;flex:0 0 auto;color:#5f6368}
 .ct-av{width:24px;height:24px;border-radius:99px;overflow:hidden;flex:0 0 auto}.ct-av img{width:100%;height:100%;object-fit:cover;display:block}
-.ct-addr{flex:1;display:flex;align-items:center;gap:7px;background:#f1f3f4;border-radius:99px;padding:7px 14px;font-size:11.5px;color:#3c4043;font-family:var(--mono);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chrome-body{flex:1;position:relative;overflow:hidden;background:#191817;display:grid;place-items:center}
+.ct-addr{flex:1;display:flex;align-items:center;gap:7px;background:#f1f3f4;border-radius:99px;padding:7px 14px;font-size:12px;color:#3c4043;font-family:var(--mono);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chrome-body{flex:1;position:relative;overflow:hidden;background:#0e0e0f;display:grid;place-items:center}
 /* the slide is the point of the window: the fitting frame takes the whole
    body and the paper letterboxes only as far as the 16:9 maths demands */
 .chrome-body .deck{max-width:none;width:100%;height:100%;aspect-ratio:auto}
@@ -9431,7 +9431,15 @@ function deckSlide(i){
   else { body='<ul class="dk-b">'+(s.b||[]).map(function(x){return '<li>'+e(x)+'</li>';}).join('')+'</ul>'; }
   return '<div class="dks">'+head+'<h3 class="dk-t">'+e(s.t)+'</h3><div class="dk-body">'+body+'</div>'+foot+'</div>';
 }
-function roomSlide(i){ i=Math.max(0,Math.min(DECK.length-1,i)); R.slide=i; const d=R.ov.querySelector('#deck'); if(d){ d.innerHTML=deckSlide(i); d.classList.remove('in'); void d.offsetWidth; d.classList.add('in'); } R.ov.querySelectorAll('.film-dot').forEach((b,j)=>b.classList.toggle('on',j===i)); }
+/* the paper fills its box: measured, not inferred. 97% of the strict fit so a
+   hairline of present-mode dark always frames the slide, like Slides does. */
+function dkFit(d){
+  d=d||document.getElementById('deck'); if(!d)return;
+  const r=d.getBoundingClientRect(); if(!r.width||!r.height)return;
+  const k=Math.min(r.width/900,r.height/506)*0.97;
+  const pg=d.querySelector('.dks'); if(pg)pg.style.setProperty('--dkfit',k.toFixed(4));
+}
+function roomSlide(i){ i=Math.max(0,Math.min(DECK.length-1,i)); R.slide=i; const d=R.ov.querySelector('#deck'); if(d){ d.innerHTML=deckSlide(i); dkFit(d); d.classList.remove('in'); void d.offsetWidth; d.classList.add('in'); } R.ov.querySelectorAll('.film-dot').forEach((b,j)=>b.classList.toggle('on',j===i)); }
 
 /* ===== fluid morph: the meeting and the shared screen trade places ===== */
 const MORPH_MS=580, MORPH_EASE='cubic-bezier(.62,.02,.1,1)';
@@ -9629,7 +9637,8 @@ function dkWalkSlide(i){
 function deckAutoplay(){
   if(!R)return;
   clearInterval(R.slideIv);
-  R.slide=0; dkWalkSlide(0); dkPoint(null,.01);
+  R.slide=0; dkFit(); dkWalkSlide(0); dkPoint(null,.01);
+  try{ if(R.dkRO)R.dkRO.disconnect(); R.dkRO=new ResizeObserver(()=>dkFit()); R.dkRO.observe(R.ov.querySelector('#deck')); }catch(e){}
   R.slideIv=setInterval(()=>{
     if(!R||!R.ov){ return; }
     if(R.slide>=DECK.length-1){ clearInterval(R.slideIv); return; }   /* rest on the last slide until I'm done */
