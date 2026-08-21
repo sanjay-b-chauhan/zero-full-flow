@@ -148,7 +148,7 @@ svg{display:block}
 /* the composer nests concentrically inside the 15px window — a 24px pill reads wrong at this size */
 .app.pip .pill{border-radius:13px}
 .app.pip .subm .att .m .t,.app.pip .att-big .atb-n{font-size:11px}
-.app.pip .subm .sth{height:80px}
+.app.pip .subm .sth{height:132px}
 .app.pip .att-big{width:118px}.app.pip .att-big .atb-th{height:74px}
 .app.pip .synth .sy-t,.app.pip .synth .sy-lbl{font-size:11.5px}
 .app.pip .synth .sy-ic,.app.pip .synth .sy-chip{width:19px;height:19px}
@@ -611,35 +611,43 @@ svg{display:block}
 /* user submission (file) */
 .subm{align-self:flex-end;max-width:min(300px,72%)}
 .subm .att{display:block;padding:0;gap:0;border:var(--bw) solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow-sm);overflow:hidden}   /* the sent doc shows its THUMBNAIL stacked on top — beats the generic .att chip rule */
-.subm .sth{display:block;height:112px;overflow:hidden}
+.subm .sth{display:block;height:196px;overflow:hidden}
 .subm .sth svg{width:100%;height:100%;display:block}
-/* ── THE MINIATURE ────────────────────────────────────────────────────────
-   A real first page, shrunk. The page is laid out at its true width (520px,
-   what the doc viewer uses) and then scaled, rather than being restyled small:
-   restyling gives you a different document that happens to be tiny, and the
-   proportions — heading against body, the table's column rhythm — are exactly
-   what makes a page read as real at a glance.
-   transform-origin top left with a matching negative size on the wrapper, so
-   the scaled box occupies the space it actually draws in. */
+/* ── THE PREVIEW IS THE DOCUMENT, CROPPED ─────────────────────────────────
+   First attempt scaled the whole page down to fit the card, which produced a
+   postage stamp: technically the real document, unreadable, and so it still
+   read as a placeholder. A real preview does the opposite — it shows the TOP of
+   the page at a size you can actually read and lets the rest run off the bottom
+   edge. You should be able to read the title and the first row of the table.
+
+   So the page is laid out at the card's own width with real type sizes, and the
+   card clips it. No transform anywhere: scaling is what made it a picture of a
+   document instead of a document. */
 .dmini{position:relative;width:100%;height:100%;overflow:hidden;background:#fff}
-.dmini-pg{position:absolute;left:0;top:0;width:520px;
-  transform:scale(.42);transform-origin:0 0;
-  padding:22px 24px;color:#1c1c1e;background:#fff;
-  font-family:var(--f-body);pointer-events:none}
-.dmini-pg h1{font-size:21px;line-height:1.2;margin:10px 0 8px;font-weight:700;letter-spacing:-.01em}
-.dmini-pg h2{font-size:13px;margin:14px 0 6px;font-weight:700;color:#3a3a3e}
-.dmini-pg p{font-size:11.5px;line-height:1.55;margin:0 0 8px;color:#44454a}
-.dmini-pg b{color:#1c1c1e}
-.dmini-pg table{width:100%;border-collapse:collapse;margin:6px 0 10px}
-.dmini-pg th{font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:#8a8b90;
-  text-align:left;padding:0 8px 4px 0;border-bottom:1px solid #e6e4df}
-.dmini-pg td{font-size:11px;padding:4px 8px 4px 0;border-bottom:1px solid #f0eeea;color:#44454a}
+.dmini-pg{width:100%;padding:15px 16px 0;color:#1c1c1e;background:#fff;
+  font-family:var(--f-body);pointer-events:none;text-align:left;
+  /* a full commit SHA is one 40-character word; without this it runs straight
+     off the card edge and the crop looks like a bug rather than a page */
+  overflow-wrap:anywhere}
+.dmini-pg h1{font-size:15px;line-height:1.25;margin:9px 0 6px;font-weight:700;
+  letter-spacing:-.015em;color:#141416}
+.dmini-pg h2{font-size:10.5px;margin:10px 0 4px;font-weight:700;color:#3a3a3e;
+  letter-spacing:.005em}
+.dmini-pg p{font-size:10.5px;line-height:1.5;margin:0 0 7px;color:#4a4b50}
+.dmini-pg b{color:#141416;font-weight:600}
+.dmini-pg table{width:100%;border-collapse:collapse;margin:5px 0 8px}
+.dmini-pg th{font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:#93949a;
+  text-align:left;padding:0 7px 4px 0;border-bottom:1px solid #e6e4df;font-weight:600}
+.dmini-pg td{font-size:10px;padding:4px 7px 4px 0;border-bottom:1px solid #f2f0ec;color:#4a4b50}
+.dmini-pg tr:last-child td{border-bottom:none}
 .dmini-pg .pg-head{display:flex;align-items:center;justify-content:space-between;
-  padding-bottom:9px;border-bottom:1px solid #e6e4df}
-.dmini-pg .brandname{font-weight:700;font-size:13px;color:#E50914;letter-spacing:-.01em}
-.dmini-pg .eyebrow{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:#8a8b90}
-/* the doc viewer shows the same page at full size, so it inherits none of this */
-.c-file .cf-th .dmini-pg{transform:scale(.44)}
+  padding-bottom:8px;border-bottom:1px solid #e6e4df}
+.dmini-pg .brandname{font-weight:800;font-size:11.5px;color:#E50914;letter-spacing:-.01em}
+.dmini-pg .eyebrow{font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#93949a}
+/* the page continues past the card: a soft fade says so, rather than a hard cut
+   that reads like the document simply ended there */
+.dmini::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;
+  background:linear-gradient(to bottom,rgba(255,255,255,0),#fff);pointer-events:none}
 .subm .att .m{padding:9px 13px 11px;min-width:0}
 .subm .att .m .t{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .subm .att .m .s{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--tx-3);margin-top:2px}   /* micro-metadata = Supply Mono, always */
@@ -835,7 +843,7 @@ svg{display:block}
 .c-video .vcap:last-child{padding-bottom:12px}
 .c-video .vdesc{padding:0 14px 13px;font-size:12.5px;line-height:1.55;color:var(--tx-3)}
 .c-file{max-width:250px;display:block;padding:0;overflow:hidden;border:var(--bw) solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow-sm);cursor:zoom-in}
-.c-file .cf-th{display:block;height:118px;overflow:hidden}
+.c-file .cf-th{display:block;height:200px;overflow:hidden}
 .c-file .cf-th svg{width:100%;height:100%;display:block}
 /* resource card sent inline in chat: click opens it on the right, same as a stage resource */
 .c-resfile{max-width:340px;display:flex;align-items:center;gap:11px;padding:11px 13px;border:var(--bw) solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow-sm);cursor:pointer;transition:transform var(--t-q) var(--ease),background var(--t-q) var(--ease)}
@@ -6105,7 +6113,7 @@ body:has(.rpt4) .topbar .perf{display:none!important}
   <aside class="rail" id="rail">
     <div class="rail-top">
       <div class="brand rev" style="--d:80ms">
-        <span class="logo" id="brandLogo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFg0lEQVR4nN2a228VVRTGf2vvObRAgUKxxXIp1AAmRk2MPvmiMcZHQmI0RHzxHzH8Gz6ZSNAXjbxqIi8+4ovGBAgitNwK9MKdnpmzlw8zp61AsWtm78PBL5mk5+Tsy3z91rfXWjNCTZxdN3J/o2PDWn8fVBY7i8WOfSws/NdvT67botb9HGrfFusYAFdnEMANCWu+eQAnOpANyCd110uF2gTMhmAfJP7zuuulQm0CgsCc2pQqGt79e3B4b901U6A2AR6YUaMKRMTjjtZdMwVqEwCwgGIOBJX/DwEAM0YvcMLBqdbIO03XjYVGBHjgujUMAJ/RN2bYmIA7wKJxXEA+PQVZk7VjoXEIOJSrxjAQ1dH9A1s/arp2DDQmIEO4ViMMOuL7wgwbE+AF7qty15gTOOXQGbZvarp+UzQnAMgEpo0qENH1Q4Ph46brN0VjAqAKgxqpcVglJyiMamqCKAR4lBy4GYxhgL43zcjOx78vYmxqzXuIgIwyDKa0Yxso4ljPZ49//cIR4EWq2gCMFKDKE2FQUKu0r4UoBEDpA0EDV6ypMbx+uTX85srvclWKHtlANAI8SibCVJ0+gXP/So1zVYoeiSCeAqowuKmBR8axwXHkyxV7KejdSRBRAaUROhEuBZsTOJXxLwa2fdD9XADtFy0EoCTBAxc79jAQkaUwyCszzXuggqgEZCJklI2S2+Z2GYdPU3aZCyAHOpLeCOISQBUKwAVjGIgwNDa4/TCU//nulRrRQyCTUgkX65wG6FEoFdChNwlRVAJg2QceqHLd3if48AIbxwKlD5RXWhVEJ6B7HGYinLeqQMS3BgaOQHUUkj4rjK8ArWoDhKlOsHeNq6QoVy3N8MVTQHl5lFzUnBmK6ltbRZZuPrUPRCcAWAqBlgjnOtbyCA44TwAKJbkKkhDQ9QGvcFkDbWw3cMCX28rRSgXpfCCNAlSrHoGAwl8dGwFDIow7oUDIKZOiVEinAGHpOhvskXzQZeSqZT6gatTQ2pGEAOieBEpLhGtBuWeM40lfhlFOWh9IR0DXB6q/zxkLpHUIE86Rq9JO6APJCPCqSyQ4Vc4ZawOA/d5RJK4Mkyqga4SZCPOqqPCbZY4J58kQ8uo4TEFBMgKgqguqEwGAoN9YxjvgFe8opDoSY2+QxARkyLIXiJAvLn6H2nrnB7yrTgNJEgZpCZDlEtmrMsn9GRX3k2WOMXFs6IZBghhIHgKtFV4AoNIxhQHAPueX6oI6XYZnISkBUBZFXRUA3Hg4f1KVe5Y5DnpHp/KB2CroAQHLJwLA2/BAhO8tc2wWoawQhTzyWZCcgJWFUReiHLfOs1dckvI4PQEs1wZdfLU4+0sQvWqZZ9I7uq0yY231TCQnAJYfm3VxDIIGTljmGEQYTaCCnhCQ8eQrYU5tSRHAPufoVN2iWOgNAZUPrMTu9vzvAf6wzLPLOYjcKe6dAp5SzDkRkwo8VI0S+3sIq6EnBABPKABAH+oJ1PZ21YT4qE+NekbA014L3c3slQCnLPOMOqHlXDQf6B0BqzzotIYBwM6IRvhcFQBw75H8gMoDy1x7xC09Qm+KnhGwGl7l1l0VTlrGbBZhY6Ty+LkTAIDaK8Rx56L0CfuCgPOL8z+ryA3LmF3ORXmPqC8IeB8KRb+1jBkAhiOYYV8QAEAh5grx5ao2aIK+IWBPfuu0qp6xjBlzjqa30DcEAIjYVOCBbQ19sK8IaNM5jto0PSZlw7Qu+oqAyUcLl1Tcr5YxI+LwDY7D3hGwxmzPEb4Oqm3L1COuPgG1R/7YGr6tMI3TaeCKV64H1WuIzBBktiP5nM/DXJuHd/6Eu8eMHe3T0HqJLUPFoNuUBdkkLoxI8NtFZFSFHQrjCjvbhDfagS2vtec217mPfwAOJRjmybblSAAAAABJRU5ErkJggg==" alt="Netflix" style="width:100%;height:100%;object-fit:cover;border-radius:99px;display:block"></span>
+        <span class="logo" id="brandLogo"><img src="assets/netflix-chip.png" alt="Netflix" style="width:100%;height:100%;object-fit:cover;border-radius:99px;display:block"></span>
         <div class="meta"><div class="t">Deploying an Offline Recommendation Prototype at Netflix</div></div>
       </div>
     </div>
@@ -6930,8 +6938,13 @@ const SUBMISSION_DOCS={
 /* the submitted name is versioned (endpoint_contract_v1.md), so match on the
    stem rather than the whole filename */
 function submissionDoc(n){
-  const stem=String(n||'').toLowerCase().replace(/\.\w+$/,'').replace(/_v\d+$/,'');
-  return SUBMISSION_DOCS[stem]||null;
+  const stem=String(n||'').toLowerCase().replace(/\.\w+$/,'').replace(/[_-]v?\d+$/,'');
+  if(SUBMISSION_DOCS[stem])return SUBMISSION_DOCS[stem];
+  /* a version suffix we did not predict must never cost us the preview: fall
+     back to the longest key the name starts with */
+  let best=null;
+  Object.keys(SUBMISSION_DOCS).forEach(k=>{ if(stem.indexOf(k)===0&&(!best||k.length>best.length))best=k; });
+  return best?SUBMISSION_DOCS[best]:null;
 }
 /* the miniature IS the document: the same markup at the same proportions,
    scaled to the card and clipped, so what you see in the chat is what opens. */
@@ -12979,7 +12992,7 @@ function doResubmitUpload(){
     }, 600);
     return;
   }
-  const v=fbState==='below'?'v2':'v3';
+  const v=fbState==='below'?'2':'3';   /* the name adds the v; this was giving _vv2 */
   const turn=document.createElement('div');turn.className='uturn';turn.innerHTML=comp({type:'subm',name:`deployment_record_v${v}.md`,size:'PDF · revised'});place(turn);msgSpacer.style.height='0px';anchorTop(turn);
   addResource({kind:'mine',stage:stageIdx+1,t:`deployment_record_v${v}.md`,s:'PDF · your resubmission',ic:'dragfile'});
   reviewLoader(`deployment_record_v${v}.md`, ()=>{
@@ -13317,7 +13330,9 @@ function enterStuckHelp(){
     // no fork here — I'm stuck IS the walkthrough. Marcus leans straight into doing it together, step by step.
     addMsg({type:'mgr',text:"No problem, we'll do this together, one step at a time. Heads up, leaning on support nudges your independence score down a touch."},false);
     anchorLastMgr();   // the mode flip must never leave the viewport empty — Marcus's opener is always pulled into view
-    demandScreenshot(startWalkthrough);   // straight into the loop: see where they are, then guide with choices + proof
+    startWalkthrough();   /* straight into the help. It used to demand a
+       screenshot before saying anything useful, which is the opposite of what
+       someone stuck needs from the first line. */
   }, 700);
 }
 /* the walkthrough DEMANDS a screenshot first, so Marcus is looking at exactly what the learner sees */
@@ -13385,19 +13400,19 @@ function startWalkthrough(){ walkPos=0; resetRailSteps(); setTimeout(()=> (stuck
 const WALK_CLAUDE=[
   { ask:"Alright, let's do this together, one step at a time. First, is Miro open and ready in another tab?",
     opts:[{label:"yes, it's open"},{label:"not yet", fix:"Open Miro in a new tab, that's your board for this. Tell me once it's up."}],
-    proof:"Share a screenshot once it's up, then we move." },
+    check:{q:"Once it is up, what is on the board?",opts:["An empty board","A template I picked"]} },
   { ask:"Good. Open the partner API reference from your Resources on the left and find section two, what runs where. Got it open?",
     opts:[{label:"got it open"},{label:"where is it?", fix:"Left panel, under Resources, netflix_partner_api_reference.pdf. Open it and scan the systems table."}],
-    proof:"Share a screenshot once you've got it open." },
+    check:{q:"What does section two call the seatback unit?",opts:["An ARM device","A browser","Not sure"]} },
   { ask:"Notice the column for what's available in flight, and that identity and telemetry both say no. Do you see that?",
     opts:[{label:"yes, both offline"},{label:"not sure", fix:"Third column of the systems table. Two of the five rows say no, and those two are the whole reason this project is hard."}],
-    proof:"Share a screenshot of that table once you're there, so we're looking at the same thing." },
+    check:{q:"Which two rows say no in that column?",opts:["Identity and telemetry","Catalogue and client","Only telemetry"]} },
   { ask:"Now on the board, lay out both sides with an owner on every box, then draw one line where the aircraft goes offline. Done that?",
     opts:[{label:"drawn it"},{label:"what do I draw?", fix:"Two columns, theirs and ours. Owner named on every box. Arrows only where they actually touch. Then one vertical line across the whole board: offline from pushback."}],
-    proof:"Share a screenshot once the board's laid out." },
+    check:{q:"How many boxes ended up on their side?",opts:["Three","Two","More than three"]} },
   { ask:"Check the right of that line, does it say what the aircraft still knows, and what hardware you're stuck with?",
     opts:[{label:"yes, both there"},{label:"only partly", fix:"Right of the line: route, seat, catalogue snapshot. And underneath, the ARM unit and the 180ms ceiling. Those are the constraints everything else answers to."}],
-    proof:"Share a screenshot of what you drew once you're done." },
+    check:{q:"What sits to the right of the offline line?",opts:["Route, seat, catalogue","Everything","Only the catalogue"]} },
   { done:"That's the whole move, and you did it yourself, that's the point. Flip I'm stuck off and submit your map." }
 ];
 function claudeGuide(i){ if(!stuckActive)return; i=i||0; const step=WALK_CLAUDE[i]; if(!step) return;
@@ -13410,8 +13425,25 @@ function claudeChoices(step, i, opts){
     const o=opts.find(x=>x.label===label);
     if(o&&o.fix){ sayBeats([o.fix], ()=>claudeChoices(step, i, opts.filter(x=>!x.fix))); return; }   // correction, then re-ask the affirmative only
     const next=()=>{ tickWalkStep(railTickIdx++); setTimeout(()=>claudeGuide(i+1), 460); };
-    if(step.proof){ demandScreenshot(next, step.proof+" The image block is staged, just hit send."); return; }   // prove the result before moving on
+    /* NO SCREENSHOT. Every step used to stage an image block and hold the
+       walkthrough until one was sent, which turns a conversation into a chore
+       and is not how you would talk someone through this at a desk. The step
+       asks a question instead, and moves on the answer. */
+    if(step.check){ askCheck(step.check, next); return; }
     next();
+    next();
+  });
+}
+/* the check: one question, two or three answers, and a line back. It never
+   blocks — a wrong answer gets the correction and still moves you on, because
+   this is the mode you are in BECAUSE you were stuck. */
+function askCheck(chk, done){
+  if(!stuckActive)return;
+  sayBeats([chk.q], ()=>{
+    stuckChoose(chk.opts, label=>{
+      const right=label===chk.opts[0];
+      sayBeats([right?"That's it. Onwards.":"Not quite, but you will see it as you go. Keep moving."], done);
+    });
   });
 }
 function walkGuide(){
@@ -13442,7 +13474,8 @@ function walkChips(step, chips){   // guided script: choices land as the in-thre
       return;
     }
     const advance=()=>{ if(step.tick) tickWalkStep(railTickIdx++); walkPos++; setTimeout(walkGuide, 460); };
-    if(step.tick){ demandScreenshot(advance, "Great. Now show me, drop a screenshot of what you've got so far."); return; }   // prove action items
+    advance();   /* no screenshot gate: the step is confirmed by the answer
+       that got us here, not by a picture of it */
     advance();
   });
 }
@@ -14233,10 +14266,10 @@ body.zc-demo-on #dbgFab,body.zc-demo-on .dbg-fab,body.zc-demo-on #dbg,body.zc-de
 /* EDGE RULE (Atul, Aug 14): where two discs overlap, the gap between them is
    the INTERFACE showing through — so the ring is the base surface colour, never
    a darker stroke. Discs that don't overlap anything carry no ring at all. */
-:root{--zc-disc:#EAEAEA;--zc-glyph:#1A1A1A;
+:root{--zc-disc:color-mix(in srgb,var(--tx) 9%,var(--card));--zc-glyph:var(--tx);
   --zc-disc-lift:0 1px 3px rgba(0,0,0,.12);
   --zc-unlit:rgba(0,0,0,.13)}
-:root[data-theme="dark"]{--zc-disc:#343434;--zc-glyph:#fff;
+:root[data-theme="dark"]{--zc-disc:color-mix(in srgb,var(--tx) 14%,var(--card));--zc-glyph:var(--tx);
   --zc-disc-lift:0 2px 6px rgba(0,0,0,.45);
   --zc-unlit:var(--line)}
 
@@ -16400,19 +16433,32 @@ setTimeout(()=>{ if(!introDone)return; zcReadScene(SCENES[CHECKIN],null); },4200
 const _osm=openSessionModal;
 openSessionModal=function(){sceneIx=SCENES.findIndex(x=>x.id==="session");paintScene();_osm();};
 const ARC=["clean","dropped","trade","keep","aipattern"];let zcDone=0;
+/* ONE PENDING WRAP AT A TIME. Every stage end queues a read and a wrap on a
+   timer; stepping through stages quickly queued a pair per press and they all
+   landed together a few seconds later, which is the repeat Sanjay saw when
+   moving fast. A new stage end cancels whatever the last one still had
+   waiting. */
+let zcPend=[];
+function zcClearPending(){ zcPend.forEach(clearTimeout); zcPend=[]; }
 const _cel=window.celebrateStage;
 if(typeof _cel==="function")window.celebrateStage=function(){
   _cel.apply(this,arguments);
   const id=ARC[zcDone++];if(!id)return;
   const sc=SCENES[SCENES.findIndex(x=>x.id===id)];
+  zcClearPending();
+  closeStageWrap();                       /* and drop one already on screen */
   /* the rings move BEFORE she speaks: the cluster changing is what earns the
      dot, and the wrap is her explaining a change you have already seen */
-  setTimeout(()=>{ zcReadScene(sc,(sc.about&&sc.about[0])||null); },2200);
-  setTimeout(()=>{sceneIx=SCENES.findIndex(x=>x.id===id);paintScene();openStageWrap();},3600);
+  zcPend.push(setTimeout(()=>{ zcReadScene(sc,(sc.about&&sc.about[0])||null); },2200));
+  zcPend.push(setTimeout(()=>{sceneIx=SCENES.findIndex(x=>x.id===id);paintScene();openStageWrap();},3600));
 };
 /* closing the wrap leaves the read standing — she said it, it stays true */
 const _csw2=closeStageWrap;
 closeStageWrap=function(){ _csw2(); sceneIx=CHECKIN; paintScene(); zcApplyLive(); };
+/* jumping the flow abandons anything the coach still had queued, so a wrap
+   never arrives over a screen that has already moved on */
+const _dbg=window.dbgJump;
+if(typeof _dbg==="function")window.dbgJump=function(){ zcClearPending(); return _dbg.apply(this,arguments); };
 let zcSeen=false;try{zcSeen=localStorage.getItem("zcIntroSeen")==="1";}catch(e){}
 const zcForce=new URLSearchParams(location.search).get("zcintro")==="1";
 if(!zcSeen||zcForce){try{localStorage.setItem("zcIntroSeen","1");}catch(e){}setTimeout(openIntro,1800);}
