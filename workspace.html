@@ -242,7 +242,9 @@ svg{display:block}
    frame where the measurement never ran left the content spilling out of a
    capped card — and an overflow:auto box with short content shows no
    scrollbar anyway, so there is nothing to gate. */
-.active > .morph-zone{overflow-y:auto;overscroll-behavior:contain;min-height:0;padding-right:4px;margin-right:-4px}
+.active > .morph-zone{overflow-y:auto;overscroll-behavior:contain;min-height:0;
+  padding:2px 10px;margin:-2px -10px;
+  scrollbar-gutter:stable}
 /* the hairline is the only part that waits to be told there is more below */
 .active.scrolls > .morph-zone{border-bottom:var(--bw) solid var(--line);padding-bottom:10px}
 .active > .morph-zone::-webkit-scrollbar{width:6px}
@@ -611,6 +613,33 @@ svg{display:block}
 .subm .att{display:block;padding:0;gap:0;border:var(--bw) solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow-sm);overflow:hidden}   /* the sent doc shows its THUMBNAIL stacked on top — beats the generic .att chip rule */
 .subm .sth{display:block;height:112px;overflow:hidden}
 .subm .sth svg{width:100%;height:100%;display:block}
+/* ── THE MINIATURE ────────────────────────────────────────────────────────
+   A real first page, shrunk. The page is laid out at its true width (520px,
+   what the doc viewer uses) and then scaled, rather than being restyled small:
+   restyling gives you a different document that happens to be tiny, and the
+   proportions — heading against body, the table's column rhythm — are exactly
+   what makes a page read as real at a glance.
+   transform-origin top left with a matching negative size on the wrapper, so
+   the scaled box occupies the space it actually draws in. */
+.dmini{position:relative;width:100%;height:100%;overflow:hidden;background:#fff}
+.dmini-pg{position:absolute;left:0;top:0;width:520px;
+  transform:scale(.42);transform-origin:0 0;
+  padding:22px 24px;color:#1c1c1e;background:#fff;
+  font-family:var(--f-body);pointer-events:none}
+.dmini-pg h1{font-size:21px;line-height:1.2;margin:10px 0 8px;font-weight:700;letter-spacing:-.01em}
+.dmini-pg h2{font-size:13px;margin:14px 0 6px;font-weight:700;color:#3a3a3e}
+.dmini-pg p{font-size:11.5px;line-height:1.55;margin:0 0 8px;color:#44454a}
+.dmini-pg b{color:#1c1c1e}
+.dmini-pg table{width:100%;border-collapse:collapse;margin:6px 0 10px}
+.dmini-pg th{font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:#8a8b90;
+  text-align:left;padding:0 8px 4px 0;border-bottom:1px solid #e6e4df}
+.dmini-pg td{font-size:11px;padding:4px 8px 4px 0;border-bottom:1px solid #f0eeea;color:#44454a}
+.dmini-pg .pg-head{display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:9px;border-bottom:1px solid #e6e4df}
+.dmini-pg .brandname{font-weight:700;font-size:13px;color:#E50914;letter-spacing:-.01em}
+.dmini-pg .eyebrow{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:#8a8b90}
+/* the doc viewer shows the same page at full size, so it inherits none of this */
+.c-file .cf-th .dmini-pg{transform:scale(.44)}
 .subm .att .m{padding:9px 13px 11px;min-width:0}
 .subm .att .m .t{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .subm .att .m .s{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--tx-3);margin-top:2px}   /* micro-metadata = Supply Mono, always */
@@ -6076,7 +6105,7 @@ body:has(.rpt4) .topbar .perf{display:none!important}
   <aside class="rail" id="rail">
     <div class="rail-top">
       <div class="brand rev" style="--d:80ms">
-        <span class="logo" id="brandLogo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFg0lEQVR4nN2a228VVRTGf2vvObRAgUKxxXIp1AAmRk2MPvmiMcZHQmI0RHzxHzH8Gz6ZSNAXjbxqIi8+4ovGBAgitNwK9MKdnpmzlw8zp61AsWtm78PBL5mk5+Tsy3z91rfXWjNCTZxdN3J/o2PDWn8fVBY7i8WOfSws/NdvT67botb9HGrfFusYAFdnEMANCWu+eQAnOpANyCd110uF2gTMhmAfJP7zuuulQm0CgsCc2pQqGt79e3B4b901U6A2AR6YUaMKRMTjjtZdMwVqEwCwgGIOBJX/DwEAM0YvcMLBqdbIO03XjYVGBHjgujUMAJ/RN2bYmIA7wKJxXEA+PQVZk7VjoXEIOJSrxjAQ1dH9A1s/arp2DDQmIEO4ViMMOuL7wgwbE+AF7qty15gTOOXQGbZvarp+UzQnAMgEpo0qENH1Q4Ph46brN0VjAqAKgxqpcVglJyiMamqCKAR4lBy4GYxhgL43zcjOx78vYmxqzXuIgIwyDKa0Yxso4ljPZ49//cIR4EWq2gCMFKDKE2FQUKu0r4UoBEDpA0EDV6ypMbx+uTX85srvclWKHtlANAI8SibCVJ0+gXP/So1zVYoeiSCeAqowuKmBR8axwXHkyxV7KejdSRBRAaUROhEuBZsTOJXxLwa2fdD9XADtFy0EoCTBAxc79jAQkaUwyCszzXuggqgEZCJklI2S2+Z2GYdPU3aZCyAHOpLeCOISQBUKwAVjGIgwNDa4/TCU//nulRrRQyCTUgkX65wG6FEoFdChNwlRVAJg2QceqHLd3if48AIbxwKlD5RXWhVEJ6B7HGYinLeqQMS3BgaOQHUUkj4rjK8ArWoDhKlOsHeNq6QoVy3N8MVTQHl5lFzUnBmK6ltbRZZuPrUPRCcAWAqBlgjnOtbyCA44TwAKJbkKkhDQ9QGvcFkDbWw3cMCX28rRSgXpfCCNAlSrHoGAwl8dGwFDIow7oUDIKZOiVEinAGHpOhvskXzQZeSqZT6gatTQ2pGEAOieBEpLhGtBuWeM40lfhlFOWh9IR0DXB6q/zxkLpHUIE86Rq9JO6APJCPCqSyQ4Vc4ZawOA/d5RJK4Mkyqga4SZCPOqqPCbZY4J58kQ8uo4TEFBMgKgqguqEwGAoN9YxjvgFe8opDoSY2+QxARkyLIXiJAvLn6H2nrnB7yrTgNJEgZpCZDlEtmrMsn9GRX3k2WOMXFs6IZBghhIHgKtFV4AoNIxhQHAPueX6oI6XYZnISkBUBZFXRUA3Hg4f1KVe5Y5DnpHp/KB2CroAQHLJwLA2/BAhO8tc2wWoawQhTzyWZCcgJWFUReiHLfOs1dckvI4PQEs1wZdfLU4+0sQvWqZZ9I7uq0yY231TCQnAJYfm3VxDIIGTljmGEQYTaCCnhCQ8eQrYU5tSRHAPufoVN2iWOgNAZUPrMTu9vzvAf6wzLPLOYjcKe6dAp5SzDkRkwo8VI0S+3sIq6EnBABPKABAH+oJ1PZ21YT4qE+NekbA014L3c3slQCnLPOMOqHlXDQf6B0BqzzotIYBwM6IRvhcFQBw75H8gMoDy1x7xC09Qm+KnhGwGl7l1l0VTlrGbBZhY6Ty+LkTAIDaK8Rx56L0CfuCgPOL8z+ryA3LmF3ORXmPqC8IeB8KRb+1jBkAhiOYYV8QAEAh5grx5ao2aIK+IWBPfuu0qp6xjBlzjqa30DcEAIjYVOCBbQ19sK8IaNM5jto0PSZlw7Qu+oqAyUcLl1Tcr5YxI+LwDY7D3hGwxmzPEb4Oqm3L1COuPgG1R/7YGr6tMI3TaeCKV64H1WuIzBBktiP5nM/DXJuHd/6Eu8eMHe3T0HqJLUPFoNuUBdkkLoxI8NtFZFSFHQrjCjvbhDfagS2vtec217mPfwAOJRjmybblSAAAAABJRU5ErkJggg==" alt="Netflix" style="width:100%;height:100%;object-fit:contain;border-radius:6px"></span>
+        <span class="logo" id="brandLogo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFg0lEQVR4nN2a228VVRTGf2vvObRAgUKxxXIp1AAmRk2MPvmiMcZHQmI0RHzxHzH8Gz6ZSNAXjbxqIi8+4ovGBAgitNwK9MKdnpmzlw8zp61AsWtm78PBL5mk5+Tsy3z91rfXWjNCTZxdN3J/o2PDWn8fVBY7i8WOfSws/NdvT67botb9HGrfFusYAFdnEMANCWu+eQAnOpANyCd110uF2gTMhmAfJP7zuuulQm0CgsCc2pQqGt79e3B4b901U6A2AR6YUaMKRMTjjtZdMwVqEwCwgGIOBJX/DwEAM0YvcMLBqdbIO03XjYVGBHjgujUMAJ/RN2bYmIA7wKJxXEA+PQVZk7VjoXEIOJSrxjAQ1dH9A1s/arp2DDQmIEO4ViMMOuL7wgwbE+AF7qty15gTOOXQGbZvarp+UzQnAMgEpo0qENH1Q4Ph46brN0VjAqAKgxqpcVglJyiMamqCKAR4lBy4GYxhgL43zcjOx78vYmxqzXuIgIwyDKa0Yxso4ljPZ49//cIR4EWq2gCMFKDKE2FQUKu0r4UoBEDpA0EDV6ypMbx+uTX85srvclWKHtlANAI8SibCVJ0+gXP/So1zVYoeiSCeAqowuKmBR8axwXHkyxV7KejdSRBRAaUROhEuBZsTOJXxLwa2fdD9XADtFy0EoCTBAxc79jAQkaUwyCszzXuggqgEZCJklI2S2+Z2GYdPU3aZCyAHOpLeCOISQBUKwAVjGIgwNDa4/TCU//nulRrRQyCTUgkX65wG6FEoFdChNwlRVAJg2QceqHLd3if48AIbxwKlD5RXWhVEJ6B7HGYinLeqQMS3BgaOQHUUkj4rjK8ArWoDhKlOsHeNq6QoVy3N8MVTQHl5lFzUnBmK6ltbRZZuPrUPRCcAWAqBlgjnOtbyCA44TwAKJbkKkhDQ9QGvcFkDbWw3cMCX28rRSgXpfCCNAlSrHoGAwl8dGwFDIow7oUDIKZOiVEinAGHpOhvskXzQZeSqZT6gatTQ2pGEAOieBEpLhGtBuWeM40lfhlFOWh9IR0DXB6q/zxkLpHUIE86Rq9JO6APJCPCqSyQ4Vc4ZawOA/d5RJK4Mkyqga4SZCPOqqPCbZY4J58kQ8uo4TEFBMgKgqguqEwGAoN9YxjvgFe8opDoSY2+QxARkyLIXiJAvLn6H2nrnB7yrTgNJEgZpCZDlEtmrMsn9GRX3k2WOMXFs6IZBghhIHgKtFV4AoNIxhQHAPueX6oI6XYZnISkBUBZFXRUA3Hg4f1KVe5Y5DnpHp/KB2CroAQHLJwLA2/BAhO8tc2wWoawQhTzyWZCcgJWFUReiHLfOs1dckvI4PQEs1wZdfLU4+0sQvWqZZ9I7uq0yY231TCQnAJYfm3VxDIIGTljmGEQYTaCCnhCQ8eQrYU5tSRHAPufoVN2iWOgNAZUPrMTu9vzvAf6wzLPLOYjcKe6dAp5SzDkRkwo8VI0S+3sIq6EnBABPKABAH+oJ1PZ21YT4qE+NekbA014L3c3slQCnLPOMOqHlXDQf6B0BqzzotIYBwM6IRvhcFQBw75H8gMoDy1x7xC09Qm+KnhGwGl7l1l0VTlrGbBZhY6Ty+LkTAIDaK8Rx56L0CfuCgPOL8z+ryA3LmF3ORXmPqC8IeB8KRb+1jBkAhiOYYV8QAEAh5grx5ao2aIK+IWBPfuu0qp6xjBlzjqa30DcEAIjYVOCBbQ19sK8IaNM5jto0PSZlw7Qu+oqAyUcLl1Tcr5YxI+LwDY7D3hGwxmzPEb4Oqm3L1COuPgG1R/7YGr6tMI3TaeCKV64H1WuIzBBktiP5nM/DXJuHd/6Eu8eMHe3T0HqJLUPFoNuUBdkkLoxI8NtFZFSFHQrjCjvbhDfagS2vtec217mPfwAOJRjmybblSAAAAABJRU5ErkJggg==" alt="Netflix" style="width:100%;height:100%;object-fit:cover;border-radius:99px;display:block"></span>
         <div class="meta"><div class="t">Deploying an Offline Recommendation Prototype at Netflix</div></div>
       </div>
     </div>
@@ -6820,8 +6849,98 @@ const THUMB_DOC='<svg class="tfill" viewBox="0 0 300 192" preserveAspectRatio="x
 const THUMB_FILE='<svg class="tfill" viewBox="0 0 300 192" preserveAspectRatio="xMidYMid slice"><rect width="300" height="192" fill="#f2f1ee"/><path d="M110 36 h60 l20 20 v100 h-80 z" fill="#ffffff" stroke="#d8d5cd" stroke-width="2"/><path d="M170 36 l20 20 h-20 z" fill="#e3e0d8"/><rect x="124" y="78" width="52" height="4" rx="2" fill="#c9c6bd"/><rect x="124" y="90" width="44" height="4" rx="2" fill="#c9c6bd"/><rect x="124" y="102" width="50" height="4" rx="2" fill="#c9c6bd"/><rect x="124" y="114" width="34" height="4" rx="2" fill="#c9c6bd"/></svg>';
 const THUMB_VIDEO='<svg viewBox="0 0 300 169" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="vgb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#243447"/><stop offset="1" stop-color="#3d2b4a"/></linearGradient></defs><rect width="300" height="169" fill="url(#vgb)"/><rect x="34" y="30" width="150" height="9" rx="4.5" fill="rgba(255,255,255,.5)"/><rect x="34" y="48" width="104" height="6" rx="3" fill="rgba(255,255,255,.26)"/><rect x="34" y="92" width="46" height="46" rx="6" fill="rgba(255,255,255,.14)"/><rect x="92" y="98" width="120" height="6" rx="3" fill="rgba(255,255,255,.2)"/><rect x="92" y="112" width="96" height="6" rx="3" fill="rgba(255,255,255,.14)"/><rect x="92" y="126" width="110" height="6" rx="3" fill="rgba(255,255,255,.14)"/></svg>';
 const THUMB_LINK='<svg class="tfill" viewBox="0 0 300 192" preserveAspectRatio="xMidYMid slice"><rect width="300" height="192" fill="#f4f2ee"/><rect x="0" y="0" width="300" height="30" fill="#e6e3dc"/><circle cx="18" cy="15" r="4" fill="#c9c6bd"/><circle cx="32" cy="15" r="4" fill="#c9c6bd"/><circle cx="46" cy="15" r="4" fill="#c9c6bd"/><rect x="64" y="10" width="150" height="10" rx="5" fill="#d5d2ca"/><rect x="24" y="50" width="120" height="9" rx="4" fill="#1c1c1e"/><rect x="24" y="72" width="252" height="5" rx="2.5" fill="#c9c6bd"/><rect x="24" y="84" width="236" height="5" rx="2.5" fill="#c9c6bd"/><rect x="24" y="106" width="112" height="58" rx="6" fill="#dcd9d1"/><rect x="148" y="106" width="128" height="5" rx="2.5" fill="#c9c6bd"/><rect x="148" y="118" width="116" height="5" rx="2.5" fill="#c9c6bd"/><rect x="148" y="130" width="124" height="5" rx="2.5" fill="#c9c6bd"/></svg>';
+/* ── WHAT THE LEARNER ACTUALLY HANDED IN ───────────────────────────────────
+   The submission card used to show a generic placeholder: grey bars and a
+   green bar chart, identical whatever the file was. In a room where someone is
+   being shown the product, a fake page is the thing that gives it away.
+
+   So each submission carries its REAL first page, written in the same grammar
+   as the resources in the left rail, and the card renders a true miniature of it:
+   the same markup, scaled down and clipped to the thumb box. Open it and the
+   full page is the same document, because it IS the same document.
+
+   Figures are the scenario's own and agree with the brief: 180ms p95, 88ms
+   ranking against a 90ms step budget, seven passing tests, the four failure
+   cases from the contract. Nothing here is lorem. */
+const SUBMISSION_DOCS={
+  'endpoint_contract':{title:'Endpoint Contract',eyebrow:'DRAFT v1 · GET /flight/recommendations',
+    html:`<div class="pg-head"><span class="brandname">Netflix</span><span class="eyebrow">PARTNER ENGINEERING</span></div>
+      <h1>GET /flight/recommendations</h1>
+      <p>Ranked titles from the onboard catalogue snapshot. Runs on the seatback unit. No network call, no passenger identity.</p>
+      <h2>Request</h2>
+      <table><thead><tr><th>FIELD</th><th>TYPE</th><th>REQ</th></tr></thead><tbody>
+        <tr><td>route</td><td>string</td><td>Yes</td></tr>
+        <tr><td>seat</td><td>string</td><td>Yes</td></tr>
+        <tr><td>catalogue_version</td><td>string</td><td>Yes</td></tr>
+        <tr><td>limit</td><td>int</td><td>No</td></tr></tbody></table>
+      <h2>Latency budget</h2>
+      <p>Returns under <b>180ms</b> at p95 on partner hardware. Past the ceiling the client renders the cached popularity rail and queues a soft timeout. It never shows an empty row.</p>
+      <h2>Failure cases</h2>
+      <table><thead><tr><th>CASE</th><th>STATUS</th></tr></thead><tbody>
+        <tr><td>Cold start, no history</td><td>200 · cold_start true</td></tr>
+        <tr><td>Empty catalogue snapshot</td><td>503 · catalogue_unavailable</td></tr>
+        <tr><td>Stale catalogue version</td><td>200 · stale flag</td></tr>
+        <tr><td>Unknown route</td><td>422 · route_unrecognised</td></tr></tbody></table>`},
+  'integration_map':{title:'Integration Map',eyebrow:'SEATBACK TO CLOUD · v1',
+    html:`<div class="pg-head"><span class="brandname">Netflix</span><span class="eyebrow">INTEGRATION SURFACE</span></div>
+      <h1>Seatback to cloud</h1>
+      <p>Every system this prototype touches, who owns it, and what survives the flight.</p>
+      <table><thead><tr><th>SYSTEM</th><th>OWNER</th><th>IN FLIGHT</th></tr></thead><tbody>
+        <tr><td>Seatback client (ARM)</td><td>Partner</td><td>Yes</td></tr>
+        <tr><td>Onboard catalogue cache</td><td>Partner</td><td>Yes</td></tr>
+        <tr><td>Recommendation service</td><td>Netflix</td><td>Yes, onboard</td></tr>
+        <tr><td>Passenger identity</td><td>Netflix</td><td>No</td></tr>
+        <tr><td>Telemetry upload</td><td>Partner</td><td>No, queued</td></tr></tbody></table>
+      <h2>Offline from pushback</h2>
+      <p>Right of that line the aircraft knows three things and nothing else: <b>route</b>, <b>seat</b>, and the <b>catalogue snapshot</b> cached at the gate. Everything else has to happen before the doors close.</p>`},
+  'deployment_record':{title:'Deployment Record',eyebrow:'RUN 41 · PREVIEW LIVE',
+    html:`<div class="pg-head"><span class="brandname">Netflix</span><span class="eyebrow">DEPLOYMENT RECORD</span></div>
+      <h1>Cold-start ranking endpoint</h1>
+      <p>Preview at <b>inflight-recs-git-main.vercel.app</b>, built from commit <b>a3f9c21e8b4d7f60c2e1a5b8d9f3c7e04b62a1d8</b>.</p>
+      <table><thead><tr><th>MEASURE</th><th>BUDGET</th><th>MEASURED</th></tr></thead><tbody>
+        <tr><td>Response, end to end</td><td>180ms</td><td>180ms</td></tr>
+        <tr><td>Ranking step</td><td>90ms</td><td>88ms</td></tr>
+        <tr><td>Suite</td><td>7 tests</td><td>7 passing</td></tr></tbody></table>
+      <h2>What their team owns</h2>
+      <p>Every environment variable named below, values withheld. The catalogue push at the gate. Rollback is one step: redeploy the previous commit from the Vercel dashboard.</p>`},
+  'offline_regression_suite':{title:'Offline Regression Suite',eyebrow:'RUN 41 · 7 PASSED',
+    html:`<div class="pg-head"><span class="brandname">Netflix</span><span class="eyebrow">offline_regression_suite.py</span></div>
+      <h1>Offline regression results</h1>
+      <p style="font-family:ui-monospace,monospace;font-size:12px;line-height:1.95">
+      test_cold_start_ranks_on_route_and_seat ....... PASS<br>
+      test_cold_start_flags_cold_start_true ......... PASS<br>
+      test_empty_catalogue_returns_503 .............. PASS<br>
+      test_empty_catalogue_shows_cached_rail ........ PASS<br>
+      test_stale_catalogue_serves_with_flag ......... PASS<br>
+      test_unknown_route_falls_back_to_popularity ... PASS<br>
+      test_rank_within_latency_budget ............... PASS<br>
+      <b>7 passed in 3.42s</b></p>
+      <p>Ranking measured at 88ms p95 on the partner unit, inside the 90ms step budget.</p>`},
+  'partner_handoff':{title:'Partner Handoff',eyebrow:'WHAT YOUR TEAM OWNS NEXT',
+    html:`<div class="pg-head"><span class="brandname">Netflix</span><span class="eyebrow">HANDOFF</span></div>
+      <h1>A path to production</h1>
+      <p>The prototype is live on their hardware. This is what it takes to keep it there.</p>
+      <table><thead><tr><th>OPEN RISK</th><th>OWNER</th><th>NEXT STEP</th></tr></thead><tbody>
+        <tr><td>Stale catalogue on turnaround</td><td>Partner platform</td><td>Honour the stale flag downstream</td></tr>
+        <tr><td>Ranking headroom is 2ms</td><td>Netflix</td><td>Profile before the catalogue grows</td></tr>
+        <tr><td>Telemetry queues to landing</td><td>Partner platform</td><td>Confirm the drain on the ground</td></tr></tbody></table>
+      <h2>Monday morning</h2>
+      <p>Environment variables, the catalogue push, and the rollback. All three are named in the deployment record.</p>`},
+};
+/* the submitted name is versioned (endpoint_contract_v1.md), so match on the
+   stem rather than the whole filename */
+function submissionDoc(n){
+  const stem=String(n||'').toLowerCase().replace(/\.\w+$/,'').replace(/_v\d+$/,'');
+  return SUBMISSION_DOCS[stem]||null;
+}
+/* the miniature IS the document: the same markup at the same proportions,
+   scaled to the card and clipped, so what you see in the chat is what opens. */
+function docMini(d){
+  return '<div class="dmini"><div class="dmini-pg pg">'+d.html+'</div></div>';
+}
 const extOf=n=>(String(n||'').match(/\.(\w+)$/)||[,''])[1].toLowerCase();
 function thumbForName(n){ const e=extOf(n);
+  const d=submissionDoc(n); if(d) return docMini(d);        // the real page, if we have it
   if(/^(png|jpe?g|gif|webp)$/.test(e)) return THUMB_IMG;   // images look like images
   if(/^docx?$/.test(e)) return THUMB_DOC;                  // docs look like documents
   if(e==='pdf') return THUMB_PDF;                          // pdfs look like the record page
