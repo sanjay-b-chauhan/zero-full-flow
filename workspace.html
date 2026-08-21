@@ -2286,18 +2286,103 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .pstrip .mtile{width:210px;max-width:none;aspect-ratio:4/3}
 .pstrip .mt-name{font-size:12px;padding:5px 10px}.pstrip .mt-name em{display:none}
 .pstrip .mt-av{width:54px;height:54px;font-size:21px}.pstrip .mt-face{width:42px;height:42px}
-.deck{width:100%;max-width:900px;aspect-ratio:16/9;background:linear-gradient(150deg,#faf9f6,#efece5);color:#1a1a1a;border-radius:20px;padding:44px 50px;display:flex;flex-direction:column;box-shadow:0 40px 100px rgba(0,0,0,.5)}
+.deck{width:100%;max-width:900px;aspect-ratio:16/9;background:linear-gradient(150deg,#faf9f6,#efece5);color:#1a1a1a;border-radius:20px;box-shadow:0 40px 100px rgba(0,0,0,.5);position:relative;overflow:hidden;container-type:size}
 .deck.in{animation:deckIn .45s var(--ease)}
 @keyframes deckIn{from{opacity:0;transform:scale(.985) translateY(6px)}to{opacity:1;transform:none}}
-.dk-kicker{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:#c0553f}
+.dk-kicker{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:#8d8a83}
 .dk-t{font-family:var(--serif);font-size:30px;font-weight:500;line-height:1.12;margin:12px 0 18px}
 .dk-b{list-style:none;display:flex;flex-direction:column;gap:12px;flex:1;padding:0;margin:0}
 .dk-b li{position:relative;padding-left:26px;font-size:17.5px;line-height:1.4;color:#333}
-.dk-b li::before{content:"";position:absolute;left:0;top:9px;width:9px;height:9px;border-radius:99px;background:#c0553f}
+.dk-b li::before{content:"";position:absolute;left:0;top:9px;width:9px;height:9px;border-radius:99px;background:#E50914}
 .dk-foot{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:#9a958c;border-top:1px solid rgba(0,0,0,.08);padding-top:12px;margin-top:6px}
 .film{display:flex;gap:8px;justify-content:center}
 .film-dot{width:34px;height:5px;border-radius:99px;background:rgba(255,255,255,.16);border:0;cursor:pointer;padding:0;transition:background var(--t-q) var(--ease)}
 .film-dot.on{background:#f2f1ee}
+/* ═══ the final deck: one look, thirteen layouts ═══
+   The surface stays the warm paper the room already shares — a real deck on a
+   shared screen — with the Netflix mark carrying the brand instead of tinting
+   everything red. Type discipline: serif for the one statement each slide
+   makes, mono for anything that is data, sans for everything that explains. */
+.dks{position:absolute;left:50%;top:50%;width:900px;height:506px;padding:44px 50px;box-sizing:border-box;transform:translate(-50%,-50%) scale(min(calc(100cqw / 900px),calc(100cqh / 506px)));display:flex;flex-direction:column;min-height:0}
+.dk-kickrow{display:flex;align-items:center;gap:12px;margin-bottom:2px}
+.dk-nf{font-family:var(--mono);font-weight:800;font-size:12.5px;letter-spacing:2.5px;color:#E50914}
+.dk-body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:0;overflow:hidden}
+.dks .dk-t{margin:10px 0 14px}
+.dk-cover{justify-content:space-between}
+.dkc-mid{flex:1;display:flex;flex-direction:column;justify-content:center}
+.dkc-t{font-family:var(--serif);font-size:64px;font-weight:500;letter-spacing:-.015em;line-height:1.02;margin:0 0 14px}
+.dkc-sub{font-size:17px;color:#55534e;margin:0;max-width:520px;line-height:1.45}
+.dkc-url{font-family:var(--mono);font-size:13px;color:#1a1a1a;background:#efece5;border:1px solid #e0dcd2;border-radius:8px;padding:8px 12px;margin-top:16px;align-self:flex-start}
+.dkc-foot{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid #e3dfd6;padding-top:14px}
+.dkc-foot b{display:block;font-size:14.5px}
+.dkc-foot span{font-size:12px;color:#8d8a83}
+.dkc-for{font-family:var(--mono);font-size:10px;letter-spacing:.8px;text-transform:uppercase}
+.dk-grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px 26px}
+.dk-cell{border-top:2px solid #1a1a1a;padding-top:9px}
+.dk-cell b{font-size:14.5px;display:block;margin-bottom:4px}
+.dk-cell p{font-size:12.5px;line-height:1.48;color:#55534e;margin:0}
+.dk-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:6px 0 4px}
+.dk-fact i{font-style:normal;font-family:var(--serif);font-size:44px;letter-spacing:-.02em;display:block;line-height:1}
+.dk-fact span{display:block;font-size:12px;line-height:1.4;color:#55534e;margin-top:7px}
+.dk-note{font-size:12.5px;line-height:1.5;color:#6b6963;border-left:3px solid #E50914;padding-left:12px;margin:14px 0 0;max-width:640px}
+.dk-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:center;height:100%;overflow:hidden}
+.dk-cols>*{min-width:0;min-height:0}
+.dk-col h5{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#8d8a83;margin:0 0 8px}
+.dk-have{padding:7px 0;border-bottom:1px solid #e8e4da}
+.dk-have b{font-size:14px;display:block}
+.dk-have span{font-size:11.5px;color:#6b6963}
+.dk-goner s{font-size:15px;color:#a5a29a;text-decoration-color:#E50914;text-decoration-thickness:2px}
+.dk-goner{padding:7px 0;border-bottom:1px solid #e8e4da}
+.dk-archrow{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch;margin:4px 0}
+.dk-zone h5{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#8d8a83;margin:0 0 8px}
+.dk-sys{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #e0dcd2;border-radius:10px;padding:9px 12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.dk-sys b{font-size:12.5px;font-weight:600}
+.dk-sys.dead{opacity:.45}
+.dk-sys.dead b{text-decoration:line-through;text-decoration-color:#E50914}
+.dk-own{font-family:var(--mono);font-size:8.5px;letter-spacing:.8px;padding:3px 7px;border-radius:99px;flex:0 0 auto}
+.dk-own.partner{background:#eef0ea;color:#4a6741}
+.dk-own.netflix{background:#fdeaea;color:#c11119}
+.dk-airline{display:flex;flex-direction:column;justify-content:center;gap:2px;border-left:2px dashed #E50914;padding-left:10px;margin:16px 0}
+.dk-airline span{font-family:var(--mono);font-size:9px;letter-spacing:1.4px;color:#c11119}
+.dk-term{background:#171614;border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.dk-term i{font-style:normal;font-family:var(--mono);font-size:11.5px;line-height:1.5;color:#c9c6bd;white-space:pre;overflow:hidden;text-overflow:ellipsis}
+.dk-term .cgap{height:8px}
+.dk-term .c-req{color:#e8b64c}
+.dk-term .c-ok{color:#5fd08a;font-weight:700}
+.dk-term .c-k{color:#8f8c84}
+.dk-term .c-j{color:#c9c6bd}
+.dk-term .c-d{color:#6e6b64;font-style:italic}
+.dk-term em.pass{color:#5fd08a;font-style:normal;font-weight:700;float:right}
+.dk-tab{width:100%;border-collapse:collapse}
+.dk-tab td,.dk-tab th{font-size:12px;text-align:left;padding:7px 10px 7px 0;border-bottom:1px solid #e8e4da;color:#3c3b37}
+.dk-tab th{font-family:var(--mono);font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:#8d8a83;width:88px}
+.dk-tab td:last-child{font-family:var(--mono);font-size:11px;color:#6b6963}
+.dk-dep td:last-child{overflow-wrap:anywhere}
+.dk-roll{font-size:13px;background:#fff;border:1px solid #e0dcd2;border-left:3px solid #E50914;border-radius:8px;padding:10px 13px;margin-top:12px}
+.dk-cost td em{font-style:normal;font-family:var(--mono);font-size:8.5px;letter-spacing:.8px;padding:3px 7px;border-radius:99px}
+.tag-avoided{background:#fdeaea;color:#c11119}
+.tag-reused{background:#eef0ea;color:#4a6741}
+.dk-bars{display:flex;flex-direction:column;gap:9px;margin:4px 0}
+.dk-bar{display:grid;grid-template-columns:110px 1fr 86px;align-items:center;gap:12px}
+.dk-bar .bl{font-size:12.5px;color:#3c3b37}
+.dk-bar .bt{position:relative;height:16px;background:#e8e4da;border-radius:99px;overflow:visible}
+.dk-bar .bf{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:#1a1a1a}
+.dk-bar .bf.hot{background:#E50914}
+.dk-bar .bc{position:absolute;top:-3px;bottom:-3px;width:2px;background:#8d8a83}
+.dk-bar .bv{font-family:var(--mono);font-size:12px;text-align:right}
+.dk-bar .bv em{font-style:normal;color:#9a958c;font-size:10px}
+.dk-bar .bv.hot{color:#c11119}
+.dk-total{border-top:1px solid #e0dcd2;padding-top:9px}
+.dk-files{display:flex;flex-direction:column}
+.dk-file{display:grid;grid-template-columns:250px 1fr auto;gap:14px;align-items:center;padding:6.5px 0;border-bottom:1px solid #e8e4da}
+.dk-file code{font-family:var(--mono);font-size:11.5px;color:#1a1a1a}
+.dk-file span{font-size:12px;color:#6b6963}
+.dk-file em{font-style:normal;color:#4a6741;font-weight:700}
+.dk-owners{display:flex;flex-direction:column;margin:2px 0}
+.dk-ownrow{display:flex;align-items:center;gap:14px;padding:9px 0;border-bottom:1px solid #e8e4da}
+.dk-ownrow>span:last-child{font-size:14px}
+.dk-codebox{max-height:100%;overflow:hidden;padding:12px 14px}
+.dk-codebox i{font-size:10px;line-height:1.42}
 /* captions + prompt + dock */
 .rm-cap{position:absolute;left:50%;bottom:104px;transform:translateX(-50%) translateY(10px);max-width:660px;text-align:center;opacity:0;transition:opacity .4s var(--ease),transform .4s var(--ease);pointer-events:none;z-index:4}
 .rm-cap.show{opacity:1;transform:translateX(-50%)}
@@ -8105,9 +8190,109 @@ function faceHTML(p,cls,extra){
     +'<img src="'+p.img+'" alt="" onerror="this.remove()"><b>'+p.i+'</b></span>';
 }
 const DECK=[
-  {k:'The constraint', t:'The plane has no internet and no login', b:['Seatback screens run offline for the whole flight','All we know at takeoff is the route and the seat']},
-  {k:'What we built', t:'A cold-start endpoint running on their hardware', b:['Ranks the cached catalogue from route and seat alone, no passenger history','Deployed on Vercel, tested against the seatback latency budget, live for their team today']},
-  {k:'The handoff', t:'What their platform team owns next', b:['Ranking sits at 88ms against a 90ms step budget, headroom is thin','Rollback is one step, and every environment variable is named in the record']}
+ /* ── THE FINAL PRESENTATION, slide by slide ──────────────────────────────
+    This is the deck the learner stands up in front of Marcus and Dana: the
+    whole scenario argued end to end — constraint, system, contract, build,
+    proof, money, handoff. Every slide is a distinct layout with its own
+    renderer below; none of them are a template with bullets poured in,
+    because that is exactly what a real final deck is not. */
+ {kind:'cover', k:'FINAL PRESENTATION', t:'Flight Mode',
+  sub:'Deploying an offline recommendation prototype on seatback hardware',
+  who:'Sanjay Chauhan', role:'Forward Deployed Engineering', for_:'Prepared for the partner platform team'},
+
+ {kind:'exec', k:'EXECUTIVE SUMMARY', t:'Live on your hardware today',
+  points:[
+   ['The constraint is the design','No internet mid-flight and no passenger login, so every session is a cold start. We built for that instead of around it.'],
+   ['One contract, then everything else','Your engineers build against GET /flight/recommendations. Shape, budgets and every failure case were fixed before a line of the service.'],
+   ['Proven where it will run','Ranking answers in 88ms against a 90ms step budget on the seatback ARM unit, with a seven-case regression suite that tests the failures.'],
+   ['A path to production, not a demo','Deployed on Vercel with a reproducible record. Your on-call can run, check and roll it back without us in the room.']]},
+
+ {kind:'problem', k:'THE CONSTRAINT', t:'The plane has no internet and no login',
+  facts:[['0','network calls available mid-flight'],['0','passenger profiles or history'],['180ms','response ceiling on the seatback chip']],
+  note:'Everything a recommendation system usually leans on is missing. That is not an edge case up here, it is every seat on every flight.'},
+
+ {kind:'inputs', k:'WHAT WE HAVE', t:'All we know at 38,000 feet',
+  have:[['Route','SFO → NRT, loaded from the flight manifest at the gate'],
+        ['Seat','34K, the seatback unit’s own identity'],
+        ['Catalogue snapshot','1,840 titles, cached before pushback']],
+  gone:['Viewing history','Passenger identity','Live A/B flags','Any network call'],
+  note:'The snapshot is pushed per aircraft, not per flight — on a turnaround it can be 18 hours stale, and we serve it with a flag rather than failing.'},
+
+ {kind:'arch', k:'THE SYSTEM', t:'Where the offline line falls',
+  gate:[['Flight manifest','partner'],['Catalogue push','netflix'],['Identity service','netflix','dead']],
+  air:[['Seatback client','partner'],['Ranking service','netflix'],['Catalogue cache','partner']],
+  note:'Left of the line runs at the gate. Right of the line has to survive the whole flight on route, seat and the cache alone. Telemetry queues onboard and drains at landing.'},
+
+ {kind:'code', k:'THE CONTRACT', t:'GET /flight/recommendations',
+  code:[
+   ['req','GET /flight/recommendations'],
+   ['req','  ?route=SFO-NRT&seat=34K'],
+   ['req','  &catalogue_version=cs_20260818_1142'],
+   ['gap',''],
+   ['ok','200 OK · 74ms'],
+   ['k','{'],
+   ['j','  "cold_start": true,'],
+   ['j','  "catalogue_version": "cs_20260818_1142",'],
+   ['j','  "items": ['],
+   ['j','    { "title_id": "81238857",'],
+   ['j','      "rank_reason": "route_affinity" },'],
+   ['j','    { "title_id": "80057281",'],
+   ['j','      "rank_reason": "duration_fit" },'],
+   ['d','    … 18 more'],
+   ['j','  ]'],
+   ['k','}']],
+  fails:[['Cold start, no history','200 · cold_start'],['Empty catalogue','503'],['Stale snapshot','200 · stale'],['Unknown route','422']],
+  note:'Every failure case has a status code and a described response. Their engineers build against this page, not against us.'},
+
+ {kind:'latency', k:'THE BUDGET', t:'Where the 180 milliseconds go',
+  bars:[['Read snapshot',36,40],['Score & rank',88,90],['Serialise',24,30],['Client render',18,20]],
+  total:[166,180],
+  note:'Measured p95 on the partner ARM unit, not on our laptops. Ranking holds 2ms of headroom — real, but thin. Profile before the catalogue grows.'},
+
+ {kind:'tests', k:'PROOF', t:'We test the failure, not the happy path',
+  run:['test_cold_start_ranks_on_route_and_seat','test_cold_start_flags_cold_start_true',
+       'test_empty_catalogue_returns_503','test_empty_catalogue_shows_cached_rail',
+       'test_stale_catalogue_serves_with_flag','test_unknown_route_falls_back_to_popularity',
+       'test_rank_within_latency_budget'],
+  tail:'7 passed in 3.42s',
+  note:'Every case in the suite is named in the contract. A red test says which behaviour broke, in words — not which line.'},
+
+ {kind:'deploy', k:'DEPLOYED', t:'Running, reproducible, revertible',
+  rows:[['Preview','inflight-recs-git-main.vercel.app'],
+        ['Commit','a3f9c21e8b4d7f60c2e1a5b8d9f3c7e04b62a1d8'],
+        ['Branch','main · build #41'],
+        ['Env vars','5, named and described · values partner-supplied']],
+  rollback:'Rollback is one step: redeploy the previous commit from the Vercel dashboard.',
+  note:'The record is written for your on-call at three in the morning: what breaks it, the first check, and the way back.'},
+
+ {kind:'impact', k:'IMPACT', t:'What this is worth in the air',
+  stats:[['100%','of in-flight sessions served — all of them cold starts'],
+         ['1,840','titles ranked per request, on-device, in 88ms'],
+         ['$0','marginal connectivity cost — no satellite backhaul per session']],
+  drivers:[['Satellite backhaul for live recs','~$12–18 per aircraft flight-hour','avoided'],
+           ['Onboard compute','already installed — the seatback unit','reused'],
+           ['Catalogue push at gate','existing turnaround process','reused']],
+  note:'Directional, from the kickoff brief: the cost of doing this online is the strongest argument for doing it offline.'},
+
+ {kind:'deliver', k:'DELIVERABLES', t:'Everything we are handing over',
+  files:[['integration_map_v1.pdf','the system, both sides, with the offline boundary drawn'],
+         ['endpoint_contract_v1.md','the page their engineers build against'],
+         ['passenger_session_schema.sql','a session with no user, seeded with 620 flights'],
+         ['offline_regression_suite.py','seven cases, failure-first'],
+         ['cold_start_endpoint · live','ranking on route and seat inside the budget'],
+         ['deployment_record_v1.md','running, reproducible, revertible'],
+         ['partner_handoff_v1.pdf','risks with owners, and Monday morning']]},
+
+ {kind:'handoff', k:'THE HANDOFF', t:'What your team owns on Monday',
+  owners:[['Partner platform','Environment variables and the catalogue push at the gate'],
+          ['Partner platform','Honour the stale flag downstream of the endpoint'],
+          ['Netflix','Profile the ranking step before the catalogue grows'],
+          ['Partner platform','Confirm the telemetry drain on the ground']],
+  note:'A prototype without a named handoff is a demo. These four lines are the difference.'},
+
+ {kind:'end', k:'', t:'Questions.',
+  sub:'The preview is live — open it from your own laptop.',
+  url:'inflight-recs-git-main.vercel.app', who:'Sanjay Chauhan · Forward Deployed Engineering'}
 ];
 let R=null;
 function presRoom(mode){
@@ -9093,7 +9278,101 @@ function micHold(on){
   if(cb){ cb.classList.toggle('off',!R.cam); const ci=cb.querySelector('.rd-i'), cl=cb.querySelector('.rd-l');
     if(ci)ci.innerHTML=R.cam?PIC.cam:PIC.camOff; if(cl)cl.textContent=R.cam?'Stop video':'Start video'; }
 }
-function deckSlide(i){ const s=DECK[i]; return '<div class="dk-kicker">'+s.k+'</div><h3 class="dk-t">'+s.t+'</h3><ul class="dk-b">'+s.b.map(x=>'<li>'+x+'</li>').join('')+'</ul><div class="dk-foot"><span>Offline Recommendation Prototype</span><span>'+(i+1)+' / '+DECK.length+'</span></div>'; }
+/* ── the slide renderers ──────────────────────────────────────────────────
+   One function per layout. The shared chrome — kicker row with the wordmark,
+   footer with the page count — wraps whatever the slide body is, so every
+   slide belongs to the same deck without any slide being the same slide. */
+const DK_NF='<span class="dk-nf">NETFLIX</span>';
+function dkEsc(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function deckSlide(i){
+  const s=DECK[i], N=DECK.length, e=dkEsc;
+  const foot='<div class="dk-foot"><span>NETFLIX · FLIGHT MODE</span><span>'+(i+1)+' / '+N+'</span></div>';
+  const head=s.k?'<div class="dk-kickrow">'+DK_NF+'<span class="dk-kicker">'+e(s.k)+'</span></div>':'';
+  let body='';
+  if(s.kind==='cover'){
+    return '<div class="dks dk-cover"><div class="dk-kickrow">'+DK_NF+'<span class="dk-kicker">'+e(s.k)+'</span></div>'
+      +'<div class="dkc-mid"><h3 class="dkc-t">'+e(s.t)+'</h3><p class="dkc-sub">'+e(s.sub)+'</p></div>'
+      +'<div class="dkc-foot"><div><b>'+e(s.who)+'</b><span>'+e(s.role)+'</span></div><span class="dkc-for">'+e(s.for_)+'</span></div></div>';
+  }
+  if(s.kind==='exec'){
+    body='<div class="dk-grid2">'+s.points.map(function(pt){
+      return '<div class="dk-cell"><b>'+e(pt[0])+'</b><p>'+e(pt[1])+'</p></div>'; }).join('')+'</div>';
+  }
+  else if(s.kind==='problem'){
+    body='<div class="dk-facts">'+s.facts.map(function(f){
+      return '<div class="dk-fact"><i>'+e(f[0])+'</i><span>'+e(f[1])+'</span></div>'; }).join('')+'</div>'
+      +'<p class="dk-note">'+e(s.note)+'</p>';
+  }
+  else if(s.kind==='inputs'){
+    body='<div class="dk-cols"><div class="dk-col"><h5>We have</h5>'+s.have.map(function(h){
+        return '<div class="dk-have"><b>'+e(h[0])+'</b><span>'+e(h[1])+'</span></div>'; }).join('')+'</div>'
+      +'<div class="dk-col dk-gone"><h5>We do not</h5>'+s.gone.map(function(g){
+        return '<div class="dk-goner"><s>'+e(g)+'</s></div>'; }).join('')+'</div></div>'
+      +'<p class="dk-note">'+e(s.note)+'</p>';
+  }
+  else if(s.kind==='arch'){
+    const box=function(b){ return '<div class="dk-sys'+(b[2]==='dead'?' dead':'')+'"><b>'+e(b[0])+'</b><span class="dk-own '+b[1]+'">'+(b[1]==='partner'?'PARTNER':'NETFLIX')+'</span></div>'; };
+    body='<div class="dk-archrow"><div class="dk-zone"><h5>At the gate</h5>'+s.gate.map(box).join('')+'</div>'
+      +'<div class="dk-airline"><span>OFFLINE</span><span>FROM</span><span>PUSHBACK</span></div>'
+      +'<div class="dk-zone"><h5>In the air</h5>'+s.air.map(box).join('')+'</div></div>'
+      +'<p class="dk-note">'+e(s.note)+'</p>';
+  }
+  else if(s.kind==='code'){
+    body='<div class="dk-cols"><div class="dk-term dk-codebox">'+s.code.map(function(l){
+        return l[0]==='gap'?'<i class="cgap"></i>':'<i class="c-'+l[0]+'">'+e(l[1])+'</i>'; }).join('')+'</div>'
+      +'<div class="dk-col"><h5>Every failure has a number</h5><table class="dk-tab">'+s.fails.map(function(f){
+        return '<tr><td>'+e(f[0])+'</td><td>'+e(f[1])+'</td></tr>'; }).join('')+'</table>'
+      +'<p class="dk-note" style="margin-top:12px">'+e(s.note)+'</p></div></div>';
+  }
+  else if(s.kind==='latency'){
+    const max=s.total[1];
+    body='<div class="dk-bars">'+s.bars.map(function(b){
+        const pct=b[1]/max*100, cap=b[2]/max*100, hot=b[2]-b[1]<=2&&b[1]>50; /* thin headroom only matters where the time actually goes */
+        return '<div class="dk-bar"><span class="bl">'+e(b[0])+'</span>'
+          +'<span class="bt"><i class="bf'+(hot?' hot':'')+'" style="width:'+pct.toFixed(1)+'%"></i>'
+          +'<i class="bc" style="left:'+cap.toFixed(1)+'%"></i></span>'
+          +'<span class="bv'+(hot?' hot':'')+'">'+b[1]+'<em>/'+b[2]+'ms</em></span></div>'; }).join('')
+      +'<div class="dk-bar dk-total"><span class="bl">Total</span><span class="bt"><i class="bf" style="width:'+(s.total[0]/max*100).toFixed(1)+'%"></i></span>'
+      +'<span class="bv">'+s.total[0]+'<em>/'+s.total[1]+'ms</em></span></div></div>'
+      +'<p class="dk-note">'+e(s.note)+'</p>';
+  }
+  else if(s.kind==='tests'){
+    body='<div class="dk-term">'+s.run.map(function(t){
+        return '<i class="c-j">'+e(t)+' <em class="pass">PASS</em></i>'; }).join('')
+      +'<i class="c-ok" style="margin-top:6px">'+e(s.tail)+'</i></div>'
+      +'<p class="dk-note">'+e(s.note)+'</p>';
+  }
+  else if(s.kind==='deploy'){
+    body='<table class="dk-tab dk-dep">'+s.rows.map(function(r){
+        return '<tr><th>'+e(r[0])+'</th><td>'+e(r[1])+'</td></tr>'; }).join('')+'</table>'
+      +'<div class="dk-roll">'+e(s.rollback)+'</div>'
+      +'<p class="dk-note">'+e(s.note)+'</p>';
+  }
+  else if(s.kind==='impact'){
+    body='<div class="dk-facts">'+s.stats.map(function(f){
+        return '<div class="dk-fact"><i>'+e(f[0])+'</i><span>'+e(f[1])+'</span></div>'; }).join('')+'</div>'
+      +'<table class="dk-tab dk-cost">'+s.drivers.map(function(d){
+        return '<tr><td>'+e(d[0])+'</td><td>'+e(d[1])+'</td><td><em class="tag-'+d[2]+'">'+d[2].toUpperCase()+'</em></td></tr>'; }).join('')+'</table>'
+      +'<p class="dk-note">'+e(s.note)+'</p>';
+  }
+  else if(s.kind==='deliver'){
+    body='<div class="dk-files">'+s.files.map(function(f){
+        return '<div class="dk-file"><code>'+e(f[0])+'</code><span>'+e(f[1])+'</span><em>✓</em></div>'; }).join('')+'</div>';
+  }
+  else if(s.kind==='handoff'){
+    body='<div class="dk-owners">'+s.owners.map(function(o){
+        return '<div class="dk-ownrow"><span class="dk-own '+(o[0]==='Netflix'?'netflix':'partner')+'">'+e(o[0]).toUpperCase()+'</span><span>'+e(o[1])+'</span></div>'; }).join('')+'</div>'
+      +'<p class="dk-note">'+e(s.note)+'</p>';
+  }
+  else if(s.kind==='end'){
+    return '<div class="dks dk-cover dk-end"><div class="dk-kickrow">'+DK_NF+'</div>'
+      +'<div class="dkc-mid"><h3 class="dkc-t">'+e(s.t)+'</h3><p class="dkc-sub">'+e(s.sub)+'</p>'
+      +'<code class="dkc-url">'+e(s.url)+'</code></div>'
+      +'<div class="dkc-foot"><div><b>'+e(s.who)+'</b></div></div>'+foot+'</div>';
+  }
+  else { body='<ul class="dk-b">'+(s.b||[]).map(function(x){return '<li>'+e(x)+'</li>';}).join('')+'</ul>'; }
+  return '<div class="dks">'+head+'<h3 class="dk-t">'+e(s.t)+'</h3><div class="dk-body">'+body+'</div>'+foot+'</div>';
+}
 function roomSlide(i){ i=Math.max(0,Math.min(DECK.length-1,i)); R.slide=i; const d=R.ov.querySelector('#deck'); if(d){ d.innerHTML=deckSlide(i); d.classList.remove('in'); void d.offsetWidth; d.classList.add('in'); } R.ov.querySelectorAll('.film-dot').forEach((b,j)=>b.classList.toggle('on',j===i)); }
 
 /* ===== fluid morph: the meeting and the shared screen trade places ===== */
