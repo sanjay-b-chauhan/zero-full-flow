@@ -850,11 +850,7 @@ const ProjectCardL=({project,onOpen,student,size="l"})=>{
           </div>
         )}
         <div style={{marginTop:"auto",paddingTop:xl?14:md?8:12}}>
-          <div style={{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap"}}>
-            {(PROJ_SKILLS[project.id]||[]).map((sk,si)=>(
-              <span key={"sk"+si} style={{padding:"4px 10px",background:c("--paper"),borderRadius:999,fontSize:11,fontWeight:500,color:c("--ink-2")}}>{sk}</span>))}
-          </div>
-          <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginTop:8}}>
+          <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap"}}>
             <span style={mono} {...pillHover} onClick={e=>{e.stopPropagation();onOpen(project,"Presentation");}}>
               <IcPlay s={10} col={c("--ink-3")} f={c("--ink-3")}/>
               Presentation · {PRES_DUR[project.id]||"4:12"}
@@ -868,6 +864,9 @@ const ProjectCardL=({project,onOpen,student,size="l"})=>{
               <span key={"tl"+ti} style={{display:"inline-flex",alignItems:"center",gap:5,padding:"5px 10px",
                 border:`1px solid ${c("--line-soft")}`,borderRadius:999,fontSize:11.5,color:c("--ink-2")}}>
                 <Logo src={tlogo(t)} size={12} rad={3}/>{t.name}</span>))}
+            {(PROJ_SKILLS[project.id]||[]).map((sk,si)=>(
+              <span key={"sk"+si} style={{display:"inline-flex",alignItems:"center",padding:"5px 10px",
+                border:`1px solid ${c("--line-soft")}`,borderRadius:999,fontSize:11.5,color:c("--ink-2")}}>{sk}</span>))}
           </div>
         </div>
       </div>
