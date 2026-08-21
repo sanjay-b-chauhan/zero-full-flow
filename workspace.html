@@ -2711,14 +2711,26 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .mb-app{font-weight:600;font-size:12.5px}.mb-m{font-size:12px;color:rgba(255,255,255,.82)}
 .mb-right{margin-left:auto;font-size:12px;color:rgba(255,255,255,.9)}
 .mac-wall{flex:1;position:relative;overflow:hidden;background:linear-gradient(150deg,#5b7cfa 0%,#8b5cf6 45%,#c084fc 78%,#f0abfc 100%);background-image:url('mvp-assets/mac-desktop.jpg');background-size:cover;background-position:center bottom;display:grid;place-items:center}
-.chrome-win{width:80%;height:78%;margin-bottom:5%;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 30px 70px rgba(0,0,0,.42);display:flex;flex-direction:column}
-.chrome-bar{display:flex;align-items:center;gap:8px;height:36px;padding:0 14px;background:#dee1e6;flex:0 0 auto}
+.chrome-win{height:80%;aspect-ratio:1.66;max-width:92%;margin-bottom:4%;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 30px 70px rgba(0,0,0,.42);display:flex;flex-direction:column}
+.chrome-bar{display:flex;align-items:flex-end;gap:8px;height:38px;padding:0 0 0 14px;background:#dee1e6;flex:0 0 auto}
+.chrome-bar .tl{align-self:center}
+.ctab-fav{width:14px;height:14px;border-radius:3px;flex:0 0 auto}
+.ctab-t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+.ctab-x{width:16px;height:16px;color:#5f6368;flex:0 0 auto;display:grid;place-items:center}.ctab-x svg{width:11px;height:11px}
+.ctab-new{align-self:center;width:26px;height:26px;display:grid;place-items:center;color:#5f6368;font-size:17px;margin-left:2px}
+.cbar-sp{flex:1}
 .tl{width:12px;height:12px;border-radius:99px;flex:0 0 auto}.tl.r{background:#ff5f57}.tl.y{background:#febc2e}.tl.g{background:#28c840}
-.chrome-tab{margin-left:12px;background:#fff;border-radius:9px 9px 0 0;padding:9px 18px;font-size:12px;font-weight:600;color:#3c4043;align-self:flex-end;margin-bottom:-1px;max-width:60%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chrome-tool{display:flex;align-items:center;gap:12px;height:40px;padding:0 14px;background:#f1f3f4;flex:0 0 auto;border-bottom:1px solid #e3e5e8}
-.ct-nav{width:22px;height:22px;color:#5f6368;display:grid;place-items:center;flex:0 0 auto}.ct-nav svg{width:16px;height:16px}
-.ct-addr{flex:1;background:#fff;border-radius:99px;padding:7px 15px;font-size:11.5px;color:#5f6368;font-family:var(--mono);letter-spacing:.2px}
+.chrome-tab{display:flex;align-items:center;gap:8px;margin-left:10px;background:#fff;border-radius:10px 10px 0 0;padding:7px 12px;font-size:11.5px;font-weight:500;color:#3c4043;align-self:flex-end;width:320px;max-width:46%}
+.chrome-tool{display:flex;align-items:center;gap:10px;height:42px;padding:0 12px;background:#fff;flex:0 0 auto;border-bottom:1px solid #e8eaed}
+.ct-nav{width:24px;height:24px;color:#5f6368;display:grid;place-items:center;flex:0 0 auto;border-radius:99px}.ct-nav svg{width:16px;height:16px}
+.ct-nav.dim{opacity:.38}
+.ct-lock{width:12px;height:12px;flex:0 0 auto;color:#5f6368}
+.ct-av{width:24px;height:24px;border-radius:99px;overflow:hidden;flex:0 0 auto}.ct-av img{width:100%;height:100%;object-fit:cover;display:block}
+.ct-addr{flex:1;display:flex;align-items:center;gap:7px;background:#f1f3f4;border-radius:99px;padding:7px 14px;font-size:11.5px;color:#3c4043;font-family:var(--mono);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chrome-body{flex:1;position:relative;overflow:hidden;background:#191817;display:grid;place-items:center}
+/* the slide is the point of the window: the fitting frame takes the whole
+   body and the paper letterboxes only as far as the 16:9 maths demands */
+.chrome-body .deck{max-width:none;width:100%;height:100%;aspect-ratio:auto}
 .chrome-body .deck{position:absolute!important;inset:0;width:100%!important;max-width:none!important;height:100%;aspect-ratio:auto!important;border-radius:0!important;box-shadow:none!important;padding:5.5% 7%!important;background:#f5f3ee!important}
 .mac-dock{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);display:flex;gap:8px;padding:6px 8px;background:rgba(255,255,255,.2);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.25);border-radius:16px;z-index:5}
 .dk-i{width:34px;height:34px;border-radius:9px;box-shadow:0 3px 8px rgba(0,0,0,.25)}
@@ -2777,7 +2789,7 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 
 /* ===== v35 screen-share Meet PiP ===== */
 .rm.presenting .deskshare{max-width:none!important;width:100%!important;max-height:80vh!important}
-.rm.presenting .chrome-win{width:88%!important;height:80%!important}
+.rm.presenting .chrome-win{height:80%!important;width:auto!important}
 .meet-pip{position:absolute;right:24px;bottom:24px;width:236px;background:#0f0f12;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:12px;box-shadow:0 24px 60px rgba(0,0,0,.6);z-index:20;opacity:0;transition:opacity .4s var(--ease)}
 .meet-pip.show{opacity:1;animation:pipFloat 6s ease-in-out infinite .5s}
 @keyframes pipFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
@@ -2803,7 +2815,7 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
 .rm.presenting .rm-back{display:none}
 .rm.presenting .rm-stage{padding:0}
 .rm.presenting .deskshare{width:100%!important;height:100%!important;max-width:none!important;max-height:none!important}
-.rm.presenting .chrome-win{width:90%!important;height:82%!important}
+.rm.presenting .chrome-win{height:82%!important;width:auto!important}
 
 
 /* ===== v38: PiP rebuild + Chrome-true share picker ===== */
@@ -3456,8 +3468,11 @@ mark.qhl.pulse{animation:qhlpulse 1.3s var(--ease)}
    deck is up (flex:1 on .mp-me), but every face inside kept its pop-up size —
    a 32-46px circle in a ~380px tile is why the seats read as empty rooms with
    a name tag. When the panel is the meeting, the faces are the tile. */
-.paneled .meet-pip.dock .mp-tile.self .zav{--zs:118px}
-.paneled .meet-pip.dock .mp-init{width:118px;height:118px;font-size:38px}
+.paneled .meet-pip.dock .mp-tile.self .zav{--zs:110px}
+.paneled .meet-pip.dock .mp-init{width:110px;height:110px;font-size:0}
+/* everyone has a photo, so the fallback initials must never poke out beside it */
+.paneled .meet-pip.dock .zface b{color:transparent}
+.paneled .meet-pip.dock .zav b{font-size:0}
 .mp-tile.self.live .zav{display:none}
 
 /* ===== v80: the report card, built to the product team's spec =====
@@ -9470,8 +9485,17 @@ function deskShareHTML(){
    +'  <div class="mac-bar"><span class="mb-apple">'+MAC_APPLE+'</span><b class="mb-app">Chrome</b><span class="mb-m">File</span><span class="mb-m">Edit</span><span class="mb-m">View</span><span class="mb-m">Window</span><span class="mb-right">Mon 9:41 AM</span></div>'
    +'  <div class="mac-wall">'
    +'    <div class="chrome-win">'
-   +'      <div class="chrome-bar"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span><div class="chrome-tab">Deploying an Offline Recommendation Prototype · Netflix</div></div>'
-   +'      <div class="chrome-tool"><span class="ct-nav">'+PIC.back+'</span><span class="ct-addr">netflix.zero.co / final-presentation</span></div>'
+   +'      <div class="chrome-bar"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span>'
+   +'<div class="chrome-tab"><img class="ctab-fav" src="assets/netflix-chip.png" alt=""><span class="ctab-t">Deploying an Offline Recommendation Prototype · Netflix</span><span class="ctab-x">'+VIC_X+'</span></div>'
+   +'<span class="ctab-new">+</span><span class="cbar-sp"></span></div>'
+   +'      <div class="chrome-tool">'
+   +'<span class="ct-nav">'+PIC.back+'</span><span class="ct-nav dim"><span style="display:inline-block;transform:scaleX(-1)">'+PIC.back+'</span></span>'
+   +'<span class="ct-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></span>'
+   +'<span class="ct-addr"><svg class="ct-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>netflix.zero.co/final-presentation</span>'
+   +'<span class="ct-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.7 5.7 6.3.8-4.6 4.3 1.2 6.2-5.6-3.1-5.6 3.1 1.2-6.2L3 9.5l6.3-.8z"/></svg></span>'
+   +'<span class="ct-av"><img src="mvp-assets/headshot.jpg" alt=""></span>'
+   +'<span class="ct-nav ct-dots"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></span>'
+   +'</div>'
    +'      <div class="chrome-body"><div class="deck in" id="deck">'+deckSlide(0)+'</div></div>'
    +'    </div>'
    /* no arrows, no film strip: the deck presents itself, so the control the
