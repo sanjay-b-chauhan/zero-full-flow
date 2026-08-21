@@ -220,25 +220,65 @@
      a display:none element still answers to .click(), so we drive the page's
      REAL control rather than reaching for the function behind it. One code
      path whether you clicked it or pressed a key, so they can never diverge. */
-  var STEPPERS = [
-    { prev: '#stageNav .sn-prev', next: '#stageNav .sn-next' },          /* workspace */
-    { prev: '#dbgPrev', next: '#dbgNext' },                              /* onboarding */
-    { prev: '[aria-label="Previous scenario"]', next: '[aria-label="Next scenario"]' }
-  ];
-  function step(dir) {
-    for (var i = 0; i < STEPPERS.length; i++) {
-      var el = document.querySelector(STEPPERS[i][dir]);
-      if (el && !el.disabled) { el.click(); return true; }
-    }
-    return false;
+  /* ── ← → step the screen, and the screens are a chain ──────────────────
+     Each page has its own idea of a step: the workspace moves a beat of the
+     scenario, the onboarding moves one of its eighteen steps, the map moves
+     between scenarios. Arrows drive whichever of those this page has.
+
+     And when a page runs out of steps, forward means the NEXT SCREEN, not the
+     last step again. Pressing past the end of the onboarding used to re-enter
+     its final step, which re-ran the handoff and stacked another Download the
+     app card every time. A flow that reads onboarding, post-onboarding, world,
+     stage should walk exactly that way.
+
+     This keeps working while the debug chrome is hidden, and not by accident:
+     a display:none element still answers to .click(), so we drive the page's
+     REAL control rather than reaching for the function behind it. One code
+     path whether you clicked it or pressed a key, so they cannot diverge. */
+  var CHAIN = ['onboarding', 'welcome', 'world', 'stage'];
+  var HREF = {};
+  STOPS.forEach(function (s2) { HREF[s2.id] = s2.href; });
+
+  function localStepper() {
+    if (onWorkspace) return { prev: '#stageNav .sn-prev', next: '#stageNav .sn-next' };
+    if (onHome) return null;              /* the map's steps are its own beats */
+    return { prev: '#dbgPrev', next: '#dbgNext' };
   }
+  /* where we stand in the chain right now — on the home that depends on
+     whether the first run is still playing */
+  function whereAmI() {
+    if (onWorkspace) return 'stage';
+    if (!onHome) return 'onboarding';
+    return document.getElementById('zfr') ? 'welcome' : 'world';
+  }
+  function goStop(id) { if (HREF[id]) location.href = HREF[id]; }
+
+  function step(dir) {
+    var here = whereAmI(), st = localStepper();
+    if (st) {
+      var el = document.querySelector(st[dir]);
+      /* a live control takes it; a disabled one means this screen is spent */
+      if (el && !el.disabled) { el.click(); return true; }
+    } else if (onHome && here === 'welcome') {
+      /* mid first run: its own CTA is the step forward */
+      var cta = document.querySelector('.zfr-cta');
+      if (dir === 'next' && cta) { cta.click(); return true; }
+    }
+    /* out of steps: move along the chain rather than repeating the last one */
+    var i = CHAIN.indexOf(here);
+    if (i < 0) return false;
+    var j = dir === 'next' ? i + 1 : i - 1;
+    if (j < 0 || j >= CHAIN.length) return false;   /* the ends are the ends */
+    goStop(CHAIN[j]);
+    return true;
+  }
+
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
     /* never steal the key from a caret, a form control, or a real shortcut */
     if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return;
     var t = e.target;
     if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName || ''))) return;
-    /* nor from anything that scrolls sideways under the cursor, or a slider */
     if (t && t.closest && t.closest('[role="slider"],[data-noarrow]')) return;
     if (step(e.key === 'ArrowLeft' ? 'prev' : 'next')) e.preventDefault();
   }, true);
