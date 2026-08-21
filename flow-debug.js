@@ -98,7 +98,7 @@
     '<div class="zf-pop"><div class="zf-h">Flow</div><div class="zf-g">' + stops + '</div>' +
       '<div class="zf-h" style="padding-top:11px">Popups</div><div class="zf-g" id="zffPops"></div>' +
       '<button class="zf-screen" type="button" data-screen>This screen’s controls</button>' +
-      '<div class="zf-k">⌃H hides every debug control</div></div>';
+      '<div class="zf-k">← → step this screen · ⌃H hides every debug control</div></div>';
   (document.body || document.documentElement).appendChild(gear);
 
   var pop = gear.querySelector('.zf-pop');
@@ -210,6 +210,38 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { driveHome(hash); });
     else driveHome(hash);
   }
+
+  /* ── ← → step the screen, whether or not the controls are on show ────────
+     Each page has its own idea of a step: the workspace moves a beat of the
+     scenario, the onboarding moves one of its eighteen steps, the map moves
+     between scenarios. Arrow keys drive whichever of those this page has.
+
+     This keeps working while the debug chrome is hidden, and not by accident:
+     a display:none element still answers to .click(), so we drive the page's
+     REAL control rather than reaching for the function behind it. One code
+     path whether you clicked it or pressed a key, so they can never diverge. */
+  var STEPPERS = [
+    { prev: '#stageNav .sn-prev', next: '#stageNav .sn-next' },          /* workspace */
+    { prev: '#dbgPrev', next: '#dbgNext' },                              /* onboarding */
+    { prev: '[aria-label="Previous scenario"]', next: '[aria-label="Next scenario"]' }
+  ];
+  function step(dir) {
+    for (var i = 0; i < STEPPERS.length; i++) {
+      var el = document.querySelector(STEPPERS[i][dir]);
+      if (el && !el.disabled) { el.click(); return true; }
+    }
+    return false;
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    /* never steal the key from a caret, a form control, or a real shortcut */
+    if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return;
+    var t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName || ''))) return;
+    /* nor from anything that scrolls sideways under the cursor, or a slider */
+    if (t && t.closest && t.closest('[role="slider"],[data-noarrow]')) return;
+    if (step(e.key === 'ArrowLeft' ? 'prev' : 'next')) e.preventDefault();
+  }, true);
 
   function setHidden(v) {
     try { localStorage.setItem(KEY, v ? '1' : '0'); } catch (err) {}
