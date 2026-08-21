@@ -9525,6 +9525,7 @@ function deskShareHTML(){
    +'<span class="ct-av"><img src="mvp-assets/headshot.jpg" alt=""></span>'
    +'<span class="ct-nav ct-dots"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></span>'
    +'</div>'
+   +'      <button id="dnPrev" hidden aria-hidden="true" tabindex="-1"></button><button id="dnNext" hidden aria-hidden="true" tabindex="-1"></button>'
    +'      <div class="chrome-body">'
    +'        <div class="dk-rail" id="dkRail">'+DECK.map(function(_,i){ return '<div class="dkthumb'+(i===0?' on':'')+'" data-i="'+i+'"><span class="dkt-n">'+(i+1)+'</span><div class="dkt-vp">'+deckSlide(i)+'</div></div>'; }).join('')+'</div>'
    +'        <div class="dk-main"><div class="deck in" id="deck">'+deckSlide(0)+'</div></div>'
@@ -9628,7 +9629,7 @@ const DK_TOUR={
   deliver:['.dk-file:nth-child(5) code','.dk-file:nth-child(6) code'],
   handoff:['.dk-ownrow:first-child','.dk-ownrow:nth-child(3)','.dk-note'],
   end:['.dkc-url']};
-const DK_SLIDE_MS=12000;
+const DK_SLIDE_MS=8000;
 function dkCursorEl(){
   let c=R.ov&&R.ov.querySelector('#dkCur');
   if(c||!R.ov)return c;
@@ -9658,17 +9659,27 @@ function dkWalkSlide(i){
     try{ R.curT.push(gsap.delayedCall(1.1+k*(DK_SLIDE_MS/1000-2.2)/Math.max(1,stops.length), ()=>dkPoint(sel,1.15))); }catch(e){}
   });
 }
+function dkAdvance(){
+  if(!R||!R.ov)return;
+  if(R.slide>=DECK.length-1){ clearInterval(R.slideIv); return; }   /* rest on the last slide until I'm done */
+  roomSlide(R.slide+1);
+  dkWalkSlide(R.slide);
+}
+function dkArm(){ clearInterval(R.slideIv); R.slideIv=setInterval(dkAdvance, DK_SLIDE_MS); }
 function deckAutoplay(){
   if(!R)return;
-  clearInterval(R.slideIv);
   R.slide=0; dkFit(); dkWalkSlide(0); dkPoint(null,.01);
   try{ if(R.dkRO)R.dkRO.disconnect(); R.dkRO=new ResizeObserver(()=>dkFit()); R.dkRO.observe(R.ov.querySelector('#deck')); }catch(e){}
-  R.slideIv=setInterval(()=>{
-    if(!R||!R.ov){ return; }
-    if(R.slide>=DECK.length-1){ clearInterval(R.slideIv); return; }   /* rest on the last slide until I'm done */
-    roomSlide(R.slide+1);
-    dkWalkSlide(R.slide);
-  }, DK_SLIDE_MS);
+  dkArm();
+}
+/* the arrows are the presenter's clicker: a manual step lands the slide, replays its cursor
+   walk, and restarts the cadence so autoplay never fires right on the heels of a keypress */
+function deckStep(d){
+  if(!R||!R.ov)return;
+  const i=Math.max(0,Math.min(DECK.length-1,R.slide+d));
+  if(i===R.slide)return;
+  roomSlide(i); dkWalkSlide(i);
+  dkArm();
 }
 function roomPresent(){
   if(R.recording)return; R.recording=true; R.slide=0;
@@ -9679,8 +9690,8 @@ function roomPresent(){
   if(R.shareKind==='window' && R.shareWin && R.shareWin!=='deck' && !R.wrongShown){ R.wrongShown=true; setTimeout(function(){ R.noQA=true; roomStop(); R.noQA=false; try{ roomWrongShare(); }catch(e){} },2600); }
   R.ov.querySelector('#rmStage').innerHTML=deskShareHTML();
   R.ov.querySelectorAll('#film .film-dot').forEach(b=>b.onclick=()=>roomSlide(+b.dataset.i));
-  { const _p=R.ov.querySelector('#dnPrev'); if(_p)_p.onclick=()=>roomSlide(R.slide-1); }
-  { const _n=R.ov.querySelector('#dnNext'); if(_n)_n.onclick=()=>roomSlide(R.slide+1); }
+  { const _p=R.ov.querySelector('#dnPrev'); if(_p)_p.onclick=()=>deckStep(-1); }
+  { const _n=R.ov.querySelector('#dnNext'); if(_n)_n.onclick=()=>deckStep(1); }
   deckAutoplay();
   const _sp=R.ov.querySelector('#rmSelf'); if(_sp)_sp.style.display='none';
   const _dk=R.ov.querySelector('#rmDock'); if(_dk)_dk.innerHTML='';
@@ -10945,8 +10956,8 @@ function presRecordRun(from){
   ov.querySelector('#rmStage').innerHTML=deskShareHTML();
   const st=ov.querySelector('.deskshare'); if(from) try{ morphIn(st,from,540); }catch(e){}
   ov.querySelectorAll('#film .film-dot').forEach(function(b){ b.onclick=function(){ roomSlide(+b.dataset.i); }; });
-  { const _p=ov.querySelector('#dnPrev'); if(_p)_p.onclick=function(){ roomSlide(R.slide-1); }; }
-  { const _n=ov.querySelector('#dnNext'); if(_n)_n.onclick=function(){ roomSlide(R.slide+1); }; }
+  { const _p=ov.querySelector('#dnPrev'); if(_p)_p.onclick=function(){ deckStep(-1); }; }
+  { const _n=ov.querySelector('#dnNext'); if(_n)_n.onclick=function(){ deckStep(1); }; }
   deckAutoplay();
   ov.querySelector('#rmBack').onclick=function(){ roomConfirmExit(); };
   /* the docked panel, same furniture as the live room: clock on top, your seat, the done CTA —
@@ -17180,6 +17191,6 @@ window.ZC_COACH2={setScene,openPanel,closePanel:closePanel_,SCENES,setMode,setSt
 /* zero-full-flow stitch: the topbar back arrow returns to the world-map home */
 (function(){ var b=document.getElementById('iBack'); if(b) b.addEventListener('click', function(){ window.location.href='./'; }); })();
 </script>
-<script src="flow-debug.js?v=7" defer></script>
+<script src="flow-debug.js?v=8" defer></script>
 </body>
 </html>

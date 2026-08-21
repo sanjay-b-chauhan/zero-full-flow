@@ -240,6 +240,9 @@
   STOPS.forEach(function (s2) { HREF[s2.id] = s2.href; });
 
   function localStepper() {
+    /* while a deck is being presented, the arrows are the presenter's clicker:
+       they step SLIDES (and their cursor walk), not the scenario beat */
+    if (document.getElementById('dnNext')) return { prev: '#dnPrev', next: '#dnNext' };
     if (onWorkspace) return { prev: '#stageNav .sn-prev', next: '#stageNav .sn-next' };
     if (onHome) return null;              /* the map's steps are its own beats */
     return { prev: '#dbgPrev', next: '#dbgNext' };
