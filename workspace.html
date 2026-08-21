@@ -14332,21 +14332,23 @@ body.zc-demo-on #dbgFab,body.zc-demo-on .dbg-fab,body.zc-demo-on #dbg,body.zc-de
    Derive from the coach's diameter, never by eye. */
 /* the topbar already puts 9px between its chips — adding our own margin on
    top of it is what made the XP gap read double (Atul: "2x more") */
-.zc-hud.zc-states{margin-left:0;
+.zc-hud.zc-states,.zc-hud.zc-cluster{margin-left:0;
   height:34px;padding:0 0 0 5px;border-radius:99px;box-sizing:border-box;
   background:rgba(255,255,255,.045);
   box-shadow:inset 0 1px 3px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.05)}
 .zc-mcase{display:none;align-items:center}
-.zc-hud.zc-states .zc-mcase{display:flex}
+.zc-hud.zc-states .zc-mcase,.zc-hud.zc-cluster .zc-mcase{display:flex}
 /* she caps the pill: her circle IS its right end, so the dot keeps riding her
    on the container's own corner */
-.zc-hud.zc-states .zc-ava{margin-left:7px}
+.zc-hud.zc-states .zc-ava,.zc-hud.zc-cluster .zc-ava{margin-left:7px}
 /* inside the pill nothing overlaps, so she needs no cut-out ring */
-.zc-hud.zc-states .zc-ava img{box-shadow:none}
+.zc-hud.zc-states .zc-ava img,.zc-hud.zc-cluster .zc-ava img{box-shadow:none}
 /* discrete instruments, clubbed close */
 .zc-mslot{width:24px;height:24px;position:relative;overflow:visible}
 .zc-mslot+.zc-mslot{margin-left:6px}
-.zc-hud.zc-states .zc-slot{display:none}
+/* the cluster replaces the older surfacing lane: two rows of icons for the
+   same four axes read as twice the instrumentation */
+.zc-hud.zc-states .zc-slot,.zc-hud.zc-cluster .zc-slot{display:none}
 /* THE DISC IS AN INNER GLOW, NOT A DROP SHADOW (Atul, Aug 20 — the thing he
    likes about the first prototype's icons). Taken from the Figma asset's own
    filter: white, no offset, 45% opacity, blur ≈ 25% of the diameter. A drop
@@ -16270,6 +16272,7 @@ const CHECKIN=SCENES.findIndex(x=>x.id==="checkin");
 sceneIx=CHECKIN;paintScene();
 /* the cluster starts honest: nothing observed, so nothing claimed. The rings
    are empty until the scenario actually gives her something to read. */
+hud.classList.add("zc-cluster");
 zcApplyLive();
 /* mid-stage she can already read three of the four (quality waits for a
    submission), so the check-in's own rows go up a beat after the workspace
