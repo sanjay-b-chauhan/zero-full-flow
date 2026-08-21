@@ -33,19 +33,21 @@
     on a static host it would fight normal loading.
   -->
 <script id="zff-stitch">
-/* zero-full-flow stitch: the scenario card's Continue launches the real
+/* zero-full-flow stitch: the scenario card's CTA launches the real
    stage workspace (approved presentation flow + coach layer) instead of
    the lab's embedded skin. Capture phase so it wins over the React handler. */
 document.addEventListener('click', function (e) {
   var b = e.target && e.target.closest && e.target.closest('button');
   if (!b) return;
-  if (b.textContent.trim() === 'Continue') {
+  /* keyed on the CTA itself, not on its wording: this matched the string
+     "Continue" and would have come unhooked the moment the label changed. */
+  if (b.matches('[data-cta="open"]') || b.textContent.trim() === 'Continue' || b.textContent.trim() === 'Start') {
     e.preventDefault(); e.stopPropagation();
     window.location.href = 'workspace.html';
   }
 }, true);
 </script>
-<script src="flow-debug.js?v=4" defer></script>
+<script src="flow-debug.js?v=5" defer></script>
 <style id="zff-hud-scale">
 /* The XP card (and the performance card beside it, same popover family) read
    oversized against the small HUD chips they hang from. Scale the whole card,
@@ -287,7 +289,7 @@ document.addEventListener('click', function (e) {
       '</div>' +
       '<div class="zc-cta"><button class="sbtn" type="button" data-cta="open">' +
         '<svg width="17" height="17" viewBox="0 0 24 24" fill="#121212" aria-hidden><path d="M8 5v14l11-7z"/></svg>' +
-        '<span class="sbtn-label">Continue</span></button></div>';
+        '<span class="sbtn-label">Start</span></button></div>';
   }
 
   function swap(card) {

@@ -174,11 +174,21 @@
     return null;
   }
   function driveHome(target) {
-    var n = 0;
+    var n = 0, seen = false;
     (function step() {
       if (++n > 200) return;
       var zfr = document.getElementById('zfr');
-      if (!zfr) return;                        /* first run over: the map */
+      if (!zfr) {
+        /* NOT MOUNTED YET is not the same as FINISHED. This script is deferred
+           and the app renders its first run afterwards, so on the very first
+           tick #zfr does not exist — and the old guard read that as "already
+           at the map" and quit. Which is why Home and Post-onboarding both sat
+           on the login screen and never advanced. Only treat a missing #zfr as
+           the end once we have actually seen it. */
+        if (seen) return;
+        return void setTimeout(step, 200);
+      }
+      seen = true;
       var beat = zfr.dataset.beat || '';
       if (beat === 'login') {
         var cb = document.querySelector('.zfr-consent input');

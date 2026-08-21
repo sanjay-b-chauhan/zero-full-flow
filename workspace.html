@@ -226,7 +226,28 @@ svg{display:block}
 .active.morphing{animation:cardGlow 1.15s var(--ease)}
 @keyframes cardGlow{0%{box-shadow:0 0 0 0 rgba(74,222,128,0)}34%{box-shadow:0 0 36px -4px rgba(74,222,128,.5)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
 /* active stage, one outline-only container */
-.active{position:relative;border:var(--bw) solid var(--line);border-radius:16px;padding:16px 16px 8px;margin-bottom:20px}
+/* THE ACTIVE CARD OWNS A CEILING, AND SCROLLS INSIDE IT.
+   With every requirement group open and a full resource shelf, this card grows
+   taller than the rail. The rail itself scrolls, so nothing was lost — but the
+   stage TITLE scrolled away with it, and the resources ran off under the debug
+   controls. Capping the card and giving its body its own scroll keeps the
+   header pinned and puts the long part on a track of its own.
+   The cap is the rail height minus the card's own margin, so it never leaves a
+   gap when the content is short: max-height only bites when it has to. */
+.active{position:relative;border:var(--bw) solid var(--line);border-radius:16px;padding:16px 16px 8px;margin-bottom:20px;display:flex;flex-direction:column;max-height:calc(100vh - 190px)}
+/* the header stays put; everything under it is the track */
+.active > .active-h{flex:0 0 auto}
+.active > .morph-zone,.active > .tres-wrap{flex:0 1 auto;min-height:0}
+/* the track scrolls unconditionally. Gating it on a measured class meant a
+   frame where the measurement never ran left the content spilling out of a
+   capped card — and an overflow:auto box with short content shows no
+   scrollbar anyway, so there is nothing to gate. */
+.active > .morph-zone{overflow-y:auto;overscroll-behavior:contain;min-height:0;padding-right:4px;margin-right:-4px}
+/* the hairline is the only part that waits to be told there is more below */
+.active.scrolls > .morph-zone{border-bottom:var(--bw) solid var(--line);padding-bottom:10px}
+.active > .morph-zone::-webkit-scrollbar{width:6px}
+.active > .morph-zone::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
+.active > .morph-zone::-webkit-scrollbar-track{background:transparent}
 .active-h{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
 .active-h .t{flex:1;font-size:19px;font-weight:700;line-height:1.24;letter-spacing:-.02em}
 .active-h .help{width:28px;height:28px;border-radius:99px;display:grid;place-items:center;color:var(--tx-3);flex:0 0 auto;transition:color var(--t-q) var(--ease)}
@@ -6672,6 +6693,11 @@ function renderRail(reveal){
       <div class="group-h"><span class="chev">${HI.down}</span><span class="lbl">Upcoming stages</span><span class="cnt">${UPCOMING.length}</span></div>
       <div class="group-body"><div>${UPCOMING.map(t=>`<div class="gstep"><span class="ic">${HI.lock}</span><span class="st">${t}</span></div>`).join('')}</div></div>
     </div>`:''}`;
+  /* only cap what actually overflows: measuring after the paint means a short
+     card keeps its natural height and no scrollbar appears for two rows */
+  requestAnimationFrame(()=>{ const a=railBody.querySelector('.active'); if(!a)return;
+    const z=a.querySelector('.morph-zone'); if(!z)return;
+    a.classList.toggle('scrolls', a.scrollHeight>a.clientHeight+2); });
   wireRail();
 }
 /* the requirements (build) OR the walkthrough + follow-along steps (stuck) — the ONLY part that morphs on a mode switch */
@@ -16458,6 +16484,6 @@ window.ZC_COACH2={setScene,openPanel,closePanel:closePanel_,SCENES,setMode,setSt
 /* zero-full-flow stitch: the topbar back arrow returns to the world-map home */
 (function(){ var b=document.getElementById('iBack'); if(b) b.addEventListener('click', function(){ window.location.href='./'; }); })();
 </script>
-<script src="flow-debug.js?v=4" defer></script>
+<script src="flow-debug.js?v=5" defer></script>
 </body>
 </html>
