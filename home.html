@@ -45,7 +45,7 @@ document.addEventListener('click', function (e) {
   }
 }, true);
 </script>
-<script src="flow-debug.js" defer></script>
+<script src="flow-debug.js?v=4" defer></script>
 <style id="zff-hud-scale">
 /* The XP card (and the performance card beside it, same popover family) read
    oversized against the small HUD chips they hang from. Scale the whole card,
@@ -75,7 +75,7 @@ document.addEventListener('click', function (e) {
 @font-face{font-family:'STK_Bureau_Serif','STK Bureau Serif';font-style:normal;font-weight:400;font-display:swap;
     src:url(fonts/STKBureau-SerifBook.otf) format('opentype')}
 
-  :root{
+  .zcard{
     --card-w:100%;            /* the TRUE outer width now that box-sizing is
                                   border-box: 466 was measuring 522 on screen */
     --card-radius:44px;
@@ -91,8 +91,8 @@ document.addEventListener('click', function (e) {
   }
 
   /* the page is only a stage for the card — the real host is the city map */
-  body{margin:0;min-height:100vh;display:grid;place-items:center;gap:28px;padding:48px 20px;
-    background:#141210;font-family:'Google_Sans_Flex','Google Sans Flex',system-ui,sans-serif}
+  /* the demo page's body rule is deliberately NOT copied: it is what put a
+     black band above the app and shifted the whole map down. */
 .stage{display:flex;flex-direction:column;align-items:center;gap:16px}
 
   /* ── THE CARD ──────────────────────────────────────────────────────────
@@ -253,8 +253,10 @@ document.addEventListener('click', function (e) {
     difficulty: 'Intermediate',
     dots: 3                                   /* of four */
   };
-  var STAR = '<svg width="17" height="17" viewBox="0 0 24 24" fill="#ffd76b" aria-hidden>' +
-    '<path d="M12 1.6c.6 4.6 1.9 6.9 4.4 8.1-2.5 1.2-3.8 3.5-4.4 8.1-.6-4.6-1.9-6.9-4.4-8.1 2.5-1.2 3.8-3.5 4.4-8.1z"/></svg>';
+  /* the product's own XP star, the same asset the level chip up top uses —
+     a hand-drawn four-point path next to it read as a different currency */
+  var STAR = '<img src="assets/star-BKd6SvH9.webp" alt="" aria-hidden ' +
+    'style="width:17px;height:17px;object-fit:contain;display:block">';
   var CH = function (d) {
     return '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" ' +
       'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden><path d="' + d + '"/></svg>';
@@ -290,10 +292,9 @@ document.addEventListener('click', function (e) {
 
   function swap(card) {
     if (card.dataset.zcard === '1') return;
-    /* the company mark the bundle already drew, reused so we never ship a
-       second copy of a logo that is right there */
-    var mark = card.querySelector('img[alt*="Netflix" i], svg');
-    var markHtml = mark ? mark.outerHTML : '';
+    /* the mark, shipped rather than scavenged: reading it back off the card
+       picked up whichever <svg> came first, which was a chevron. */
+    var markHtml = '<img src="assets/netflix-mark.png" alt="" aria-hidden>';
     card.dataset.zcard = '1';
     card.classList.add('zcard');
     var kept = document.createElement('div');
