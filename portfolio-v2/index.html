@@ -850,14 +850,20 @@ const ProjectCardL=({project,onOpen,student,size="l"})=>{
           </div>
         )}
         <div style={{marginTop:"auto",paddingTop:xl?14:md?8:12}}>
-          <div style={{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap"}}>
-            {(project.performanceReview?.toolsUsed||[]).map((t,ti)=>(
-              <span key={"tl"+ti} style={{display:"inline-flex",alignItems:"center",gap:5,padding:"4px 9px",whiteSpace:"nowrap",
-                border:`1px solid ${c("--line-soft")}`,borderRadius:999,fontSize:11,color:c("--ink-2")}}>
-                <Logo src={tlogo(t)} size={11} rad={3}/>{t.name}</span>))}
-            {(PROJ_SKILLS[project.id]||[]).map((sk,si)=>(
-              <span key={"sk"+si} style={{display:"inline-flex",alignItems:"center",padding:"4px 9px",whiteSpace:"nowrap",
-                border:`1px solid ${c("--line-soft")}`,borderRadius:999,fontSize:11,color:c("--ink-2")}}>{sk}</span>))}
+          <div style={{display:"flex",alignItems:"center",gap:6,overflow:"hidden"}}>
+            {(()=>{
+              const pillSt={display:"inline-flex",alignItems:"center",gap:5,padding:"4px 9px",whiteSpace:"nowrap",flexShrink:0,
+                border:`1px solid ${c("--line-soft")}`,borderRadius:999,fontSize:11,color:c("--ink-2")};
+              const items=[...(project.performanceReview?.toolsUsed||[]).map(t=>({kind:"tool",t})),
+                ...(PROJ_SKILLS[project.id]||[]).map(sk=>({kind:"skill",sk}))];
+              const vis=items.slice(0,4), ext=items.length-vis.length;
+              return (<React.Fragment>
+                {vis.map((it,ii)=>it.kind==="tool"
+                  ?<span key={"tp"+ii} style={pillSt}><Logo src={tlogo(it.t)} size={11} rad={3}/>{it.t.name}</span>
+                  :<span key={"tp"+ii} style={pillSt}>{it.sk}</span>)}
+                {ext>0&&<span style={{...pillSt,color:c("--ink-3")}}>+{ext}</span>}
+              </React.Fragment>);
+            })()}
           </div>
           <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",marginTop:8}}>
             <span style={mono} {...pillHover} onClick={e=>{e.stopPropagation();onOpen(project,"Presentation");}}>
