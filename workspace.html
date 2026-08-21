@@ -14838,12 +14838,21 @@ const AX_FIG={
    button anywhere. Both links are always built from THIS file. */
 const STATES_LAB=false;
 const METRIC_COPY={
-  "_source": "zero-coach-metric-copy.pdf — Drew, Slack C0ADJJAHYMA thread 1786328762.878569, Aug 20 2026. Transcribed verbatim. This is the authoritative metric copy for coach v2; it supersedes the per-scene one-liners improvised earlier.",
+  "_source": "zero-coach-metric-copy.pdf — Drew, Slack C0ADJJAHYMA thread 1786328762.878569, Aug 20 2026. Transcribed verbatim. This is the authoritative metric copy for coach v2; it supersedes the per-scene one-liners improvised earlier. Evidence lines retargeted to the Netflix offline-recommendation brief; doctrine, states and structure untouched.",
   "_model": {
     "metrics": 4,
     "note": "SPEED IS GONE — replaced by UNDERSTANDING (Drew, Aug 19: speed is already handled by the time-picking flow; understanding reads AI reliance).",
-    "states": ["calibrating", "strong", "mixed", "weak"],
-    "layers": ["whatsHappening", "why", "whatToDo"],
+    "states": [
+      "calibrating",
+      "strong",
+      "mixed",
+      "weak"
+    ],
+    "layers": [
+      "whatsHappening",
+      "why",
+      "whatToDo"
+    ],
     "layerNote": "PRIMARY = whatsHappening (the current state). Then WHY (the evidence). Then WHAT TO DO (the action). Drew's voice note: the second two are either shown as separate sections by default or behind a click — Atul's call."
   },
   "metrics": [
@@ -14861,14 +14870,14 @@ const METRIC_COPY={
         "strong": {
           "state": "Strong",
           "whatsHappening": "You're working from your own read of the problem.",
-          "why": "You asked Marcus about the cancellation data before you touched the template, and your structure follows from what he told you.",
+          "why": "You asked Marcus what the seatback unit can actually do before you touched the contract, and its shape follows from what he told you.",
           "whatToDo": "Keep leading with your own take when you check in with him. That's what makes it stick."
         },
         "mixed": {
           "state": "Mixed",
           "whatsHappening": "You're getting the work done, but the reasoning is coming from somewhere else.",
-          "why": "Your template follows the Uber example almost exactly, and you haven't asked Marcus why it's built that way.",
-          "whatToDo": "Ask Marcus one “why” question this stage. Why these three sections and not others."
+          "why": "Your contract mirrors the partner API reference almost exactly, and you haven't asked Marcus why it is shaped that way.",
+          "whatToDo": "Ask Marcus one “why” question this stage. Why a 180ms ceiling and not a slower one."
         },
         "weak": {
           "state": "Weak",
@@ -14892,20 +14901,20 @@ const METRIC_COPY={
         "strong": {
           "state": "Strong",
           "whatsHappening": "Your work is holding up against the requirements.",
-          "why": "Every requirement covered, and the template is tailored to host cancellations rather than generic.",
+          "why": "Every requirement covered, and the contract is written for their engineers rather than for us.",
           "whatToDo": "Keep reading the requirements once more before you send. That habit is what's doing the work here."
         },
         "mixed": {
           "state": "Mixed",
           "whatsHappening": "Close, but there's a requirement you didn't cover.",
-          "why": "You have the three sections Marcus wanted, but the headings are still generic and don't mention the host-cancellation project.",
+          "why": "You have the failure cases Marcus wanted, but every assertion is on a status code rather than the behaviour the contract describes.",
           "whatToDo": "Read the requirements once more before you send anything over."
         },
         "weak": {
           "state": "Weak",
           "whatsHappening": "The work isn't meeting the requirements.",
-          "why": "You never opened the Uber proposal in the resources, and the structure Marcus asked you to mirror is in there.",
-          "whatToDo": "Open the Uber proposal and check your template against it, section by section."
+          "why": "You never opened the endpoint contract in your resources, and the failure case you missed is named in it.",
+          "whatToDo": "Open the contract and check your suite against its failure table, case by case."
         }
       }
     },
@@ -14923,7 +14932,7 @@ const METRIC_COPY={
         "strong": {
           "state": "Strong",
           "whatsHappening": "Marcus is getting what he needs, when he needs it.",
-          "why": "You flagged the missing cancellation reason codes before he had to ask.",
+          "why": "You flagged that ranking was over its step budget before he had to ask.",
           "whatToDo": "Keep flagging blockers early. Managers remember people who do that."
         },
         "mixed": {
@@ -15032,10 +15041,10 @@ const SCENES=[
    ["mgr","Have a look at the kickoff notes and the partner API reference in your resources, then send it over. Shout if anything is unclear."]]}},
  {id:"signal",label:"Signal \u00b7 no words",kind:"signal",
   /* the pure-data state: the coach surfaces what's moving and says nothing.
-     Speed is climbing, quality is dipping \u2014 engage or ignore. */
-  signals:[{ax:"speed",band:4,dir:"up"},{ax:"quality",band:2,dir:"down"}],
+     Understanding is slipping, quality is dipping \u2014 engage or ignore. */
+  signals:[{ax:"understanding",band:4,dir:"up"},{ax:"quality",band:2,dir:"down"}],
   mid:{insight:null,dot:false,rows:{
-    speed:{band:4,read:"Quicker than your usual pace on this one."},
+    understanding:{band:4,read:"You read the contract before you touched the suite. It shows."},
     quality:{band:2,read:"The first cut went over without the cold-start case the contract names."},
     comm:{band:3,read:"You and Marcus are in step. Nothing waiting on either side."},
     indep:{band:4,read:"You\u2019ve worked this one out on your own so far."}}},
@@ -15053,7 +15062,7 @@ const SCENES=[
     "You\u2019ve opened Learn mode on every requirement in this stage so far.",
     "Nothing wrong with using it. It becomes a problem when it\u2019s the first thing you reach for, because then you\u2019re learning the answer instead of the approach.",
     "Try the next one cold. If you\u2019re still stuck after a real go at it, open it then."],
-   rows:{speed:{band:3,read:"19 minutes in, comfortably inside the time you set."},
+   rows:{understanding:{band:3,read:"You know what the schema has to hold. The walkthrough is filling the gaps."},
      quality:{band:0,read:"Can\u2019t tell yet. I\u2019ll know more once you submit."},
      comm:{band:3,read:"Marcus has had what he needs from you so far."},
      indep:{band:2,read:"Sitting lower than you usually do this far into a stage."}}},
@@ -15065,8 +15074,8 @@ const SCENES=[
  /* THE LIVE READ, mid-stage (spec screen 12): she speaks BEFORE the mistake
     lands, and she never names the missing test case \u2014 she names the
     resource that contains it. */
- {id:"skipbrief",label:"Dot \u00b7 Skipped the contract",kind:"dot",ax:"speed",
-  signals:[{ax:"speed",band:2,dir:"down",dot:true}],
+ {id:"skipbrief",label:"Dot \u00b7 Skipped the contract",kind:"dot",ax:"understanding",
+  signals:[{ax:"understanding",band:2,dir:"down",dot:true}],
   note:{title:"You started writing tests about a minute after opening this stage.",
    body:"The contract names three failure cases. Tests written before you read it tend to cover the one you already had in mind.",
    fix:"Five minutes on the contract now beats a rewrite after Marcus reads it."},
@@ -15074,7 +15083,7 @@ const SCENES=[
     "You started writing tests about a minute after opening this stage.",
     "The contract names three failure cases. Tests written before you read it tend to cover the one you already had in mind.",
     "Five minutes on the contract now beats a rewrite after Marcus reads it."],
-   rows:{speed:{band:2,read:"Ahead of your usual pace, and too early to know if it holds."},
+   rows:{understanding:{band:2,read:"You started before you read. Too early to know what that costs."},
      quality:{band:0,read:"Can\u2019t tell yet. I\u2019ll know more once you submit."},
      comm:{band:3,read:"Nothing needed here yet. Marcus\u2019s brief covers this one."},
      indep:{band:4,read:"You haven\u2019t needed help yet."}}},
@@ -15084,12 +15093,12 @@ const SCENES=[
  {id:"checkin",label:"Check-in \u00b7 no dot",kind:"checkin",
   head:"You\u2019re good. Nothing I\u2019d change right now.",
   rows:[
-   {name:"Speed",line:"18 minutes in, right about where you should be. No rush."},
+   {name:"Understanding",line:"You have the shape of it, and you asked the one question worth asking."},
    {name:"Quality",line:"Can\u2019t tell yet, honestly. I\u2019ll know more once you submit."},
    {name:"Communication",line:"You\u2019ve checked in with Marcus once. That\u2019s fine for this far in."},
    {name:"Independence",line:"Learn mode once, and you worked the rest out yourself. That\u2019s the balance you want."}],
   mid:{dot:false,insight:["You\u2019re good. Nothing I\u2019d change right now."],
-   rows:{speed:{band:3,read:"18 minutes in, right about where you should be. No rush."},
+   rows:{understanding:{band:3,read:"You have the shape of it, and you asked the one question worth asking."},
      quality:{band:0,read:"Can\u2019t tell yet, honestly. I\u2019ll know more once you submit."},
      comm:{band:3,read:"You\u2019ve checked in with Marcus once. That\u2019s fine for this far in."},
      indep:{band:4,read:"Learn mode once, and you worked the rest out yourself. That\u2019s the balance you want."}}},
@@ -15102,9 +15111,9 @@ const SCENES=[
     and all four are listed with where they sit. CTA is the real action. */
  {id:"clean",label:"Stage end \u00b7 clean",kind:"stage",wrap:"general",cta:"Next stage",
   head:"That was a clean one. Nothing I\u2019d change.",
-  paras:["Your speed and independence both held up."],
+  paras:["Your understanding of the brief and your independence both held up."],
   tips:["Keep doing what you did there."],
-  scores:{speed:{band:3,prev:3,read:"33 minutes against 45. Room to spare."},
+  scores:{understanding:{band:3,prev:3,read:"You knew what the contract had to cover before you wrote it."},
           quality:{band:3,prev:3,read:"Every requirement in the contract was covered."},
           comm:{band:3,prev:3,read:"Marcus got the offline boundary he asked for."},
           indep:{band:4,prev:4,read:"No Learn mode this stage. You worked it out."}},
@@ -15121,7 +15130,7 @@ const SCENES=[
    "Your suite had the three failure cases Marcus asked for, but every test asserts on a status code. The contract describes what each case should return, and someone reading a red test wouldn\u2019t know which behaviour broke.",
    "That\u2019s a checking habit, not a thinking problem."],
   tips:["Read the requirements once more before you send anything over."],
-  scores:{speed:{band:3,prev:3,read:"35 minutes against 45. Comfortable."},
+  scores:{understanding:{band:3,prev:3,read:"You knew the cases. The assertions are the part you did not think through."},
           quality:{band:2,prev:3,read:"Down. Every assertion is a status code, not a behaviour."},
           comm:{band:3,prev:3,read:"Steady. Marcus got what he needed, when he needed it."},
           indep:{band:4,prev:4,read:"Learn mode twice, both times after you\u2019d already tried. That\u2019s the right way round."}},
@@ -15132,13 +15141,13 @@ const SCENES=[
    ["mgr","The contract says what each one should return. A red test needs to say which behaviour broke."]]}},
  /* THE WRAP, after Marcus has already caught it (spec screen 13): same coach,
     different job \u2014 screen 12 speaks before the mistake, this speaks after. */
- {id:"trade",label:"Stage end \u00b7 the trade",kind:"stage",about:["speed","quality"],
-  head:"Your speed went up on this stage and your quality went down.",
+ {id:"trade",label:"Stage end \u00b7 the trade",kind:"stage",about:["understanding","quality"],
+  head:"You moved faster on this stage, and your understanding of it went down.",
   paras:[
-   "You finished the suite in 22 minutes against 45, the fastest you\u2019ve worked so far. You also never opened the contract in your resources, and the third failure case is named in there.",
+   "You wrote the whole suite from memory. You never opened the contract in your resources, and the third failure case is named in there.",
    "That\u2019s the trade to watch. A suite that passes review is worth more to a partner team than a suite that arrives early and comes back."],
   tips:["Open the contract before you write the next test."],
-  scores:{speed:{band:4,prev:3,read:"22 minutes against 45. Your fastest so far."},
+  scores:{understanding:{band:2,prev:3,read:"Down. You worked from memory rather than from the contract in front of you."},
           quality:{band:2,prev:3,read:"The contract never got opened, and the case you missed is named in it."},
           comm:{band:3,prev:3,read:"Steady this stage."},
           indep:{band:4,prev:4,read:"Steady this stage."}},
@@ -15151,7 +15160,7 @@ const SCENES=[
   head:"Best communication score you\u2019ve had.",
   paras:["You told Marcus what changed before he had to ask. Partner teams remember people who do that."],
   tips:["That\u2019s the bit to keep doing."],
-  scores:{speed:{band:3,prev:3,read:"Steady this stage."},
+  scores:{understanding:{band:3,prev:3,read:"Steady this stage."},
           quality:{band:3,prev:3,read:"Met what the contract asked for."},
           comm:{band:4,prev:3,read:"You told Marcus what changed before he had to ask."},
           indep:{band:4,prev:4,read:"Steady this stage."}},
@@ -15165,7 +15174,7 @@ const SCENES=[
   paras:[
    "I\u2019m not going to guess how you got there. What I\u2019d say is this. Their engineers build against what you write, and they will ask you why. If you can\u2019t talk them through how you built it, it isn\u2019t worth much."],
   tips:["Write one section cold before you reach for anything."],
-  scores:{speed:{band:3,prev:3,read:"Steady this stage."},
+  scores:{understanding:{band:3,prev:3,read:"Steady this stage."},
           quality:{band:3,prev:3,read:"The sections were covered."},
           comm:{band:2,prev:3,read:"Two flags now for writing that doesn\u2019t read like you."},
           indep:{band:3,prev:4,read:"The thinking in the submission doesn\u2019t look like it\u2019s all yours."}},
@@ -16124,7 +16133,46 @@ function setScene(i){
    The strip toggles Scenes ⁄ States. In States the workspace holds ONE
    neutral mid-work situation and the strip cycles the six preset groupings —
    attention on the system, not a story. Scenes mode is untouched. */
-const PRESET=()=>STATE_PRESETS[stateIx];
+/* THE LIVE READ.
+   Every painter and the sidebar go through PRESET(), so the cluster only ever
+   showed lab rows — which is why all four icons sat grey with no arc outside
+   the states lab. In scene mode PRESET now returns the learner's actual read,
+   built as the scenario runs, and everything downstream lights up unchanged. */
+const LIVE={ label:"Live", say:null,
+  st:{understanding:"calibrating",quality:"calibrating",comm:"calibrating",indep:"calibrating"} };
+const PRESET=()=>mode==="states"?STATE_PRESETS[stateIx]:LIVE;
+/* the coach's own 0-4 bands, onto the four states on the locked ramp */
+function zcBandState(b){ return b>=4?"strong":b===3?"mixed":b>=1?"weak":"calibrating"; }
+/* repaint, but let the rings TRAVEL to their new fill rather than jumping.
+   applyPreset() writes the final offset; this captures what was there first and
+   tweens between the two, so a metric that moved is something you SEE move. */
+function zcApplyLive(){
+  const ring=k=>{ const b=document.getElementById("zcM-"+k); return b&&b.querySelector(".zc-mring circle"); };
+  const was={}; AXM.forEach(m=>{ const c=ring(m.key); was[m.key]=c?c.style.strokeDashoffset:""; });
+  applyPreset();
+  AXM.forEach(m=>{ const c=ring(m.key); if(!c)return;
+    const to=c.style.strokeDashoffset;
+    if(!to||was[m.key]===to)return;
+    const from=was[m.key]||RING_C;      /* coming off calibrating: fill from empty */
+    try{ gsap.fromTo(c,{strokeDashoffset:from},{strokeDashoffset:to,duration:.95,ease:"power3.out"}); }catch(e){}
+  });
+}
+/* take the read off whichever scene the coach is standing in: a stage wrap
+   carries `scores`, the mid-stage panel carries `mid.rows`. Same bands, so one
+   reader serves both. */
+function zcReadScene(sc,say){
+  const src=(sc&&sc.scores)||(sc&&sc.mid&&sc.mid.rows);
+  if(!src)return false;
+  let moved=false;
+  AXM.forEach(m=>{
+    const row=src[m.key]; if(!row||row.band===undefined)return;
+    const st=zcBandState(row.band);
+    if(LIVE.st[m.key]!==st){ LIVE.st[m.key]=st; moved=true; }
+  });
+  LIVE.say=say||null;
+  zcApplyLive();
+  return moved;
+}
 const RING_C=2*Math.PI*19;
 const NEUTRAL_SITU={stage:1,mins:28,thread:[
   ["mgr","Next one is the host cancellation trends. Numbers first, then what you think they mean."],
@@ -16213,17 +16261,29 @@ setTimeout(()=>{killTour();if(STATES_LAB)setMode("states");else playScene();},14
    · the scenario-end session keeps its own hook on the base's #rptDone */
 const CHECKIN=SCENES.findIndex(x=>x.id==="checkin");
 sceneIx=CHECKIN;paintScene();
+/* the cluster starts honest: nothing observed, so nothing claimed. The rings
+   are empty until the scenario actually gives her something to read. */
+zcApplyLive();
+/* mid-stage she can already read three of the four (quality waits for a
+   submission), so the check-in's own rows go up a beat after the workspace
+   settles rather than sitting grey until the first stage ends */
+setTimeout(()=>{ if(!introDone)return; zcReadScene(SCENES[CHECKIN],null); },4200);
 const _osm=openSessionModal;
 openSessionModal=function(){sceneIx=SCENES.findIndex(x=>x.id==="session");paintScene();_osm();};
-const _csw=closeStageWrap;
-closeStageWrap=function(){_csw();sceneIx=CHECKIN;paintScene();};
 const ARC=["clean","dropped","trade","keep","aipattern"];let zcDone=0;
 const _cel=window.celebrateStage;
 if(typeof _cel==="function")window.celebrateStage=function(){
   _cel.apply(this,arguments);
   const id=ARC[zcDone++];if(!id)return;
+  const sc=SCENES[SCENES.findIndex(x=>x.id===id)];
+  /* the rings move BEFORE she speaks: the cluster changing is what earns the
+     dot, and the wrap is her explaining a change you have already seen */
+  setTimeout(()=>{ zcReadScene(sc,(sc.about&&sc.about[0])||null); },2200);
   setTimeout(()=>{sceneIx=SCENES.findIndex(x=>x.id===id);paintScene();openStageWrap();},3600);
 };
+/* closing the wrap leaves the read standing — she said it, it stays true */
+const _csw2=closeStageWrap;
+closeStageWrap=function(){ _csw2(); sceneIx=CHECKIN; paintScene(); zcApplyLive(); };
 let zcSeen=false;try{zcSeen=localStorage.getItem("zcIntroSeen")==="1";}catch(e){}
 const zcForce=new URLSearchParams(location.search).get("zcintro")==="1";
 if(!zcSeen||zcForce){try{localStorage.setItem("zcIntroSeen","1");}catch(e){}setTimeout(openIntro,1800);}
